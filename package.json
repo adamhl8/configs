@@ -25,6 +25,7 @@
     "configs/"
   ],
   "scripts": {
+    "prepublish": "bun lint",
     "lint": "tsc --noEmit && biome check --write"
   },
   "dependencies": {
