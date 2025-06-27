@@ -25,7 +25,7 @@
     "configs/"
   ],
   "scripts": {
-    "prepublish": "bun lint",
+    "prepublishOnly": "bun lint",
     "lint": "biome check --write"
   },
   "dependencies": {
