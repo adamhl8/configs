@@ -1,0 +1,40 @@
+{
+  "name": "@adamhl8/configs",
+  "version": "0.1.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adamhl8/configs"
+  },
+  "homepage": "https://github.com/adamhl8/configs",
+  "bugs": {
+    "url": "https://github.com/adamhl8/configs/issues"
+  },
+  "author": {
+    "email": "adamhl@pm.me",
+    "name": "Adam Langbert",
+    "url": "https://github.com/adamhl8"
+  },
+  "license": "MIT",
+  "exports": {
+    "./tsconfig.json": "./dist/tsconfig.json",
+    "./biome": "./dist/biome.jsonc",
+    "./prettier": "./dist/prettier.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "lint": "tsc --noEmit && biome check --write --vcs-use-ignore-file=false",
+    "bundle": "rm -rf ./dist && tsc -p ./tsconfig.build.json && cp ./configs/tsconfig.json ./configs/biome.jsonc ./dist/ && bun lint"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.0.6",
+    "@types/bun": "^1.2.17",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

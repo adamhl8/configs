@@ -1,0 +1,156 @@
+{
+  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
+  "root": false,
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "lineWidth": 120
+  },
+  "linter": {
+    "rules": {
+      "complexity": {
+        "useLiteralKeys": "off",
+        "noExcessiveCognitiveComplexity": "on",
+        "noExcessiveNestedTestSuites": "on",
+        "noForEach": "on",
+        "noUselessStringConcat": "on",
+        "useSimplifiedLogicExpression": "on",
+        "useWhile": "on"
+      },
+      "correctness": {
+        "noRenderReturnValue": "on",
+        "useExhaustiveDependencies": "on",
+        "useHookAtTopLevel": "on",
+        "useImportExtensions": "on",
+        "useJsxKeyInIterable": "on"
+      },
+      "nursery": {
+        "noAwaitInLoop": "on",
+        "noConstantBinaryExpression": "on",
+        "noFloatingPromises": "on",
+        "noGlobalDirnameFilename": "on",
+        "noImplicitCoercion": "on",
+        "noImportCycles": "on",
+        "noNestedComponentDefinitions": "on",
+        "noNoninteractiveElementInteractions": "on",
+        "noProcessGlobal": "on",
+        "noReactPropAssign": "on",
+        "noSecrets": "on",
+        "noShadow": "on",
+        "noTsIgnore": "on",
+        "noUnassignedVariables": "on",
+        "noUselessBackrefInRegex": "on",
+        "noUselessEscapeInString": "on",
+        "noUselessUndefined": "on",
+        "useAdjacentGetterSetter": "on",
+        "useConsistentObjectDefinition": "on",
+        "useConsistentResponse": "on",
+        "useExhaustiveSwitchCases": "on",
+        "useGoogleFontPreconnect": "on",
+        "useIndexOf": "on",
+        "useIterableCallbackReturn": "on",
+        "useJsonImportAttribute": "on",
+        "useNumericSeparators": "on",
+        "useObjectSpread": "on",
+        "useParseIntRadix": "on",
+        "useReadonlyClassProperties": "on",
+        "useSingleJsDocAsterisk": "on",
+        "useSortedClasses": "on",
+        "useSymbolDescription": "on",
+        "useUnifiedTypeSignature": "on",
+        "useUniqueElementIds": "on"
+      },
+      "performance": {
+        "noBarrelFile": "on",
+        "noDelete": "on",
+        "noNamespaceImport": "on",
+        "noReExportAll": "on",
+        "useTopLevelRegex": "on"
+      },
+      "style": {
+        "useImportType": {
+          "level": "on",
+          "options": {
+            "style": "separatedType"
+          }
+        },
+        "noCommonJs": "on",
+        "noDefaultExport": "on",
+        "noDoneCallback": "on",
+        "noExportedImports": "on",
+        "noImplicitBoolean": "on",
+        "noInferrableTypes": "on",
+        "noNegationElse": "on",
+        "noNestedTernary": "on",
+        "noParameterAssign": "on",
+        "noParameterProperties": "on",
+        "noShoutyConstants": "on",
+        "noSubstr": "on",
+        "noUnusedTemplateLiteral": "on",
+        "noUselessElse": "on",
+        "noYodaExpression": "on",
+        "useAsConstAssertion": "on",
+        "useAtIndex": "on",
+        "useCollapsedElseIf": "on",
+        "useCollapsedIf": "on",
+        "useComponentExportOnlyModules": "on",
+        "useConsistentArrayType": "on",
+        "useConsistentBuiltinInstantiation": "on",
+        "useConsistentCurlyBraces": "on",
+        "useConsistentMemberAccessibility": "on",
+        "useDefaultParameterLast": "on",
+        "useDefaultSwitchClause": "on",
+        "useExplicitLengthCheck": "on",
+        "useForOf": "on",
+        "useFragmentSyntax": "on",
+        "useNodeAssertStrict": "on",
+        "useNodejsImportProtocol": "on",
+        "useNumberNamespace": "on",
+        "useSelfClosingElements": "on",
+        "useShorthandAssign": "on",
+        "useSingleVarDeclarator": "on",
+        "useThrowNewError": "on",
+        "useThrowOnlyError": "on",
+        "useTrimStartEnd": "on"
+      },
+      "suspicious": {
+        "noDuplicateTestHooks": "on",
+        "noEmptyBlockStatements": "on",
+        "noEvolvingTypes": "on",
+        "noExportsInTest": "on",
+        "noMisplacedAssertion": "on",
+        "noVar": "on",
+        "useAwait": "on",
+        "useErrorMessage": "on",
+        "useGuardForIn": "on",
+        "useNumberToFixedDigitsArgument": "on"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":NODE:", ":BUN:", ":URL:", ":PACKAGE_WITH_PROTOCOL:", ":PACKAGE:"],
+              ":BLANK_LINE:",
+              [":ALIAS:", ":PATH:"]
+            ]
+          }
+        }
+      }
+    }
+  }
+}
