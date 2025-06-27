@@ -1,4 +1,11 @@
 {
   "$schema": "https://biomejs.dev/schemas/latest/schema.json",
-  "extends": ["./configs/biome.jsonc"]
+  "extends": ["./configs/biome.jsonc"],
+  "linter": {
+    "rules": {
+      "style": {
+        "noDefaultExport": "off"
+      }
+    }
+  }
 }

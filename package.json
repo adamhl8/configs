@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "repository": {
     "type": "git",
@@ -19,14 +19,17 @@
   "exports": {
     "./tsconfig": "./configs/tsconfig.json",
     "./biome": "./configs/biome.jsonc",
-    "./prettier": "./configs/prettier.js"
+    "./prettier": {
+      "import": "./configs/prettier.js",
+      "types": "./configs/types/prettier.d.ts"
+    }
   },
   "files": [
     "configs/"
   ],
   "scripts": {
     "prepublishOnly": "bun lint",
-    "lint": "biome check --write"
+    "lint": "bun tsc && biome check --write"
   },
   "dependencies": {
     "@prettier/plugin-xml": "^3.4.1",

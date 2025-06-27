@@ -1,5 +1,4 @@
 /** @type {import("prettier").Config} */
-// biome-ignore lint/style/noDefaultExport: prettier config
 export default {
   printWidth: 120,
   semi: false,
