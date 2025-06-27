@@ -1,5 +1,6 @@
 /** @type {import("prettier").Config} */
-const prettierConfig = {
+// biome-ignore lint/style/noDefaultExport: prettier config
+export default {
   printWidth: 120,
   semi: false,
   plugins: [
@@ -26,5 +27,3 @@ const prettierConfig = {
     },
   ],
 }
-
-export { prettierConfig }
