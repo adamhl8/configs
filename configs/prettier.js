@@ -1,19 +1,14 @@
-import type { Config } from "prettier"
-
-const prettierConfig: Config = {
+/** @type {import("prettier").Config} */
+const prettierConfig = {
   printWidth: 120,
   semi: false,
   plugins: [
+    // "@prettier/plugin-xml", currently broken
     "prettier-plugin-sh",
-    "prettier-plugin-pkg",
     "prettier-plugin-toml",
-    // "@prettier/plugin-xml",
     "prettier-plugin-astro",
-    "@ianvs/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss",
   ],
-  importOrder: ["<BUILTIN_MODULES>", "<THIRD_PARTY_MODULES>", "", "^@(/.*)$", "^[.]"],
-  importOrderTypeScriptVersion: "5.0.0",
   tailwindStylesheet: "./src/global.css",
   overrides: [
     {

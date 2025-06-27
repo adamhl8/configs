@@ -17,16 +17,22 @@
   },
   "license": "MIT",
   "exports": {
-    "./tsconfig.json": "./dist/tsconfig.json",
-    "./biome": "./dist/biome.jsonc",
-    "./prettier": "./dist/prettier.js"
+    "./tsconfig": "./configs/tsconfig.json",
+    "./biome": "./configs/biome.jsonc",
+    "./prettier": "./configs/prettier.js"
   },
   "files": [
-    "dist/"
+    "configs/"
   ],
   "scripts": {
-    "lint": "tsc --noEmit && biome check --write --vcs-use-ignore-file=false",
-    "bundle": "rm -rf ./dist && tsc -p ./tsconfig.build.json && cp ./configs/tsconfig.json ./configs/biome.jsonc ./dist/ && bun lint"
+    "lint": "tsc --noEmit && biome check --write"
+  },
+  "dependencies": {
+    "@prettier/plugin-xml": "^3.4.1",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-sh": "^0.18.0",
+    "prettier-plugin-tailwindcss": "^0.6.13",
+    "prettier-plugin-toml": "^2.0.5"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.6",
