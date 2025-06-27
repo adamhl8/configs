@@ -67,7 +67,6 @@
       "performance": {
         "noBarrelFile": "on",
         "noDelete": "on",
-        "noNamespaceImport": "on",
         "noReExportAll": "on",
         "useTopLevelRegex": "on"
       },
