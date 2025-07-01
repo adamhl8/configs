@@ -100,7 +100,12 @@
         "useConsistentArrayType": "on",
         "useConsistentBuiltinInstantiation": "on",
         "useConsistentCurlyBraces": "on",
-        "useConsistentMemberAccessibility": "on",
+        "useConsistentMemberAccessibility": {
+          "level": "on",
+          "options": {
+            "accessibility": "explicit"
+          }
+        },
         "useDefaultParameterLast": "on",
         "useDefaultSwitchClause": "on",
         "useExplicitLengthCheck": "on",
