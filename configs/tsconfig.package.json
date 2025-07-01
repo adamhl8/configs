@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["dist/"],
+  "exclude": ["${configDir}/dist/"],
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "nodenext",
@@ -8,7 +8,7 @@
     "noEmit": false,
     "declaration": true,
     "sourceMap": true,
-    "outDir": "./dist",
-    "declarationDir": "./dist/types"
+    "outDir": "${configDir}/dist",
+    "declarationDir": "${configDir}/dist/types"
   }
 }
