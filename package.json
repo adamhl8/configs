@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "prepublishOnly": "bun lint",
-    "lint": "bun tsc && biome check --write"
+    "lint": "tsc && biome check --write"
   },
   "dependencies": {
     "@prettier/plugin-xml": "^3.4.1",
