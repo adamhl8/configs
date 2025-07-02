@@ -1,0 +1,13 @@
+predicate is_relative_import($source) { $source <: r"^\"\.\.?.*" }
+predicate register_diagnostic($span, $message) {}
+predicate register_import_diagnostic($source) {
+  register_diagnostic(span=$source, message="This relative import should use a path alias")
+}
+
+any {
+  `import $_ from $source` where { is_relative_import($source), register_import_diagnostic($source) },
+  `import type $_ from $source` where { is_relative_import($source), register_import_diagnostic($source) },
+  // https://github.com/honeycombio/gritql/issues/653
+  `export $_ from $source` as $exportStatement where { log(message="This is a debug log", variable=$exportStatement) },
+  `export type $_ from $source` where { is_relative_import($source), register_import_diagnostic($source) }
+}

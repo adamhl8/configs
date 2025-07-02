@@ -9,8 +9,9 @@
     "isolatedModules": true,
     "isolatedDeclarations": true,
     "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true,
+    // https://github.com/microsoft/TypeScript/issues/61991
+    // "allowImportingTsExtensions": true,
+    // "rewriteRelativeImportExtensions": true,
     "resolveJsonModule": true,
     // https://github.com/microsoft/TypeScript/issues/58262
     // "allowJs": true,
