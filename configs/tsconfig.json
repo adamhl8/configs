@@ -7,7 +7,6 @@
     "moduleResolution": "bundler",
     "moduleDetection": "force",
     "isolatedModules": true,
-    "isolatedDeclarations": true,
     "verbatimModuleSyntax": true,
     // https://github.com/microsoft/TypeScript/issues/61991
     // "allowImportingTsExtensions": true,
