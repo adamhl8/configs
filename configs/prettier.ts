@@ -1,5 +1,6 @@
-/** @type {import("prettier").Config} */
-export default {
+import type { Config } from "prettier"
+
+const config: Config = {
   printWidth: 120,
   semi: false,
   plugins: [
@@ -26,3 +27,5 @@ export default {
     },
   ],
 }
+
+export default config

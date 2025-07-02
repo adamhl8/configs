@@ -1,8 +1,3 @@
 {
-  "extends": "./configs/tsconfig.package.json",
-  "exclude": ["./configs/types"],
-  "compilerOptions": {
-    "emitDeclarationOnly": true,
-    "declarationDir": "./configs/types"
-  }
+  "extends": "./configs/tsconfig.json"
 }

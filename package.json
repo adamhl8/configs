@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "type": "module",
   "repository": {
     "type": "git",
@@ -17,20 +17,19 @@
   },
   "license": "MIT",
   "exports": {
-    "./tsconfig": "./configs/tsconfig.json",
-    "./tsconfig-package": "./configs/tsconfig.package.json",
-    "./biome": "./configs/biome.jsonc",
+    "./tsconfig": "./dist/tsconfig.json",
+    "./biome": "./dist/biome.jsonc",
     "./prettier": {
-      "import": "./configs/prettier.js",
-      "types": "./configs/types/prettier.d.ts"
+      "import": "./dist/prettier.js",
+      "types": "./dist/types/prettier.d.ts"
     }
   },
   "files": [
-    "configs/"
+    "dist/"
   ],
   "scripts": {
     "prepublishOnly": "bun lint",
-    "lint": "tsc && biome check --write"
+    "lint": "tsc && biome check --write && cp ./configs/*.{json,jsonc} ./dist/"
   },
   "dependencies": {
     "@prettier/plugin-xml": "^3.4.1",
