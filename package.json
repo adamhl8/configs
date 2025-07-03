@@ -24,12 +24,12 @@
       "types": "./dist/types/prettier.d.ts"
     }
   },
-  "files": [
-    "dist/"
-  ],
+  "files": ["dist/"],
   "scripts": {
-    "prepublishOnly": "bun lint",
-    "lint": "tsc && biome check --write && cp ./configs/*.{json,jsonc} ./dist/"
+    "bundle": "rm -rf ./dist && bun lint && tsc && tsc-alias && cp ./configs/*.{json,jsonc} ./dist/",
+    "lint": "tsc --noEmit && biome check --write",
+    "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\;",
+    "prepublishOnly": "bun bundle"
   },
   "dependencies": {
     "@prettier/plugin-xml": "^3.4.1",
