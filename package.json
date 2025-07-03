@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "type": "module",
   "repository": {
     "type": "git",
@@ -24,7 +24,9 @@
       "types": "./dist/types/prettier.d.ts"
     }
   },
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "bundle": "rm -rf ./dist && bun lint && tsc && tsc-alias && cp ./configs/*.{json,jsonc} ./dist/",
     "lint": "tsc --noEmit && biome check --write",
@@ -42,6 +44,7 @@
     "@biomejs/biome": "^2.0.6",
     "@types/bun": "^1.2.17",
     "prettier": "^3.6.2",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.8.3"
   },
   "publishConfig": {
