@@ -1,6 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "exclude": ["${configDir}/dist/"],
   "compilerOptions": {
     "target": "ESNext",
     "jsx": "react-jsx",
