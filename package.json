@@ -24,9 +24,7 @@
       "types": "./dist/types/prettier.d.ts"
     }
   },
-  "files": [
-    "dist/"
-  ],
+  "files": ["dist/"],
   "scripts": {
     "bundle": "rm -rf ./dist && bun lint && tsc && tsc-alias && cp ./configs/*.{json,jsonc} ./dist/",
     "lint": "tsc --noEmit && biome check --write",
