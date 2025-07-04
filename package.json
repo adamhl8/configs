@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.6",
-    "@types/bun": "^1.2.17",
+    "@types/bun": "^1.2.18",
     "prettier": "^3.6.2",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.8.3"
