@@ -142,6 +142,13 @@
       "semicolons": "asNeeded"
     }
   },
+  "json": {
+    "formatter": {
+      // this is 'auto' by default, except that biome uses 'always' for package.json
+      // setting it to 'auto' explicitly makes it consistent across all files, including package.json
+      "expand": "auto"
+    }
+  },
   "assist": {
     "enabled": true,
     "actions": {
