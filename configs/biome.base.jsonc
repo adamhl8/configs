@@ -2,7 +2,9 @@
   "$schema": "https://biomejs.dev/schemas/latest/schema.json",
   "root": false,
   // https://github.com/biomejs/biome/issues/6676
-  // "plugins": ["./biome-plugins/import-paths.grit"],
+  // Extending this config from the root config of this project causes an error because the plugin files do not exist in 'node_modules'. i.e. the whole 'node_modules/@adamhl8/configs' directory does not exist
+  // As a workaround, we use the prepare script to manually copy the './configs/biome-plugins/' directory to the correct location in 'node_modules'.
+  "plugins": ["./node_modules/@adamhl8/configs/dist/biome-plugins/import-paths.grit"],
   "vcs": {
     "enabled": true,
     "clientKind": "git",

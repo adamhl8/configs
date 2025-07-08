@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "type": "module",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   "license": "MIT",
   "exports": {
     "./tsconfig": "./dist/tsconfig.json",
-    "./biome": "./dist/biome.jsonc",
+    "./biome": "./dist/biome.base.jsonc",
     "./prettier": {
       "import": "./dist/prettier.js",
       "types": "./dist/types/prettier.d.ts"
@@ -26,13 +26,14 @@
   },
   "files": ["dist/"],
   "scripts": {
-    "bundle": "rm -rf ./dist && bun lint && tsc && tsc-alias && cp ./configs/*.{json,jsonc} ./dist/",
+    "bundle": "rm -rf ./dist && bun lint && tsc && tsc-alias && cp -r ./configs/*.{json,jsonc} ./configs/biome-plugins/ ./dist/",
+    "copy-biome-plugins": "mkdir -p ./node_modules/@adamhl8/configs/dist/ && cp -r ./configs/biome-plugins/ ./node_modules/@adamhl8/configs/dist/",
     "lint": "tsc --noEmit && biome check --write",
-    "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true",
+    "prepare": "bun copy-biome-plugins && find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true",
     "prepublishOnly": "bun bundle"
   },
   "dependencies": {
-    "@prettier/plugin-xml": "^3.4.1",
+    "@prettier/plugin-xml": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-sh": "^0.18.0",
     "prettier-plugin-tailwindcss": "^0.6.13",

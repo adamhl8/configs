@@ -4,7 +4,7 @@ const config: Config = {
   printWidth: 120,
   semi: false,
   plugins: [
-    // "@prettier/plugin-xml", currently broken
+    "@prettier/plugin-xml",
     "prettier-plugin-sh",
     "prettier-plugin-toml",
     "prettier-plugin-astro",
