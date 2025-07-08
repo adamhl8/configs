@@ -10,8 +10,8 @@
     "verbatimModuleSyntax": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": false,
-    // Need to use '.js' extensions in packages until the following issue is resolved: https://github.com/microsoft/TypeScript/issues/61991
-    // For non-packages, we need to set 'rewriteRelativeImportExtensions' to false and 'noEmit' to true
+    // Need to use '.js' extensions in packages. See: https://github.com/microsoft/TypeScript/issues/61991
+    // For non-packages (or anything we don't compile with tsc), we need to set 'rewriteRelativeImportExtensions' to false and 'noEmit' to true
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
     "resolveJsonModule": true,

@@ -39,7 +39,7 @@
     "prettier-plugin-toml": "^2.0.5"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.6",
+    "@biomejs/biome": "^2.1.1",
     "@types/bun": "^1.2.18",
     "prettier": "^3.6.2",
     "tsc-alias": "^1.8.16",

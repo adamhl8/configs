@@ -37,6 +37,7 @@
         "noGlobalDirnameFilename": "on",
         "noImplicitCoercion": "on",
         "noImportCycles": "on",
+        "noMisusedPromises": "on",
         "noNestedComponentDefinitions": "on",
         "noNoninteractiveElementInteractions": "on",
         "noProcessGlobal": "on",
