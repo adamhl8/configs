@@ -24,7 +24,9 @@
       "types": "./dist/types/prettier.d.ts"
     }
   },
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "bundle": "rm -rf ./dist && bun lint && tsc && tsc-alias && cp -r ./configs/*.{json,jsonc} ./configs/biome-plugins/ ./dist/",
     "copy-biome-plugins": "mkdir -p ./node_modules/@adamhl8/configs/dist/ && cp -r ./configs/biome-plugins/ ./node_modules/@adamhl8/configs/dist/",
@@ -36,8 +38,8 @@
     "@prettier/plugin-xml": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-sh": "^0.18.0",
-    "prettier-plugin-tailwindcss": "^0.6.13",
-    "prettier-plugin-toml": "^2.0.5"
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "prettier-plugin-toml": "^2.0.6"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.1",
