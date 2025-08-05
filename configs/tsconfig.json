@@ -39,7 +39,7 @@
     "noUncheckedSideEffectImports": true,
 
     "paths": {
-      "@/*": ["${configDir}/src/*"]
+      "~/*": ["${configDir}/src/*"]
     }
   }
 }
