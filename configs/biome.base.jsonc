@@ -44,7 +44,6 @@
         "noNoninteractiveElementInteractions": "on",
         "noProcessGlobal": "on",
         "noReactPropAssign": "on",
-        "noSecrets": "on",
         "noShadow": "on",
         "noTsIgnore": "on",
         "noUnassignedVariables": "on",
