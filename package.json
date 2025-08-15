@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "type": "module",
   "repository": {
     "type": "git",
@@ -40,11 +40,11 @@
     "prettier-plugin-toml": "^2.0.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.1",
-    "@types/bun": "^1.2.18",
+    "@biomejs/biome": "^2.2.0",
+    "@types/bun": "^1.2.20",
     "prettier": "^3.6.2",
     "tsc-alias": "^1.8.16",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "publishConfig": {
     "access": "public"

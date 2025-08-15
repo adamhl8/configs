@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "root": false,
   // https://github.com/biomejs/biome/issues/6676
   // Extending this config from the root config of this project causes an error because the plugin files do not exist in 'node_modules'. i.e. the whole 'node_modules/@adamhl8/configs' directory does not exist
@@ -23,56 +23,41 @@
         "noForEach": "on",
         "noUselessStringConcat": "on",
         "useSimplifiedLogicExpression": "on",
-        "useWhile": "on"
+        "useWhile": "on",
+        "noImplicitCoercions": "on",
+        "useIndexOf": "on"
       },
       "correctness": {
         "noRenderReturnValue": "on",
         "useExhaustiveDependencies": "on",
         "useHookAtTopLevel": "on",
         "useImportExtensions": "on",
-        "useJsxKeyInIterable": "on"
+        "useJsxKeyInIterable": "on",
+        "noGlobalDirnameFilename": "on",
+        "noNestedComponentDefinitions": "on",
+        "noProcessGlobal": "on",
+        "noReactPropAssignments": "on",
+        "useJsonImportAttributes": "on",
+        "useParseIntRadix": "on",
+        "useSingleJsDocAsterisk": "on",
+        "useUniqueElementIds": "on"
       },
       "nursery": {
-        "noAwaitInLoop": "on",
-        "noConstantBinaryExpression": "on",
         "noFloatingPromises": "on",
-        "noGlobalDirnameFilename": "on",
-        "noImplicitCoercion": "on",
         "noImportCycles": "on",
         "noMisusedPromises": "on",
-        "noNestedComponentDefinitions": "on",
-        "noNoninteractiveElementInteractions": "on",
-        "noProcessGlobal": "on",
-        "noReactPropAssign": "on",
         "noShadow": "on",
-        "noTsIgnore": "on",
-        "noUnassignedVariables": "on",
-        "noUselessBackrefInRegex": "on",
-        "noUselessEscapeInString": "on",
         "noUselessUndefined": "on",
-        "useAdjacentGetterSetter": "on",
-        "useConsistentObjectDefinition": "on",
-        "useConsistentResponse": "on",
         "useExhaustiveSwitchCases": "on",
-        "useGoogleFontPreconnect": "on",
-        "useIndexOf": "on",
-        "useIterableCallbackReturn": "on",
-        "useJsonImportAttribute": "on",
-        "useNumericSeparators": "on",
-        "useObjectSpread": "on",
-        "useParseIntRadix": "on",
-        "useReadonlyClassProperties": "on",
-        "useSingleJsDocAsterisk": "on",
-        "useSortedClasses": "on",
-        "useSymbolDescription": "on",
-        "useUnifiedTypeSignature": "on",
-        "useUniqueElementIds": "on"
+        "useSortedClasses": "on"
       },
       "performance": {
         "noBarrelFile": "on",
         "noDelete": "on",
         "noReExportAll": "on",
-        "useTopLevelRegex": "on"
+        "useTopLevelRegex": "on",
+        "useGoogleFontPreconnect": "on",
+        "noAwaitInLoops": "on"
       },
       "style": {
         "useImportType": {
@@ -123,7 +108,14 @@
         "useSingleVarDeclarator": "on",
         "useThrowNewError": "on",
         "useThrowOnlyError": "on",
-        "useTrimStartEnd": "on"
+        "useTrimStartEnd": "on",
+        "useGroupedAccessorPairs": "on",
+        "useConsistentObjectDefinitions": "on",
+        "useNumericSeparators": "on",
+        "useObjectSpread": "on",
+        "useReadonlyClassProperties": "on",
+        "useSymbolDescription": "on",
+        "useUnifiedTypeSignatures": "on"
       },
       "suspicious": {
         "noDuplicateTestHooks": "on",
@@ -135,7 +127,17 @@
         "useAwait": "on",
         "useErrorMessage": "on",
         "useGuardForIn": "on",
-        "useNumberToFixedDigitsArgument": "on"
+        "useNumberToFixedDigitsArgument": "on",
+        "noConstantBinaryExpressions": "on",
+        "noTsIgnore": "on",
+        "noUnassignedVariables": "on",
+        "noUselessEscapeInString": "on",
+        "useStaticResponseMethods": "on",
+        "useIterableCallbackReturn": "on",
+        "noUselessRegexBackrefs": "on"
+      },
+      "a11y": {
+        "noNoninteractiveElementInteractions": "on"
       }
     }
   },
