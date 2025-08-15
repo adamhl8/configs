@@ -21,7 +21,6 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "${configDir}/dist/",
-    "declarationDir": "${configDir}/dist/types",
 
     // Strictness
     "strict": true,
