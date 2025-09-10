@@ -1,7 +1,7 @@
 import { defineConfig } from "tsdown"
 
 // biome-ignore lint/plugin: ignore
-import { tsdownConfig } from "./src/tsdown.ts"
+import { tsdownConfig } from "./src/index.ts"
 
 export default defineConfig({
   ...tsdownConfig,
