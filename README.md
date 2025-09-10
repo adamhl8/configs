@@ -26,9 +26,9 @@ bun add -D @adamhl8/configs
 ### prettier
 
 ```js
-import prettierConfig from "@adamhl8/configs/prettier"
+import { config } from "@adamhl8/configs/prettier"
 
 export default {
-  ...prettierConfig,
+  ...config,
 }
 ```

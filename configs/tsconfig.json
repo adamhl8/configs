@@ -1,5 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "exclude": ["${configDir}/dist/"],
   "compilerOptions": {
     "target": "ESNext",
     "jsx": "react-jsx",
@@ -10,17 +11,12 @@
     "verbatimModuleSyntax": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
-    // Need to use '.js' extensions in packages. See: https://github.com/microsoft/TypeScript/issues/61991
-    // For non-packages (or anything we don't compile with tsc), we need to set 'rewriteRelativeImportExtensions' to false and 'noEmit' to true
     "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true,
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": true,
     "skipLibCheck": true,
-    "declaration": true,
-    "sourceMap": true,
-    "outDir": "${configDir}/dist/",
+    "noEmit": true,
 
     // Strictness
     "strict": true,

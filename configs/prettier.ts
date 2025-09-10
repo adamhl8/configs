@@ -1,6 +1,6 @@
 import type { Config } from "prettier"
 
-const config: Config = {
+export const config = {
   printWidth: 120,
   semi: false,
   plugins: [
@@ -26,6 +26,4 @@ const config: Config = {
       },
     },
   ],
-}
-
-export default config
+} as const satisfies Config

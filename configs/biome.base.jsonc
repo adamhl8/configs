@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
   "root": false,
   // https://github.com/biomejs/biome/issues/6676
   // Extending this config from the root config of this project causes an error because the plugin files do not exist in 'node_modules'. i.e. the whole 'node_modules/@adamhl8/configs' directory does not exist

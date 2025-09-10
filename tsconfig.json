@@ -1,8 +1,3 @@
 {
-  "extends": "./configs/tsconfig.json",
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+  "extends": "./configs/tsconfig.json"
 }
