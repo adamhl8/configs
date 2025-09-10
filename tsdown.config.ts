@@ -1,21 +1,20 @@
 import { defineConfig } from "tsdown"
 
 // biome-ignore lint/plugin: ignore
-import { config } from "./configs/tsdown.ts"
+import { tsdownConfig } from "./src/tsdown.ts"
 
 export default defineConfig({
-  ...config,
-  entry: ["./configs/**/*.ts"],
+  ...tsdownConfig,
   copy: [
     {
-      from: "./configs/biome-plugins/import-paths.grit",
+      from: "./src/biome-plugins/import-paths.grit",
       to: "./dist/biome-plugins/import-paths.grit",
     },
-    "./configs/biome.base.jsonc",
-    "./configs/tsconfig.json",
+    "./src/biome.base.jsonc",
+    "./src/tsconfig.json",
   ],
   attw: {
-    ...config.attw,
+    ...tsdownConfig.attw,
     excludeEntrypoints: ["./biome"], // attw seems to not like .jsonc files
   },
 })

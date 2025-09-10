@@ -1,7 +1,7 @@
 import type { UserConfig } from "tsdown"
 
-export const config = {
-  entry: ["./src/**/*.ts", "!**/__tests__/", "!**/*.test.ts", "!**/test-*.ts"],
+export const tsdownConfig = {
+  entry: ["./src/index.ts"],
   unbundle: true,
   target: false,
   platform: "neutral",
