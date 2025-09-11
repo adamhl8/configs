@@ -8,7 +8,7 @@ import { createMergeConfigFn } from "./utils.ts"
 // To handle this, we specify it and disable the tsdown plugin. This makes knip work in both cases.
 
 const baseConfig = {
-  entry: ["./src/index.ts", "**/*.test.ts"],
+  entry: ["./src/index.ts", "**/*.test.ts", "./tsdown.config.ts"],
   project: ["**"],
   tsdown: false,
 } as const satisfies KnipConfig
