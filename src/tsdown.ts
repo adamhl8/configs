@@ -19,7 +19,6 @@ const baseConfig = {
     profile: "esmOnly",
   },
   publint: true,
-  logLevel: "warn",
   failOnWarn: true,
 } as const satisfies UserConfig
 
