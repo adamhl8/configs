@@ -5,6 +5,7 @@ import { tsdownConfig } from "./src/index.ts"
 
 export default defineConfig(
   tsdownConfig({
+    unbundle: false,
     copy: [
       {
         from: "./src/biome-plugins/import-paths.grit",
