@@ -1,8 +1,7 @@
-import { mergeWith } from "es-toolkit"
 import type { KnipConfig } from "knip"
 
 // biome-ignore lint/plugin: ignore
-import { concatArrays } from "./utils.ts"
+import { createMergeConfigFn } from "./utils.ts"
 
 // Normally, specifying the `./src/index.ts` entry would cause knip to complain about a redundant entry because it gets automatically included via the tsdown plugin.
 // However, in projects that _don't_ use tsdown, the `./src/index.ts` entry would be missing entirely.
@@ -14,4 +13,4 @@ const baseConfig = {
   tsdown: false,
 } as const satisfies KnipConfig
 
-export const knipConfig = <T extends KnipConfig>(config: T) => mergeWith(baseConfig, config, concatArrays)
+export const knipConfig = createMergeConfigFn(baseConfig)
