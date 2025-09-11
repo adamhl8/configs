@@ -1,6 +1,7 @@
+import { toMerged } from "es-toolkit"
 import type { UserConfig } from "tsdown"
 
-export const tsdownConfig = {
+const baseConfig = {
   entry: ["./src/index.ts"],
   unbundle: true,
   target: false,
@@ -19,3 +20,5 @@ export const tsdownConfig = {
   logLevel: "warn",
   failOnWarn: true,
 } as const satisfies UserConfig
+
+export const tsdownConfig = <T extends UserConfig>(config: T) => toMerged(baseConfig, config)

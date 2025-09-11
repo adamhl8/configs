@@ -1,6 +1,7 @@
+import { toMerged } from "es-toolkit"
 import type { Config } from "prettier"
 
-export const prettierConfig = {
+const baseConfig = {
   printWidth: 120,
   semi: false,
   plugins: [
@@ -27,3 +28,5 @@ export const prettierConfig = {
     },
   ],
 } as const satisfies Config
+
+export const prettierConfig = <T extends Config>(config: T) => toMerged(baseConfig, config)
