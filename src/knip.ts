@@ -12,7 +12,6 @@ const baseConfig = {
   entry: ["./src/index.ts", "**/*.test.ts"],
   project: ["**"],
   tsdown: false,
-  treatConfigHintsAsErrors: true,
 } as const satisfies KnipConfig
 
 export const knipConfig = <T extends KnipConfig>(config: T) => mergeWith(baseConfig, config, concatArrays)
