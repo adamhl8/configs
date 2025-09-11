@@ -1,5 +1,8 @@
-import { toMerged } from "es-toolkit"
+import { mergeWith } from "es-toolkit"
 import type { Config } from "prettier"
+
+// biome-ignore lint/plugin: ignore
+import { concatArrays } from "./utils.ts"
 
 const baseConfig = {
   printWidth: 120,
@@ -29,4 +32,4 @@ const baseConfig = {
   ],
 } as const satisfies Config
 
-export const prettierConfig = <T extends Config>(config: T) => toMerged(baseConfig, config)
+export const prettierConfig = <T extends Config>(config: T) => mergeWith(baseConfig, config, concatArrays)

@@ -1,5 +1,8 @@
-import { toMerged } from "es-toolkit"
+import { mergeWith } from "es-toolkit"
 import type { UserConfig } from "tsdown"
+
+// biome-ignore lint/plugin: ignore
+import { concatArrays } from "./utils.ts"
 
 const baseConfig = {
   entry: ["./src/index.ts"],
@@ -21,4 +24,4 @@ const baseConfig = {
   failOnWarn: true,
 } as const satisfies UserConfig
 
-export const tsdownConfig = <T extends UserConfig>(config: T) => toMerged(baseConfig, config)
+export const tsdownConfig = <T extends UserConfig>(config: T) => mergeWith(baseConfig, config, concatArrays)
