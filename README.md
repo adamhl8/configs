@@ -23,7 +23,7 @@ bun add -D @adamhl8/configs
 }
 ```
 
-#### Config notes
+#### Notes
 
 ```jsonc
 "json": {
@@ -46,11 +46,8 @@ bun add -D @adamhl8/configs
 
 ```ts
 import { knipConfig } from "@adamhl8/configs"
-import type { KnipConfig } from "knip"
 
-const config = knipConfig({ ... }) satisfies KnipConfig
-
-export default config
+export default knipConfig({ ... })
 ```
 
 ### tsdown
@@ -59,15 +56,13 @@ export default config
 import { tsdownConfig } from "@adamhl8/configs"
 import { defineConfig } from "tsdown"
 
-export default defineConfig(tsdownConfig())
+export default defineConfig(tsdownConfig({ ... }))
 ```
 
 ### prettier
 
 ```js
-import { config } from "@adamhl8/configs/prettier"
+import { prettierConfig } from "@adamhl8/configs"
 
-export default {
-  ...config,
-}
+export default prettierConfig({ ... })
 ```
