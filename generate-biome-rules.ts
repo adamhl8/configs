@@ -10,6 +10,7 @@ import { merge } from "es-toolkit"
  */
 
 const BIOME_CONFIG_PATH = "./src/biome.base.json"
+const DEFAULT_RULE_SEVERITY = "error"
 
 const OVERRIDES = {
   complexity: {
@@ -35,7 +36,7 @@ const OVERRIDES = {
   },
   style: {
     useImportType: {
-      level: "on",
+      level: DEFAULT_RULE_SEVERITY,
       options: {
         style: "separatedType",
       },
@@ -44,7 +45,7 @@ const OVERRIDES = {
     noProcessEnv: "off",
     useBlockStatements: "off",
     useConsistentMemberAccessibility: {
-      level: "on",
+      level: DEFAULT_RULE_SEVERITY,
       options: {
         accessibility: "explicit",
       },
@@ -72,7 +73,7 @@ async function getAllRules() {
 
     allRules[groupName] = {}
     for (const ruleName of ruleNames) {
-      allRules[groupName][ruleName] = "on"
+      allRules[groupName][ruleName] = DEFAULT_RULE_SEVERITY
     }
   }
 
@@ -100,7 +101,7 @@ interface BiomeSchema {
 
 interface AllRules {
   [groupName: string]: {
-    [ruleName: string]: "on"
+    [ruleName: string]: string
   }
 }
 
