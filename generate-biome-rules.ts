@@ -49,6 +49,7 @@ const OVERRIDES = {
         accessibility: "explicit",
       },
     },
+    useExportsLast: "off",
     useFilenamingConvention: "off",
     useNamingConvention: "off",
   },

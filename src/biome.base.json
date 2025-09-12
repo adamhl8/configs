@@ -305,7 +305,7 @@
         "useExplicitLengthCheck": "on",
         "useExponentiationOperator": "on",
         "useExportType": "on",
-        "useExportsLast": "on",
+        "useExportsLast": "off",
         "useFilenamingConvention": "off",
         "useForOf": "on",
         "useFragmentSyntax": "on",
