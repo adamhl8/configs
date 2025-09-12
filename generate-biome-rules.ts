@@ -35,13 +35,8 @@ const OVERRIDES = {
     noNamespaceImport: "off",
   },
   style: {
-    useImportType: {
-      level: DEFAULT_RULE_SEVERITY,
-      options: {
-        style: "separatedType",
-      },
-    },
     noEnum: "off",
+    noMagicNumbers: "off",
     noProcessEnv: "off",
     useBlockStatements: "off",
     useConsistentMemberAccessibility: {
@@ -52,6 +47,12 @@ const OVERRIDES = {
     },
     useExportsLast: "off",
     useFilenamingConvention: "off",
+    useImportType: {
+      level: DEFAULT_RULE_SEVERITY,
+      options: {
+        style: "separatedType",
+      },
+    },
     useNamingConvention: "off",
   },
   suspicious: {
