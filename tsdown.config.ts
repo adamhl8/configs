@@ -11,11 +11,8 @@ export default defineConfig(
         from: "./src/biome-plugins/import-paths.grit",
         to: "./dist/biome-plugins/import-paths.grit",
       },
-      "./src/biome.base.jsonc",
+      "./src/biome.base.json",
       "./src/tsconfig.json",
     ],
-    attw: {
-      excludeEntrypoints: ["./biome"], // attw seems to not like .jsonc files
-    },
   }),
 )

@@ -31,4 +31,4 @@ const baseConfig = {
   ],
 } as const satisfies Config
 
-export const prettierConfig = createMergeConfigFn(baseConfig)
+export const prettierConfig = createMergeConfigFn<Config, typeof baseConfig>(baseConfig)

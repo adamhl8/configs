@@ -22,4 +22,4 @@ const baseConfig = {
   failOnWarn: true,
 } as const satisfies UserConfig
 
-export const tsdownConfig = createMergeConfigFn(baseConfig)
+export const tsdownConfig = createMergeConfigFn<UserConfig, typeof baseConfig>(baseConfig)

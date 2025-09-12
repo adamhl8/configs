@@ -11,6 +11,6 @@ const baseConfig = {
   entry: ["./src/index.ts", "**/*.test.ts", "./tsdown.config.ts"],
   project: ["**"],
   tsdown: false,
-} as const satisfies KnipConfig
+} satisfies KnipConfig
 
-export const knipConfig = createMergeConfigFn(baseConfig)
+export const knipConfig = createMergeConfigFn<KnipConfig, typeof baseConfig>(baseConfig)
