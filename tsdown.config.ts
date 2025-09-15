@@ -5,6 +5,7 @@ import { defineConfig } from "tsdown"
 import { tsdownConfig } from "./src/tsdown.ts"
 
 const config = tsdownConfig({
+  entry: ["./src/knip-preprocessor.ts"],
   unbundle: false,
   copy: [
     {
@@ -16,29 +17,18 @@ const config = tsdownConfig({
   ],
 } as const)
 
-const baseScriptConfig = {
+const binConfig = {
   ...config,
-  entry: [],
+  entry: ["./src/bin/adamhl8-knip.ts"],
+  platform: "node",
+  outDir: "./dist/bin/",
+  outputOptions: { entryFileNames: "[name]" },
+  // outExtensions: () => ({ js: "" }), // https://github.com/rolldown/tsdown/issues/493
   copy: [],
-  external: /.*/,
   sourcemap: false,
   dts: false,
   attw: false,
   publint: false,
 } as const satisfies UserConfig
 
-const multiConfig = [
-  config,
-  {
-    ...baseScriptConfig,
-    entry: ["./src/knip-preprocessor.ts"],
-  },
-  {
-    ...baseScriptConfig,
-    entry: ["./src/bin/adamhl8-knip.ts"],
-    outputOptions: { entryFileNames: "[name]" },
-    outDir: "./dist/bin/",
-  },
-] satisfies UserConfig
-
-export default defineConfig(multiConfig)
+export default defineConfig([config, binConfig])

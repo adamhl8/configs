@@ -10,6 +10,7 @@ const baseConfig = {
   platform: "neutral",
   minify: "dce-only",
   sourcemap: true,
+  hash: false,
   dts: {
     newContext: true,
     sourcemap: true,
