@@ -5,7 +5,7 @@ import process from "node:process"
 
 /*
  * The only way to pass our preprocessor to Knip is to use the `--preprocessor` flag.
- * Rather than forcing all consuming projects to specify the flag and path to the preprocessor, they can run `adamhl-knip` instead.
+ * Rather than forcing all consuming projects to specify the flag and path to the preprocessor, they can run `adamhl8-knip` instead.
  */
 
 const baseKnipPreprocessorPath = `${path.resolve(import.meta.dir, "../knip-preprocessor")}`
