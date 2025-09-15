@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.15.8",
+  "version": "0.15.9",
   "type": "module",
   "repository": {
     "type": "git",
@@ -24,8 +24,8 @@
       "import": "./dist/index.js"
     }
   },
-  "directories": {
-    "bin": "dist/bin/"
+  "bin": {
+    "adamhl8-knip": "dist/bin/adamhl8-knip"
   },
   "files": ["dist/"],
   "scripts": {
