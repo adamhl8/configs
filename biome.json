@@ -1,4 +1,16 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
-  "extends": ["./src/biome.base.json"]
+  "extends": ["./src/biome.base.json"],
+  "overrides": [
+    {
+      "includes": ["./src/knip-preprocessor.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    }
+  ]
 }

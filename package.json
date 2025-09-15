@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.15.4",
+  "version": "0.15.5",
   "type": "module",
   "repository": {
     "type": "git",
@@ -17,17 +17,20 @@
   },
   "license": "MIT",
   "exports": {
-    "./tsconfig": "./dist/tsconfig.json",
+    "./tsconfig": "./dist/tsconfig.base.json",
     "./biome": "./dist/biome.base.json",
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
   },
+  "directories": {
+    "bin": "dist/bin/"
+  },
   "files": ["dist/"],
   "scripts": {
     "bundle": "bun lint && bun tsdown",
-    "lint": "bun generate-biome-rules.ts && tsc --noEmit && biome check --write",
+    "lint": "bun generate-biome-rules.ts && tsc --noEmit && biome check --write && bun ./src/bin/adamhl-knip.ts",
     "postinstall": "mkdir -p ./node_modules/@adamhl8/configs/dist/ && cp -r ./src/biome-plugins/ ./node_modules/@adamhl8/configs/dist/",
     "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true",
     "prepublishOnly": "bun bundle"
@@ -43,7 +46,7 @@
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.2",
     "@biomejs/biome": "^2.2.4",
-    "@types/bun": "^1.2.21",
+    "@types/bun": "^1.2.22",
     "es-toolkit": "^1.39.10",
     "knip": "^5.63.1",
     "prettier": "^3.6.2",
