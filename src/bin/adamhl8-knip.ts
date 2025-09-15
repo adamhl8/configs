@@ -14,7 +14,7 @@ const knipPreprocessorPathExt = (await Bun.file(`${baseKnipPreprocessorPath}.ts`
 const knipPreprocessorPath = `${baseKnipPreprocessorPath}${knipPreprocessorPathExt}`
 
 const result = Bun.spawnSync({
-  cmd: ["bun", "knip-bun", "--preprocessor", knipPreprocessorPath, ...process.argv.slice(2)],
+  cmd: ["knip-bun", "--preprocessor", knipPreprocessorPath, ...process.argv.slice(2)],
   stdout: "inherit",
   stderr: "inherit",
 })
