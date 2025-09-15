@@ -35,7 +35,7 @@ const multiConfig = [
   },
   {
     ...baseScriptConfig,
-    entry: ["./src/bin/adamhl-knip.ts"],
+    entry: ["./src/bin/adamhl8-knip.ts"],
     outputOptions: { entryFileNames: "[name]" },
     outDir: "./dist/bin/",
   },

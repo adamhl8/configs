@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.15.5",
+  "version": "0.15.6",
   "type": "module",
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
   "files": ["dist/"],
   "scripts": {
     "bundle": "bun lint && bun tsdown",
-    "lint": "bun generate-biome-rules.ts && tsc --noEmit && biome check --write && bun ./src/bin/adamhl-knip.ts",
+    "lint": "bun generate-biome-rules.ts && tsc --noEmit && biome check --write && bun ./src/bin/adamhl8-knip.ts",
     "postinstall": "mkdir -p ./node_modules/@adamhl8/configs/dist/ && cp -r ./src/biome-plugins/ ./node_modules/@adamhl8/configs/dist/",
     "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true",
     "prepublishOnly": "bun bundle"
