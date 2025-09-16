@@ -16,7 +16,6 @@ const baseConfig = {
   dts: {
     newContext: true,
     sourcemap: true,
-    oxc: true,
   },
   attw: {
     level: "error",
