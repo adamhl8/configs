@@ -13,19 +13,26 @@ function merge<T extends AnyObj, S extends AnyObj>(target: T, source: S): T & S 
   )
 }
 
+type MergeDeepConcat<D, S> = MergeDeep<D, S, { arrayMergeMode: "spread" }>
+
+export interface MergeConfigFn<UserConfigType, BaseConfig extends UserConfigType> {
+  // if `userConfig` is not provided, return the type of `baseConfig`
+  (): BaseConfig
+  // if `userConfig` is provided, instead of returning `BaseConfig & UserConfig` (from `merge`), return a more friendly type using `MergeDeep`
+  <UserConfig extends UserConfigType>(userConfig: UserConfig): MergeDeepConcat<BaseConfig, UserConfig>
+}
+
 /**
  * Creates a config merge function with proper type overloads for merging with a base config.
  */
-export function createMergeConfigFn<UserConfigType, BaseConfig extends UserConfigType>(baseConfig: BaseConfig) {
-  //
-
-  // if `userConfig` is not provided, return the type of `baseConfig`
+export function createMergeConfigFn<UserConfigType, BaseConfig extends UserConfigType>(
+  baseConfig: BaseConfig,
+): MergeConfigFn<UserConfigType, BaseConfig> {
   function mergeConfig(): BaseConfig
 
-  // if `userConfig` is provided, instead of returning `BaseConfig & UserConfig` (from `merge`), return a more friendly type using `MergeDeep`
   function mergeConfig<UserConfig extends UserConfigType>(
     userConfig: UserConfig,
-  ): MergeDeep<BaseConfig, UserConfig, { arrayMergeMode: "spread" }>
+  ): MergeDeepConcat<BaseConfig, UserConfig>
 
   function mergeConfig<UserConfig extends UserConfigType>(userConfig?: UserConfig) {
     if (userConfig === undefined) return baseConfig

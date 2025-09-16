@@ -1,6 +1,8 @@
 import type { Config } from "prettier"
 
 // biome-ignore lint/plugin: ignore
+import type { MergeConfigFn } from "./utils.ts"
+// biome-ignore lint/plugin: ignore
 import { createMergeConfigFn } from "./utils.ts"
 
 const baseConfig = {
@@ -31,4 +33,4 @@ const baseConfig = {
   ],
 } as const satisfies Config
 
-export const prettierConfig = createMergeConfigFn<Config, typeof baseConfig>(baseConfig)
+export const prettierConfig: MergeConfigFn<Config, typeof baseConfig> = createMergeConfigFn(baseConfig)

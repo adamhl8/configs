@@ -1,6 +1,8 @@
 import type { UserConfig } from "tsdown"
 
 // biome-ignore lint/plugin: ignore
+import type { MergeConfigFn } from "./utils.ts"
+// biome-ignore lint/plugin: ignore
 import { createMergeConfigFn } from "./utils.ts"
 
 const baseConfig = {
@@ -14,6 +16,7 @@ const baseConfig = {
   dts: {
     newContext: true,
     sourcemap: true,
+    oxc: true,
   },
   attw: {
     level: "error",
@@ -23,4 +26,4 @@ const baseConfig = {
   failOnWarn: true,
 } as const satisfies UserConfig
 
-export const tsdownConfig = createMergeConfigFn<UserConfig, typeof baseConfig>(baseConfig)
+export const tsdownConfig: MergeConfigFn<UserConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)
