@@ -25,4 +25,18 @@ const baseConfig = {
   failOnWarn: true,
 } as const satisfies UserConfig
 
+const binConfig = {
+  ...baseConfig,
+  entry: [],
+  platform: "node",
+  outExtensions: () => ({ js: "" }),
+  copy: [],
+  unbundle: false,
+  sourcemap: false,
+  dts: false,
+  attw: false,
+  publint: false,
+} as const satisfies UserConfig
+
 export const tsdownConfig: MergeConfigFn<UserConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)
+export const tsdownBinConfig: MergeConfigFn<UserConfig, typeof binConfig> = createMergeConfigFn(binConfig)

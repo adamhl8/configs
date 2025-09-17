@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.15.11",
+  "version": "0.15.12",
   "type": "module",
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
     }
   },
   "bin": {
-    "adamhl8-knip": "dist/bin/adamhl8-knip"
+    "adamhl8-knip": "dist/adamhl8-knip"
   },
   "files": ["dist/"],
   "scripts": {
