@@ -16,6 +16,9 @@
     "url": "https://github.com/adamhl8"
   },
   "license": "MIT",
+  "bin": {
+    "adamhl8-knip": "dist/adamhl8-knip"
+  },
   "exports": {
     "./tsconfig": "./dist/tsconfig.base.json",
     "./biome": "./dist/biome.base.json",
@@ -23,9 +26,6 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
-  },
-  "bin": {
-    "adamhl8-knip": "dist/adamhl8-knip"
   },
   "files": ["dist/"],
   "scripts": {
@@ -46,10 +46,12 @@
     "type-fest": "^5.0.0"
   },
   "devDependencies": {
+    "@adamhl8/configs": "^0.15.15",
     "@arethetypeswrong/core": "^0.18.2",
     "@biomejs/biome": "^2.2.4",
     "@types/bun": "^1.2.22",
     "knip": "^5.63.1",
+    "markdown-toc": "^1.2.0",
     "prettier": "^3.6.2",
     "publint": "^0.3.12",
     "tsdown": "^0.15.2",
