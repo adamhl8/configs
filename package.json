@@ -17,7 +17,7 @@
   },
   "license": "MIT",
   "bin": {
-    "adamhl8-knip": "dist/adamhl8-knip"
+    "adamhl8-knip": "./dist/adamhl8-knip"
   },
   "exports": {
     "./tsconfig": "./dist/tsconfig.base.json",
@@ -27,7 +27,7 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist/"],
+  "files": ["./dist/"],
   "scripts": {
     "bundle": "bun lint && tsdown",
     "lint": "bun generate-biome-rules.ts && tsc --noEmit && biome check --write && ./src/adamhl8-knip.ts",
@@ -46,7 +46,6 @@
     "type-fest": "^5.0.0"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.15.15",
     "@arethetypeswrong/core": "^0.18.2",
     "@biomejs/biome": "^2.2.4",
     "@types/bun": "^1.2.22",
