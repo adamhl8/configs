@@ -14,6 +14,6 @@ const config = tsdownConfig({
   ],
 } as const)
 
-const binConfig = tsdownBinConfig({ entry: ["./src/bin/adamhl8-knip.ts"] } as const)
+const binConfig = tsdownBinConfig({ entry: ["./src/adamhl8-knip.ts"] } as const)
 
 export default defineConfig([config, binConfig])
