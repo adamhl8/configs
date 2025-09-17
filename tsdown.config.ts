@@ -4,7 +4,6 @@ import { tsdownBinConfig, tsdownConfig } from "./src/tsdown.ts"
 
 const config = tsdownConfig({
   entry: ["./src/knip-preprocessor.ts"],
-  unbundle: false,
   copy: [
     {
       from: "./src/biome-plugins/import-paths.grit",
