@@ -22,8 +22,7 @@ const binConfig = {
   entry: ["./src/bin/adamhl8-knip.ts"],
   platform: "node",
   outDir: "./dist/bin/",
-  outputOptions: { entryFileNames: "[name]" },
-  // outExtensions: () => ({ js: "" }), // https://github.com/rolldown/tsdown/issues/493
+  outExtensions: () => ({ js: "" }),
   copy: [],
   sourcemap: false,
   dts: false,

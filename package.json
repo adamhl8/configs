@@ -52,7 +52,7 @@
     "knip": "^5.63.1",
     "prettier": "^3.6.2",
     "publint": "^0.3.12",
-    "tsdown": "^0.15.1",
+    "tsdown": "^0.15.2",
     "typescript": "^5.9.2"
   },
   "publishConfig": {
