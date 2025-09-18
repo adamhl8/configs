@@ -1,5 +1,5 @@
 import fs from "node:fs/promises"
-import { merge } from "es-toolkit"
+import { mergeDeep } from "remeda"
 
 /*
  * This script does the following:
@@ -33,6 +33,7 @@ const OVERRIDES = {
   performance: {
     noBarrelFile: "off",
     noNamespaceImport: "off",
+    useSolidForComponent: "off",
   },
   style: {
     noEnum: "off",
@@ -82,7 +83,7 @@ async function getAllRules() {
 }
 
 const allRules = await getAllRules()
-const mergedRules = merge(allRules, OVERRIDES)
+const mergedRules = mergeDeep(allRules, OVERRIDES)
 const biomeConfig = JSON.parse(await fs.readFile(BIOME_CONFIG_PATH, "utf-8")) as BiomeConfig
 biomeConfig.linter.rules = mergedRules
 await fs.writeFile(BIOME_CONFIG_PATH, JSON.stringify(biomeConfig, null, 2))

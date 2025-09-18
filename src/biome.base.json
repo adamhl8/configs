@@ -243,7 +243,7 @@
         "noReExportAll": "error",
         "noUnwantedPolyfillio": "error",
         "useGoogleFontPreconnect": "error",
-        "useSolidForComponent": "error",
+        "useSolidForComponent": "off",
         "useTopLevelRegex": "error"
       },
       "security": {
