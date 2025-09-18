@@ -35,13 +35,6 @@ bun add -D @adamhl8/configs
 },
 ```
 
-```jsonc
-// https://github.com/biomejs/biome/issues/6676 - Plugins are resolved relative to the *root* config, not the config specifying the plugin
-// Extending this config from the root config of this project causes an error because the plugin files do not exist in 'node_modules'. i.e. the whole 'node_modules/@adamhl8/configs' directory doesn't exist because that's *this* project (we don't install this project in itself)
-// As a workaround, we use the prepare script to manually copy the './src/biome-plugins/' directory to the correct location in 'node_modules'.
-"plugins": ["./node_modules/@adamhl8/configs/dist/biome-plugins/import-paths.grit"],
-```
-
 ### knip
 
 ```ts

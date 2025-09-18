@@ -1,8 +1,6 @@
 import type { Config } from "prettier"
 
-// biome-ignore lint/plugin: ignore
 import type { MergeConfigFn } from "./utils.ts"
-// biome-ignore lint/plugin: ignore
 import { createMergeConfigFn } from "./utils.ts"
 
 const baseConfig = {

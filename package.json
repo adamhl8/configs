@@ -1,64 +1,61 @@
 {
-	"name": "@adamhl8/configs",
-	"version": "0.15.19",
-	"type": "module",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/adamhl8/configs.git"
-	},
-	"homepage": "https://github.com/adamhl8/configs",
-	"bugs": {
-		"url": "https://github.com/adamhl8/configs/issues"
-	},
-	"author": {
-		"email": "adamhl@pm.me",
-		"name": "Adam Langbert",
-		"url": "https://github.com/adamhl8"
-	},
-	"license": "MIT",
-	"bin": {
-		"adamhl8-knip": "./dist/adamhl8-knip"
-	},
-	"exports": {
-		"./tsconfig": "./dist/tsconfig.base.json",
-		"./biome": "./dist/biome.base.json",
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		}
-	},
-	"files": [
-		"./dist/"
-	],
-	"scripts": {
-		"bundle": "bun lint && tsdown",
-		"lint": "bun ./generate-biome-rules.ts && markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && tsc --noEmit && biome check --write && ./src/adamhl8-knip.ts",
-		"postinstall": "mkdir -p ./node_modules/@adamhl8/configs/dist/ && cp -r ./src/biome-plugins/ ./node_modules/@adamhl8/configs/dist/",
-		"prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true",
-		"prepublishOnly": "bun bundle"
-	},
-	"dependencies": {
-		"@prettier/plugin-xml": "^3.4.2",
-		"es-toolkit": "^1.39.10",
-		"prettier-plugin-astro": "^0.14.1",
-		"prettier-plugin-sh": "^0.18.0",
-		"prettier-plugin-tailwindcss": "^0.6.14",
-		"prettier-plugin-toml": "^2.0.6",
-		"remeda": "^2.32.0",
-		"type-fest": "^5.0.0"
-	},
-	"devDependencies": {
-		"@arethetypeswrong/core": "^0.18.2",
-		"@biomejs/biome": "^2.2.4",
-		"@types/bun": "^1.2.22",
-		"knip": "^5.63.1",
-		"markdown-toc": "^1.2.0",
-		"prettier": "^3.6.2",
-		"publint": "^0.3.13",
-		"tsdown": "^0.15.2",
-		"typescript": "^5.9.2"
-	},
-	"publishConfig": {
-		"access": "public"
-	}
+  "name": "@adamhl8/configs",
+  "version": "0.15.20",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamhl8/configs.git"
+  },
+  "homepage": "https://github.com/adamhl8/configs",
+  "bugs": {
+    "url": "https://github.com/adamhl8/configs/issues"
+  },
+  "author": {
+    "email": "adamhl@pm.me",
+    "name": "Adam Langbert",
+    "url": "https://github.com/adamhl8"
+  },
+  "license": "MIT",
+  "bin": {
+    "adamhl8-knip": "./dist/adamhl8-knip"
+  },
+  "exports": {
+    "./tsconfig": "./dist/tsconfig.base.json",
+    "./biome": "./dist/biome.base.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["./dist/"],
+  "scripts": {
+    "bundle": "bun lint && tsdown",
+    "lint": "bun ./generate-biome-rules.ts && markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && tsc --noEmit && biome check --write && ./src/adamhl8-knip.ts",
+    "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true",
+    "prepublishOnly": "bun bundle"
+  },
+  "dependencies": {
+    "@prettier/plugin-xml": "^3.4.2",
+    "es-toolkit": "^1.39.10",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-sh": "^0.18.0",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "prettier-plugin-toml": "^2.0.6",
+    "remeda": "^2.32.0",
+    "type-fest": "^5.0.0"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/core": "^0.18.2",
+    "@biomejs/biome": "^2.2.4",
+    "@types/bun": "^1.2.22",
+    "knip": "^5.63.1",
+    "markdown-toc": "^1.2.0",
+    "prettier": "^3.6.2",
+    "publint": "^0.3.13",
+    "tsdown": "^0.15.2",
+    "typescript": "^5.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

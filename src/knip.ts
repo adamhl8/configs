@@ -1,8 +1,6 @@
 import type { KnipConfig } from "knip"
 
-// biome-ignore lint/plugin: ignore
 import type { MergeConfigFn } from "./utils.ts"
-// biome-ignore lint/plugin: ignore
 import { createMergeConfigFn } from "./utils.ts"
 
 // Normally, specifying the `./src/index.ts` entry would cause knip to complain about a redundant entry because it gets automatically included via the tsdown plugin.

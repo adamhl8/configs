@@ -1,7 +1,6 @@
 import type { Preprocessor, ReporterOptions } from "knip"
 import type { Issue, SymbolIssueType } from "knip/dist/types/issues"
 
-// biome-ignore lint/plugin: ignore
 import { knipConfig } from "./index.ts"
 
 const entries = knipConfig().entry as string[]
