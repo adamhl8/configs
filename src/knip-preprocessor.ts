@@ -12,6 +12,12 @@ const preprocess: Preprocessor = (options) => {
       !(typeof hint.identifier === "string" && entries.includes(hint.identifier) && hint.type === "entry-empty"),
   )
   options.configurationHints = new Set(filteredConfigurationHints)
+
+  const filteredUnlisted = Object.fromEntries(
+    Object.entries(options.issues.unlisted).filter(([key]) => !key.includes("prettier")),
+  )
+  options.issues.unlisted = filteredUnlisted
+
   return options
 }
 
