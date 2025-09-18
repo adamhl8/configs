@@ -30,7 +30,7 @@
   "files": ["./dist/"],
   "scripts": {
     "bundle": "bun lint && tsdown",
-    "lint": "bun generate-biome-rules.ts && tsc --noEmit && biome check --write && ./src/adamhl8-knip.ts",
+    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && tsc --noEmit && biome check --write && adamhl8-knip",
     "postinstall": "mkdir -p ./node_modules/@adamhl8/configs/dist/ && cp -r ./src/biome-plugins/ ./node_modules/@adamhl8/configs/dist/",
     "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true",
     "prepublishOnly": "bun bundle"
