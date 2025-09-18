@@ -9,7 +9,10 @@ const preprocess: Preprocessor = (options) => {
   // ignore the "Refine entry pattern (no matches)" configuration hints for entries in the base config
   const filteredConfigurationHints = [...options.configurationHints].filter(
     (hint) =>
-      !(typeof hint.identifier === "string" && entries.includes(hint.identifier) && hint.type === "entry-empty"),
+      !(
+        entries.some((entry) => typeof hint.identifier === "string" && hint.identifier.includes(entry)) &&
+        hint.type === "entry-empty"
+      ),
   )
   options.configurationHints = new Set(filteredConfigurationHints)
 
