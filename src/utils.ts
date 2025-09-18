@@ -1,5 +1,5 @@
 import { mergeWith } from "es-toolkit"
-import { isPlainObject } from "remeda"
+import { clone, isPlainObject } from "remeda"
 import type { MergeDeep } from "type-fest"
 
 type AnyObj = Record<PropertyKey, unknown>
@@ -40,7 +40,8 @@ export function createMergeConfigFn<UserConfigType, BaseConfig extends UserConfi
     if (!(isPlainObject(baseConfig) && isPlainObject(userConfig)))
       throw new Error(`target and/or source is not an object: target='${baseConfig}'\nsource='${userConfig}'`)
 
-    return merge(baseConfig, userConfig)
+    // clone both target and source so we never mutate the original objects
+    return merge(clone(baseConfig), clone(userConfig))
   }
 
   return mergeConfig
