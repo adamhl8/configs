@@ -11,7 +11,7 @@ const entries = knipConfig().entry as string[]
  *
  * This is needed because we also need to update `options.counters` after filtering issues.
  */
-function filterIssue(
+function filterIssues(
   options: ReporterOptions,
   issueType: SymbolIssueType,
   filter: (issueEntry: [string, Record<string, Issue>]) => boolean,
@@ -38,8 +38,8 @@ const preprocess: Preprocessor = (options) => {
   )
   options.configurationHints = new Set(filteredConfigurationHints)
 
-  filterIssue(options, "unlisted", ([key]) => !key.includes("prettier"))
-  filterIssue(options, "unlisted", ([, issueObj]) => Object.keys(issueObj).length > 0)
+  filterIssues(options, "unlisted", ([key]) => !key.includes("prettier"))
+  filterIssues(options, "unlisted", ([, issueObj]) => Object.keys(issueObj).length > 0)
 
   return options
 }
