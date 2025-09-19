@@ -40,6 +40,19 @@ const preprocess: Preprocessor = (options) => {
   filterIssues(options, "unlisted", ([key]) => !key.includes("prettier"))
   filterIssues(options, "unlisted", ([, issueObj]) => Object.keys(issueObj).length > 0)
 
+  filterIssues(options, "types", ([key, issueObj]) => {
+    if (key !== "src/utils.ts") return true
+    const typeNames = Object.keys(issueObj)
+    // We need to bring these types into scope of each merge config module: https://github.com/microsoft/TypeScript/issues/5711
+    const expectedTypeNames = ["MergeConfigFn", "OptionalMergeConfigFn"]
+    if (typeNames.length !== expectedTypeNames.length) return true // don't filter out the issue if there are other types
+    const foundAllExpectedTypeNames = expectedTypeNames.every((expectedTypeName) =>
+      typeNames.includes(expectedTypeName),
+    )
+    const shouldFilterIssue = !foundAllExpectedTypeNames // if all the expected type names are found, we need to return false to filter out the issue
+    return shouldFilterIssue
+  })
+
   return options
 }
 

@@ -1,6 +1,5 @@
 import type { KnipConfig } from "knip"
 
-import type { MergeConfigFn } from "./utils.ts"
 import { createMergeConfigFn } from "./utils.ts"
 
 // Normally, specifying the `./src/index.ts` entry would cause knip to complain about a redundant entry because it gets automatically included via the tsdown plugin.
@@ -13,4 +12,4 @@ const baseConfig = {
   tsdown: false,
 } as const satisfies KnipConfig
 
-export const knipConfig: MergeConfigFn<KnipConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)
+export const knipConfig = createMergeConfigFn<KnipConfig, typeof baseConfig>(baseConfig)
