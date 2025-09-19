@@ -259,7 +259,7 @@
         "noDoneCallback": "error",
         "noEnum": "off",
         "noExportedImports": "error",
-        "noHeadElement": "error",
+        "noHeadElement": "off",
         "noImplicitBoolean": "error",
         "noInferrableTypes": "error",
         "noMagicNumbers": "off",

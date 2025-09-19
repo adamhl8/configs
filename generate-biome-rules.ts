@@ -55,6 +55,7 @@ const OVERRIDES = {
       },
     },
     useNamingConvention: "off",
+    noHeadElement: "off",
   },
   suspicious: {
     noConsole: "off",
