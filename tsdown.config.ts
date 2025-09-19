@@ -4,6 +4,7 @@ import { tsdownBinConfig, tsdownConfig } from "./src/tsdown.ts"
 
 const config = tsdownConfig({
   entry: ["./src/knip-preprocessor.ts"],
+  platform: "neutral",
   copy: ["./src/biome.base.json", "./src/tsconfig.base.json"],
 } as const)
 
