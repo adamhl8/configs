@@ -4,7 +4,7 @@ import { knipConfig } from "./src/knip.ts"
 const depsToIgnore = Object.keys(packageJson.dependencies).filter((dep) => dep.includes("prettier"))
 
 const config = knipConfig({
-  entry: ["./src/knip-preprocessor.ts"],
+  entry: ["./src/knip-preprocessor.ts", "./src/ts-import-fix.ts"],
   ignoreDependencies: depsToIgnore,
 } as const)
 

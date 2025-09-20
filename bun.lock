@@ -16,11 +16,16 @@
       "devDependencies": {
         "@arethetypeswrong/core": "^0.18.2",
         "@biomejs/biome": "^2.2.4",
+        "@optique/core": "^0.5.0-dev.83",
+        "@optique/run": "^0.5.0-dev.83",
         "@types/bun": "^1.2.22",
+        "get-tsconfig": "^4.10.1",
         "knip": "^5.63.1",
         "markdown-toc": "^1.2.0",
+        "picocolors": "^1.1.1",
         "prettier": "^3.6.2",
         "publint": "^0.3.13",
+        "ts-explicit-errors": "^4.0.1",
         "tsdown": "^0.15.4",
         "typescript": "^5.9.2",
       },
@@ -86,6 +91,10 @@
     "@nodelib/fs.stat": ["@nodelib/fs.stat@2.0.5", "", {}, "sha512-RkhPPp2zrqDAQA/2jNhnztcPAlv64XdhIp7a7454A5ovI7Bukxgt7MX7udwAu3zg1DcpPU0rz3VV1SeaqvY4+A=="],
 
     "@nodelib/fs.walk": ["@nodelib/fs.walk@1.2.8", "", { "dependencies": { "@nodelib/fs.scandir": "2.1.5", "fastq": "^1.6.0" } }, "sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg=="],
+
+    "@optique/core": ["@optique/core@0.5.0-dev.83", "", {}, "sha512-wst91lC4HoTAGqSZBg+ETHgscpxrLh+5wjUuT++uq8lm5LETU3flUIDWrC7G4/TipOPg57eQOXCsgrmvWreoxA=="],
+
+    "@optique/run": ["@optique/run@0.5.0-dev.83", "", { "dependencies": { "@optique/core": "0.5.0-dev.83+21daa467" } }, "sha512-tpyZDH7o1//MAb6aLiDaghwPdBIbayk7rDphSNkATWPktrCQGceJ0raTHS0RC9gBpXvIA6+Rc+cspUUnWvXwwg=="],
 
     "@oxc-project/types": ["@oxc-project/types@0.89.0", "", {}, "sha512-yuo+ECPIW5Q9mSeNmCDC2im33bfKuwW18mwkaHMQh8KakHYDzj4ci/q7wxf2qS3dMlVVCIyrs3kFtH5LmnlYnw=="],
 
@@ -424,6 +433,8 @@
     "toml": ["toml@2.3.6", "", {}, "sha512-gVweAectJU3ebq//Ferr2JUY4WKSDe5N+z0FvjDncLGyHmIDoxgY/2Ie4qfEIDm4IS7OA6Rmdm7pdEEdMcV/xQ=="],
 
     "tree-kill": ["tree-kill@1.2.2", "", { "bin": { "tree-kill": "cli.js" } }, "sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A=="],
+
+    "ts-explicit-errors": ["ts-explicit-errors@4.0.1", "", {}, "sha512-mvsmuCGBah2vLtIE//z65icWZb6t9S/TQgDZ5D2jC+4MERmY0l0o0Rt9Qbh3VLYzyP8T8KmL4ND3dkZ2/+vb/w=="],
 
     "tsdown": ["tsdown@0.15.4", "", { "dependencies": { "ansis": "^4.1.0", "cac": "^6.7.14", "chokidar": "^4.0.3", "debug": "^4.4.3", "diff": "^8.0.2", "empathic": "^2.0.0", "hookable": "^5.5.3", "rolldown": "latest", "rolldown-plugin-dts": "^0.16.7", "semver": "^7.7.2", "tinyexec": "^1.0.1", "tinyglobby": "^0.2.15", "tree-kill": "^1.2.2", "unconfig": "^7.3.3" }, "peerDependencies": { "@arethetypeswrong/core": "^0.18.1", "publint": "^0.3.0", "typescript": "^5.0.0", "unplugin-lightningcss": "^0.4.0", "unplugin-unused": "^0.5.0" }, "optionalPeers": ["@arethetypeswrong/core", "publint", "typescript", "unplugin-lightningcss", "unplugin-unused"], "bin": { "tsdown": "dist/run.mjs" } }, "sha512-aoFE8disBg8BgYcOgradr/5Yd+QDBRQ+6z8mXo/Ib7+GIaJwJsI5l/ppve05CZGcSDqwdhF4gdrA0HPHBtbBqA=="],
 

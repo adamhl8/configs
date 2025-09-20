@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.15.24",
+  "version": "0.16.0",
   "type": "module",
   "repository": {
     "type": "git",
@@ -17,7 +17,8 @@
   },
   "license": "MIT",
   "bin": {
-    "adamhl8-knip": "./dist/adamhl8-knip"
+    "adamhl8-knip": "./dist/adamhl8-knip",
+    "ts-import-fix": "./dist/ts-import-fix"
   },
   "exports": {
     "./tsconfig": "./dist/tsconfig.base.json",
@@ -47,11 +48,16 @@
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.2",
     "@biomejs/biome": "^2.2.4",
+    "@optique/core": "^0.5.0-dev.83",
+    "@optique/run": "^0.5.0-dev.83",
     "@types/bun": "^1.2.22",
+    "get-tsconfig": "^4.10.1",
     "knip": "^5.63.1",
     "markdown-toc": "^1.2.0",
+    "picocolors": "^1.1.1",
     "prettier": "^3.6.2",
     "publint": "^0.3.13",
+    "ts-explicit-errors": "^4.0.1",
     "tsdown": "^0.15.4",
     "typescript": "^5.9.2"
   },
