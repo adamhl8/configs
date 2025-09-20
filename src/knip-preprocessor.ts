@@ -32,7 +32,7 @@ const preprocess: Preprocessor = (options) => {
     (hint) =>
       !(
         entries.some((entry) => typeof hint.identifier === "string" && hint.identifier.includes(entry)) &&
-        hint.type === "entry-empty"
+        (hint.type === "entry-empty" || hint.type === "entry-redundant")
       ),
   )
   options.configurationHints = new Set(filteredConfigurationHints)
