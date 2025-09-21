@@ -31,7 +31,7 @@
   "files": ["./dist/"],
   "scripts": {
     "bundle": "bun lint && tsdown",
-    "lint": "bun ./generate-biome-rules.ts && markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && tsc --noEmit && biome check --write && ./src/adamhl8-knip.ts",
+    "lint": "bun ./generate-biome-rules.ts && markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && ts-import-fix -w && tsc --noEmit && biome check --write && ./src/adamhl8-knip.ts",
     "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true",
     "prepublishOnly": "bun bundle"
   },
