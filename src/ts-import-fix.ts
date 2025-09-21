@@ -131,7 +131,7 @@ async function tsImportFix(): Promise<Result<number>> {
           newImportPathString = `${newPathWithoutExt}${pc.greenBright(newExt)}`
         }
 
-        console.log(`✅ (${filePath}) '${importPath}' -> ${newImportPathString}`)
+        console.log(`✅ (${filePath}) '${importPath}' -> '${newImportPathString}'`)
         return match.replace(importPath, newImportPath)
       })
 
