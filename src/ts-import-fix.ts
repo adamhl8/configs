@@ -41,7 +41,7 @@ async function cli() {
     showDefault: { prefix: " [default: " },
   })
 
-  const exclude = ["node_modules/", "dist/", ...parseResult.fileIgnorePatterns] as const
+  const exclude = ["node_modules/", "dist/", "astro.config.ts", ...parseResult.fileIgnorePatterns] as const
 
   const filePaths = await Array.fromAsync(fs.glob(FILES_GLOB, { exclude }))
 
