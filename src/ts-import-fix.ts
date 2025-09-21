@@ -24,22 +24,28 @@ async function cli() {
     write: option("-w", "--write", {
       description: message`Write changes to files`,
     }),
-    ignorePatterns: multiple(
-      option("-i", "--ignore", string({ metavar: "PATTERN" }), {
+    fileIgnorePatterns: multiple(
+      option("-f", "--file-ignore", string({ metavar: "PATTERN" }), {
         description: message`Additional glob patterns for files to ignore`,
       }),
     ),
+    importIgnoreStrings: multiple(
+      option("-i", "--import-ignore", string(), {
+        description: message`An import path *containing* the given string will be ignored`,
+      }),
+    ),
   })
-  const { write, ignorePatterns } = run(options, {
+  const parseResult = run(options, {
     programName: "ts-import-fix",
     help: "option",
     showDefault: { prefix: " [default: " },
   })
-  const exclude = ["node_modules/", "dist/", ...ignorePatterns] as const
+
+  const exclude = ["node_modules/", "dist/", ...parseResult.fileIgnorePatterns] as const
 
   const filePaths = await Array.fromAsync(fs.glob(FILES_GLOB, { exclude }))
 
-  return { filePaths, write }
+  return { parseResult, filePaths }
 }
 
 type PathsMap = Record<string, string>
@@ -101,7 +107,9 @@ function transformRelativeImport(filePath: string, importPath: string, pathsMap:
 }
 
 async function tsImportFix(): Promise<Result<number>> {
-  const { filePaths, write } = await cli()
+  const { filePaths, parseResult } = await cli()
+  const { write, importIgnoreStrings } = parseResult
+
   const pathsMap = getPathsMap()
   if (isErr(pathsMap)) return pathsMap
 
@@ -115,7 +123,11 @@ async function tsImportFix(): Promise<Result<number>> {
 
         if (!(isRelativeImport || isAliasImport)) return match
 
+        const isIgnored = importIgnoreStrings.some((ignoreString) => importPath.includes(ignoreString))
+        if (isIgnored) return match
+
         let newImportPath = transformExtension(importPath)
+
         if (isRelativeImport)
           newImportPath = transformRelativeImport(filePath, newImportPath, pathsMap) ?? newImportPath
 
