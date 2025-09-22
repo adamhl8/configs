@@ -5,6 +5,7 @@ import { getTsconfig } from "get-tsconfig"
 import pc from "picocolors"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
+import type { Tagged } from "type-fest"
 
 const IMPORT_PATTERN = /(?:import|from)\s+['"]([^'"]+)['"]$/gm
 
@@ -20,8 +21,8 @@ function getPathsMap(): Result<PathsMap> {
     if (!alias.endsWith("/*")) continue
     if (!aliasDir?.endsWith("/*")) continue
 
-    aliasDir = aliasDir.slice(0, -2)
     alias = alias.slice(0, -2)
+    aliasDir = aliasDir.slice(0, -2)
 
     pathsMap[alias] = aliasDir
   }
@@ -29,37 +30,72 @@ function getPathsMap(): Result<PathsMap> {
   return pathsMap
 }
 
-function changeExtension(parsedPath: ParsedPath, newExtension: string): ParsedPath {
+type ResolvedImportPath = Tagged<string, "ResolvedImportPath">
+
+function resolveImportPath(importPath: string, filePath: string, pathsMap: PathsMap): ResolvedImportPath {
+  const fileDir = path.dirname(filePath)
+
+  // handle alias imports
+  for (const [alias, aliasDir] of Object.entries(pathsMap)) {
+    if (!importPath.startsWith(alias)) continue
+
+    const relativePath = importPath.slice(alias.length + 1) // skip alias and slash
+    return path.resolve(aliasDir, relativePath) as ResolvedImportPath
+  }
+
+  // handle relative imports
+  return path.resolve(fileDir, importPath) as ResolvedImportPath
+}
+
+function changeExtension(importParts: ParsedPath, newExtension: string): ParsedPath {
   return {
-    ...parsedPath,
+    ...importParts,
     ext: newExtension,
-    base: "", // base has to be set to empty string or else it will ignore `ext`
+    base: "", // `base` has to be set to empty string or else it will ignore `ext` in favor of the extension on `base`
   }
 }
 
-function transformExtension(filePath: string): string {
-  const pathParts = path.parse(filePath)
-  if (!(pathParts.ext === ".js" || pathParts.ext === "")) return filePath
+function getNewExtensionPathParts(importParts: ParsedPath): { ext: string; base: string } | undefined {
+  // https://www.typescriptlang.org/docs/handbook/modules/reference.html#file-extension-substitution
+  // Any of these extensions will resolve to the actual file. For example, consider `import { foo } from "./bar.js"`. The actual extension of the file doesn't have to be `.js`. TypeScript will try each extension until it finds the file.
+  const tsExtensionLookups = ["", ".js", ".jsx", ".ts", ".tsx"]
+  const allowedExtensions = [".ts", ".tsx", ".d.ts"]
 
-  return path.format(changeExtension(pathParts, ".ts"))
+  // if the extension is something else (e.g. .json, .css, .md), return extension as-is
+  if (!tsExtensionLookups.includes(importParts.ext))
+    return {
+      ext: importParts.ext,
+      base: importParts.base,
+    }
+
+  if (tsExtensionLookups.includes(importParts.ext)) {
+    for (const allowedExtension of allowedExtensions) {
+      const targetPathParts = changeExtension(importParts, allowedExtension)
+      const targetPath = path.format(targetPathParts)
+      if (fss.existsSync(targetPath))
+        return {
+          ext: targetPathParts.ext,
+          base: targetPathParts.base,
+        }
+    }
+  }
+
+  return
 }
 
-function transformRelativeImport(filePath: string, importPath: string, pathsMap: PathsMap): Result<string> {
-  const currentDir = path.dirname(filePath)
-  const absoluteImportPath = path.resolve(currentDir, importPath)
-
-  const targetFileExists = fss.existsSync(absoluteImportPath)
-  if (!targetFileExists) return err(`skipped transform of '${importPath}': target file does not exist`, undefined)
+function getAliasPathParts(importParts: ParsedPath, pathsMap: PathsMap): { dir: string } | undefined {
+  const importPath = path.format(importParts)
 
   for (const [alias, aliasDir] of Object.entries(pathsMap)) {
-    const relativeToAliasDir = path.relative(aliasDir, absoluteImportPath)
+    const relativeToAliasDir = path.relative(aliasDir, importPath)
     // If 'relativeToAliasDir' starts with "..", the import is not in the alias directory so we should try the next alias
     if (relativeToAliasDir.startsWith("..")) continue
 
-    return `${alias}/${relativeToAliasDir}`
+    const aliasImportParts = path.parse(`${alias}/${relativeToAliasDir}`)
+    return { dir: aliasImportParts.dir }
   }
 
-  return err(`could not find alias for '${importPath}'`, undefined)
+  return
 }
 
 interface FixImportsOptions {
@@ -94,23 +130,34 @@ export async function fixImports(
         const isIgnored = importIgnoreStrings.some((ignoreString) => importPath.includes(ignoreString))
         if (isIgnored) return match
 
-        let newImportPath = transformExtension(importPath)
+        let newImportParts = path.parse(importPath)
+
+        /** The absolute path to the import. Used in the transform functions. */
+        const resolvedImportPath = resolveImportPath(importPath, filePath, pathsMap)
+        const resolvedImportParts = path.parse(resolvedImportPath)
+
+        const transformExtensionResult = getNewExtensionPathParts(resolvedImportParts)
+        if (transformExtensionResult) newImportParts = { ...newImportParts, ...transformExtensionResult }
+        else importErrorsForFile.push(`skipped extension transform of '${importPath}': target file not found`)
 
         if (isRelativeImport && !skipAlias) {
-          const transformedRelativeImport = transformRelativeImport(filePath, newImportPath, pathsMap)
-          if (isErr(transformedRelativeImport)) importErrorsForFile.push(transformedRelativeImport.messageChain)
-          else newImportPath = transformedRelativeImport
+          const transformToAliasImportResult = getAliasPathParts(resolvedImportParts, pathsMap)
+          if (transformToAliasImportResult) newImportParts = { ...newImportParts, ...transformToAliasImportResult }
+          else
+            importErrorsForFile.push(
+              `skipped transforming relative import path '${importPath}': could not find appropriate alias`,
+            )
         }
+
+        const newImportPath = path.format(newImportParts)
 
         if (newImportPath === importPath) return match
 
         const { ext: originalExt } = path.parse(importPath)
-        const newPathParts = path.parse(newImportPath)
-        const { ext: newExt } = newPathParts
-
+        const { ext: newExt } = newImportParts
         let newImportPathString = newImportPath
         if (newExt !== originalExt) {
-          const newPathWithoutExt = path.format(changeExtension(newPathParts, ""))
+          const newPathWithoutExt = path.format(changeExtension(newImportParts, ""))
           newImportPathString = `${newPathWithoutExt}${pc.greenBright(newExt)}`
         }
 
@@ -119,10 +166,12 @@ export async function fixImports(
       })
 
       if (importErrorsForFile.length > 0)
-        IMPORT_ERRORS.push(`${pc.redBright("✗")} ${filePath}\n${importErrorsForFile.join("\n")}\n`)
+        IMPORT_ERRORS.push(`${pc.redBright("✗")} ${pc.blue(filePath)}\n${importErrorsForFile.join("\n")}\n`)
 
       if (transformedImportsForFile.length > 0)
-        TRANSFORMED_IMPORTS.push(`${pc.greenBright("✓")} ${filePath}\n${transformedImportsForFile.join("\n")}\n`)
+        TRANSFORMED_IMPORTS.push(
+          `${pc.greenBright("✓")} ${pc.blue(filePath)}\n${transformedImportsForFile.join("\n")}\n`,
+        )
 
       if (transformedContent === content) return
 

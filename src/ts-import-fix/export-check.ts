@@ -26,7 +26,7 @@ export async function checkExports(filePaths: string[]) {
       if (exportDeclarations.length === 0) return
 
       const exportDeclarationText = exportDeclarations.map((declaration) => declaration.getText()).join("\n")
-      EXPORT_ERRORS.push(`${pc.redBright("✗")} ${filePath}\n${pc.dim(exportDeclarationText)}\n`)
+      EXPORT_ERRORS.push(`${pc.redBright("✗")} ${pc.blue(filePath)}\n${pc.dim(exportDeclarationText)}\n`)
     })
 
     return Promise.all(filePromises)
