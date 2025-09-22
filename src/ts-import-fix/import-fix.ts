@@ -5,7 +5,6 @@ import { getTsconfig } from "get-tsconfig"
 import pc from "picocolors"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
-import type { Tagged } from "type-fest"
 
 const IMPORT_PATTERN = /(?:import|from)\s+['"]([^'"]+)['"]$/gm
 
@@ -30,21 +29,24 @@ function getPathsMap(): Result<PathsMap> {
   return pathsMap
 }
 
-type ResolvedImportPath = Tagged<string, "ResolvedImportPath">
-
-function resolveImportPath(importPath: string, filePath: string, pathsMap: PathsMap): ResolvedImportPath {
+function resolveImportPath(importPath: string, filePath: string, pathsMap: PathsMap) {
   const fileDir = path.dirname(filePath)
 
+  // sort by length so most specific aliases are checked first
+  const sortedAliases = Object.keys(pathsMap).sort((a, b) => b.length - a.length)
+
   // handle alias imports
-  for (const [alias, aliasDir] of Object.entries(pathsMap)) {
+  for (const alias of sortedAliases) {
     if (!importPath.startsWith(alias)) continue
 
+    const aliasDir = pathsMap[alias]
+    if (!aliasDir) continue
     const relativePath = importPath.slice(alias.length + 1) // skip alias and slash
-    return path.resolve(aliasDir, relativePath) as ResolvedImportPath
+    return path.resolve(aliasDir, relativePath)
   }
 
   // handle relative imports
-  return path.resolve(fileDir, importPath) as ResolvedImportPath
+  return path.resolve(fileDir, importPath)
 }
 
 function changeExtension(importParts: ParsedPath, newExtension: string): ParsedPath {
@@ -55,11 +57,12 @@ function changeExtension(importParts: ParsedPath, newExtension: string): ParsedP
   }
 }
 
+const ALLOWED_EXTENSIONS = [".ts", ".tsx", ".d.ts"]
+
 function getNewExtensionPathParts(importParts: ParsedPath): { ext: string; base: string } | undefined {
   // https://www.typescriptlang.org/docs/handbook/modules/reference.html#file-extension-substitution
   // Any of these extensions will resolve to the actual file. For example, consider `import { foo } from "./bar.js"`. The actual extension of the file doesn't have to be `.js`. TypeScript will try each extension until it finds the file.
   const tsExtensionLookups = ["", ".js", ".jsx", ".ts", ".tsx"]
-  const allowedExtensions = [".ts", ".tsx", ".d.ts"]
 
   // if the extension is something else (e.g. .json, .css, .md), return extension as-is
   if (!tsExtensionLookups.includes(importParts.ext))
@@ -69,7 +72,7 @@ function getNewExtensionPathParts(importParts: ParsedPath): { ext: string; base:
     }
 
   if (tsExtensionLookups.includes(importParts.ext)) {
-    for (const allowedExtension of allowedExtensions) {
+    for (const allowedExtension of ALLOWED_EXTENSIONS) {
       const targetPathParts = changeExtension(importParts, allowedExtension)
       const targetPath = path.format(targetPathParts)
       if (fss.existsSync(targetPath))
@@ -138,7 +141,12 @@ export async function fixImports(
 
         const transformExtensionResult = getNewExtensionPathParts(resolvedImportParts)
         if (transformExtensionResult) newImportParts = { ...newImportParts, ...transformExtensionResult }
-        else importErrorsForFile.push(`skipped extension transform of '${importPath}': target file not found`)
+        else {
+          const targetFilePath = `${path.format(changeExtension(resolvedImportParts, ""))}.{${ALLOWED_EXTENSIONS.map((ext) => ext.replace(".", "")).join()}}`
+          importErrorsForFile.push(
+            `skipped extension transform of '${importPath}': target file not found (looking for '${targetFilePath}')`,
+          )
+        }
 
         if (isRelativeImport && !skipAlias) {
           const transformToAliasImportResult = getAliasPathParts(resolvedImportParts, pathsMap)
