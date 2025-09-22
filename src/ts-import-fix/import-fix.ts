@@ -1,52 +1,12 @@
-#!/usr/bin/env node
-
 import fss from "node:fs"
 import fs from "node:fs/promises"
 import path, { type ParsedPath } from "node:path"
-import process from "node:process"
-import { message, multiple, object, option, string } from "@optique/core"
-import { run } from "@optique/run"
 import { getTsconfig } from "get-tsconfig"
 import pc from "picocolors"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
 
 const IMPORT_PATTERN = /(?:import|from)\s+['"]([^'"]+)['"]$/gm
-const FILES_GLOB = "**/*.{ts,tsx,js,jsx,astro}"
-
-/**
- * Collect all transform errors so we can log them at the end of the output.
- */
-const TRANSFORM_ERRORS: string[] = []
-
-async function cli() {
-  const options = object({
-    write: option("-w", "--write", {
-      description: message`Write changes to files`,
-    }),
-    fileIgnorePatterns: multiple(
-      option("-f", "--file-ignore", string({ metavar: "PATTERN" }), {
-        description: message`Additional glob patterns for files to ignore`,
-      }),
-    ),
-    importIgnoreStrings: multiple(
-      option("-i", "--import-ignore", string(), {
-        description: message`An import path *containing* the given string will be ignored`,
-      }),
-    ),
-  })
-  const parseResult = run(options, {
-    programName: "ts-import-fix",
-    help: "option",
-    showDefault: { prefix: " [default: " },
-  })
-
-  const exclude = ["node_modules/", "dist/", "astro.config.ts", ...parseResult.fileIgnorePatterns] as const
-
-  const filePaths = await Array.fromAsync(fs.glob(FILES_GLOB, { exclude }))
-
-  return { parseResult, filePaths }
-}
 
 type PathsMap = Record<string, string>
 
@@ -84,15 +44,12 @@ function transformExtension(filePath: string): string {
   return path.format(changeExtension(pathParts, ".ts"))
 }
 
-function transformRelativeImport(filePath: string, importPath: string, pathsMap: PathsMap) {
+function transformRelativeImport(filePath: string, importPath: string, pathsMap: PathsMap): Result<string> {
   const currentDir = path.dirname(filePath)
   const absoluteImportPath = path.resolve(currentDir, importPath)
 
   const targetFileExists = fss.existsSync(absoluteImportPath)
-  if (!targetFileExists) {
-    TRANSFORM_ERRORS.push(`❌ (${filePath}) skipped transform of '${importPath}': target file does not exist`)
-    return importPath
-  }
+  if (!targetFileExists) return err(`skipped transform of '${importPath}': target file does not exist`, undefined)
 
   for (const [alias, aliasDir] of Object.entries(pathsMap)) {
     const relativeToAliasDir = path.relative(aliasDir, absoluteImportPath)
@@ -102,13 +59,21 @@ function transformRelativeImport(filePath: string, importPath: string, pathsMap:
     return `${alias}/${relativeToAliasDir}`
   }
 
-  TRANSFORM_ERRORS.push(`❌ (${filePath}) could not find alias for '${importPath}'`)
-  return
+  return err(`could not find alias for '${importPath}'`, undefined)
 }
 
-async function tsImportFix(): Promise<Result<number>> {
-  const { filePaths, parseResult } = await cli()
-  const { write, importIgnoreStrings } = parseResult
+interface FixImportsOptions {
+  write: boolean
+  importIgnoreStrings: readonly string[]
+  skipAlias: boolean
+}
+
+export async function fixImports(
+  filePaths: string[],
+  { write, importIgnoreStrings, skipAlias }: FixImportsOptions,
+): Promise<Result> {
+  const IMPORT_ERRORS: string[] = []
+  const TRANSFORMED_IMPORTS: string[] = []
 
   const pathsMap = getPathsMap()
   if (isErr(pathsMap)) return pathsMap
@@ -116,6 +81,9 @@ async function tsImportFix(): Promise<Result<number>> {
   const importFixResult = await attempt(() => {
     const filePromises = filePaths.map(async (filePath) => {
       const content = await fs.readFile(filePath, "utf8")
+
+      const importErrorsForFile: string[] = []
+      const transformedImportsForFile: string[] = []
 
       const transformedContent = content.replace(IMPORT_PATTERN, (match, importPath: string) => {
         const isRelativeImport = importPath.startsWith("./") || importPath.startsWith("../")
@@ -128,8 +96,11 @@ async function tsImportFix(): Promise<Result<number>> {
 
         let newImportPath = transformExtension(importPath)
 
-        if (isRelativeImport)
-          newImportPath = transformRelativeImport(filePath, newImportPath, pathsMap) ?? newImportPath
+        if (isRelativeImport && !skipAlias) {
+          const transformedRelativeImport = transformRelativeImport(filePath, newImportPath, pathsMap)
+          if (isErr(transformedRelativeImport)) importErrorsForFile.push(transformedRelativeImport.messageChain)
+          else newImportPath = transformedRelativeImport
+        }
 
         if (newImportPath === importPath) return match
 
@@ -143,9 +114,15 @@ async function tsImportFix(): Promise<Result<number>> {
           newImportPathString = `${newPathWithoutExt}${pc.greenBright(newExt)}`
         }
 
-        console.log(`✅ (${filePath}) '${importPath}' -> '${newImportPathString}'`)
+        transformedImportsForFile.push(`'${importPath}' -> '${newImportPathString}'`)
         return match.replace(importPath, newImportPath)
       })
+
+      if (importErrorsForFile.length > 0)
+        IMPORT_ERRORS.push(`${pc.redBright("✗")} ${filePath}\n${importErrorsForFile.join("\n")}\n`)
+
+      if (transformedImportsForFile.length > 0)
+        TRANSFORMED_IMPORTS.push(`${pc.greenBright("✓")} ${filePath}\n${transformedImportsForFile.join("\n")}\n`)
 
       if (transformedContent === content) return
 
@@ -155,25 +132,11 @@ async function tsImportFix(): Promise<Result<number>> {
     return Promise.all(filePromises)
   })
 
-  let exitCode = 0
-  if (TRANSFORM_ERRORS.length > 0) {
-    console.error(TRANSFORM_ERRORS.join("\n"))
-    exitCode = 1
-  }
+  if (TRANSFORMED_IMPORTS.length > 0)
+    console.log(`${pc.greenBright("[ts-import-fix]")} transformed imports:\n${TRANSFORMED_IMPORTS.join("\n")}`)
 
   if (isErr(importFixResult)) return err("something went wrong when transforming imports", importFixResult)
+  if (IMPORT_ERRORS.length > 0) return err(`failed to transform some imports:\n${IMPORT_ERRORS.join("\n")}`, undefined)
 
-  return exitCode
+  return
 }
-
-async function main(): Promise<number> {
-  const result = await tsImportFix()
-  if (isErr(result)) {
-    console.error(pc.redBright(`ts-import-fix: ${result.messageChain}`))
-    return 1
-  }
-
-  return result
-}
-
-if (import.meta.main) process.exitCode = await main()

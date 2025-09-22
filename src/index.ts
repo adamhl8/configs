@@ -1,3 +1,3 @@
-export { knipConfig } from "./knip.ts"
-export { prettierConfig } from "./prettier.ts"
-export { tsdownBinConfig, tsdownConfig } from "./tsdown.ts"
+export { knipConfig } from "./configs/knip.ts"
+export { prettierConfig } from "./configs/prettier.ts"
+export { tsdownBinConfig, tsdownConfig } from "./configs/tsdown.ts"

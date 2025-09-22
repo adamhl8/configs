@@ -1,7 +1,7 @@
 import type { Preprocessor, ReporterOptions } from "knip"
 import type { Issue, SymbolIssueType } from "knip/dist/types/issues"
 
-import { knipConfig } from "./index.ts"
+import { knipConfig } from "./knip.ts"
 
 const entries = knipConfig().entry as string[]
 
@@ -41,7 +41,7 @@ const preprocess: Preprocessor = (options) => {
   filterIssues(options, "unlisted", ([, issueObj]) => Object.keys(issueObj).length > 0)
 
   filterIssues(options, "types", ([key, issueObj]) => {
-    if (key !== "src/utils.ts") return true
+    if (key !== "src/configs/utils.ts") return true
     const typeNames = Object.keys(issueObj)
     // We need to bring these types into scope of each merge config module: https://github.com/microsoft/TypeScript/issues/5711
     const expectedTypeNames = ["MergeConfigFn", "OptionalMergeConfigFn"]

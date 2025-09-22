@@ -9,7 +9,8 @@ import { mergeDeep } from "remeda"
  * - Replaces the `linter.rules` object in the Biome config at `BIOME_CONFIG_PATH` with `mergedRules`
  */
 
-const BIOME_CONFIG_PATH = "./src/biome.base.json"
+// you probably want this to be `./biome.json`
+const BIOME_CONFIG_PATH = "./src/configs/biome.base.json"
 const DEFAULT_RULE_SEVERITY = "error"
 
 const OVERRIDES = {
