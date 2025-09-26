@@ -39,7 +39,7 @@
   },
   "overrides": [
     {
-      "includes": ["**/*.tsx", "./knip.ts", "./prettier.config.js", "tsdown.config.ts"],
+      "includes": ["**/*.tsx", "./knip.ts", "./prettier.config.js", "tsdown.config.ts", "astro.config.ts"],
       "linter": {
         "rules": {
           "style": {
