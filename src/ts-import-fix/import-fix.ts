@@ -20,8 +20,8 @@ function getPathsMap(): Result<PathsMap> {
     if (!alias.endsWith("/*")) continue
     if (!aliasDir?.endsWith("/*")) continue
 
-    alias = alias.slice(0, -2)
-    aliasDir = aliasDir.slice(0, -2)
+    alias = alias.slice(0, -1)
+    aliasDir = aliasDir.slice(0, -1)
 
     pathsMap[alias] = aliasDir
   }
@@ -41,7 +41,7 @@ function resolveImportPath(importPath: string, filePath: string, pathsMap: Paths
 
     const aliasDir = pathsMap[alias]
     if (!aliasDir) continue
-    const relativePath = importPath.slice(alias.length + 1) // skip alias and slash
+    const relativePath = importPath.slice(alias.length)
     return path.resolve(aliasDir, relativePath)
   }
 
@@ -94,7 +94,7 @@ function getAliasPathParts(importParts: ParsedPath, pathsMap: PathsMap): { dir: 
     // If 'relativeToAliasDir' starts with "..", the import is not in the alias directory so we should try the next alias
     if (relativeToAliasDir.startsWith("..")) continue
 
-    const aliasImportParts = path.parse(`${alias}/${relativeToAliasDir}`)
+    const aliasImportParts = path.parse(`${alias}${relativeToAliasDir}`)
     return { dir: aliasImportParts.dir }
   }
 
