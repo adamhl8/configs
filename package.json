@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.17.4",
+  "version": "0.17.5",
   "type": "module",
   "repository": {
     "type": "git",
@@ -39,8 +39,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@optique/core": "^0.5.0",
-    "@optique/run": "^0.5.0",
+    "@optique/core": "^0.5.1",
+    "@optique/run": "^0.5.1",
     "@prettier/plugin-xml": "^3.4.2",
     "es-toolkit": "^1.39.10",
     "get-tsconfig": "^4.10.1",
@@ -51,14 +51,14 @@
     "prettier-plugin-toml": "^2.0.6",
     "remeda": "^2.32.0",
     "ts-explicit-errors": "^4.0.1",
-    "tsdown": "^0.15.4",
+    "tsdown": "^0.15.5",
     "type-fest": "^5.0.1"
   },
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.2",
     "@biomejs/biome": "^2.2.4",
-    "@types/bun": "^1.2.22",
-    "knip": "^5.64.0",
+    "@types/bun": "^1.2.23",
+    "knip": "^5.64.1",
     "markdown-toc": "^1.2.0",
     "prettier": "^3.6.2",
     "publint": "^0.3.13",

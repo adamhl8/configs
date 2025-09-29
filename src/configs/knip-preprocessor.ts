@@ -1,30 +1,91 @@
 import type { Preprocessor, ReporterOptions } from "knip"
-import type { Issue, SymbolIssueType } from "knip/dist/types/issues"
+import type { IssueRecords, SymbolIssueType } from "knip/dist/types/issues"
 
 import { knipConfig } from "./knip.ts"
 
-const entries = knipConfig().entry as string[]
+/*
+ * The `IssueRecords` type represents an object where each key is the file path and the value is an object containing each issue object.
+ *
+ * For example:
+ *
+ * ```ts
+ * {
+ *   "path/to/file/with/issues.ts": {
+ *     "issue1": { ... },
+ *     "issue2": { ... },
+ *   },
+ *   // ...
+ * }
+ * ```
+ */
+
+/** The object containing all the issues for the given file path. */
+type IssueRecord = IssueRecords[keyof IssueRecords]
+type IssueRecordEntry = [keyof IssueRecord, IssueRecord[keyof IssueRecord]]
 
 /**
- * Filters issues based on the provided filter function.
+ * We transform `IssueRecords` into object entries where where the _value_ is an array of the object entries from each `IssueRecord`.
  *
- * This is needed because we also need to update `options.counters` after filtering issues.
+ * For example, we're going from this:
+ *
+ * ```ts
+ * {
+ *   "path/to/file/with/issues.ts": {
+ *     "issue1": { ... },
+ *     "issue2": { ... },
+ *   },
+ *   // ...
+ * }
+ * ```
+ *
+ * to this:
+ *
+ * ```ts
+ * [
+ *   ["path/to/file/with/issues.ts", [["issue1", { ... }], ["issue2", { ... }]]],
+ *   // ...
+ * ]
+ * ```
  */
-function filterIssues(
+type IssueRecordsEntry = [keyof IssueRecords, IssueRecordEntry[]]
+
+/**
+ * Modifies issues based on the provided map function.
+ *
+ * This is needed because we also need to update `options.counters` after modifying issues.
+ */
+function modifyIssues(
   options: ReporterOptions,
   issueType: SymbolIssueType,
-  filter: (issueEntry: [string, Record<string, Issue>]) => boolean,
+  mapFn: (issueRecordsEntry: IssueRecordsEntry) => IssueRecordEntry[], // The mapFn should return the entries for the individual issues. We want to make the key (which is the file path) available, but we don't want to allow modification of the key.
 ) {
-  const issuesObject = options.issues[issueType]
-  const filteredIssues = Object.fromEntries(Object.entries(issuesObject).filter(filter))
+  const originalIssues: IssueRecords = options.issues[issueType]
+  const originalIssueEntries: IssueRecordsEntry[] = Object.entries(originalIssues).map(([key, issueRecord]) => [
+    key,
+    Object.entries(issueRecord),
+  ])
 
-  const issueCount = Object.keys(issuesObject).length
-  const filteredIssueCount = Object.keys(filteredIssues).length
-  const issuesRemovedCount = issueCount - filteredIssueCount
+  const modifiedIssueEntries = originalIssueEntries.map(
+    // The map function receives something like `["path/to/file.ts", [["issue1", { ... }], ["issue2", { ... }]]]`
+    // It then returns *only* the entries for the individual issues: `[["issue1", { ... }], ["issue2", { ... }]]`
+    ([key, issueRecordEntries]) => [key, Object.fromEntries(mapFn([key, issueRecordEntries]))] as const,
+  )
+  const modifiedIssues: IssueRecords = Object.fromEntries(modifiedIssueEntries)
 
-  options.counters[issueType] = issueCount - issuesRemovedCount
-  options.issues[issueType] = filteredIssues
+  const countIssues = (issueRecords: IssueRecords) =>
+    Object.values(issueRecords)
+      .map((issueRecord) => Object.keys(issueRecord).length) // count the number of issues in each issue record
+      .reduce((acc, curr) => acc + curr, 0)
+
+  const originalIssueCount = countIssues(originalIssues)
+  const modifiedIssueCount = countIssues(modifiedIssues)
+  const issuesRemovedCount = originalIssueCount - modifiedIssueCount
+
+  options.counters[issueType] = originalIssueCount - issuesRemovedCount
+  options.issues[issueType] = modifiedIssues
 }
+
+const entries = knipConfig().entry as string[]
 
 const preprocess: Preprocessor = (options) => {
   // ignore the "Refine entry pattern (no matches)" configuration hints for entries in the base config
@@ -37,20 +98,15 @@ const preprocess: Preprocessor = (options) => {
   )
   options.configurationHints = new Set(filteredConfigurationHints)
 
-  filterIssues(options, "unlisted", ([key]) => !key.includes("prettier"))
-  filterIssues(options, "unlisted", ([, issueObj]) => Object.keys(issueObj).length > 0)
+  modifyIssues(options, "unlisted", ([, issueRecordEntries]) =>
+    issueRecordEntries.filter(([key]) => !key.includes("prettier")),
+  )
 
-  filterIssues(options, "types", ([key, issueObj]) => {
-    if (key !== "src/configs/utils.ts") return true
-    const typeNames = Object.keys(issueObj)
+  modifyIssues(options, "types", ([filePath, issueRecordEntries]) => {
+    if (filePath !== "src/configs/utils.ts") return issueRecordEntries
     // We need to bring these types into scope of each merge config module: https://github.com/microsoft/TypeScript/issues/5711
     const expectedTypeNames = ["MergeConfigFn", "OptionalMergeConfigFn"]
-    if (typeNames.length !== expectedTypeNames.length) return true // don't filter out the issue if there are other types
-    const foundAllExpectedTypeNames = expectedTypeNames.every((expectedTypeName) =>
-      typeNames.includes(expectedTypeName),
-    )
-    const shouldFilterIssue = !foundAllExpectedTypeNames // if all the expected type names are found, we need to return false to filter out the issue
-    return shouldFilterIssue
+    return issueRecordEntries.filter(([key]) => !expectedTypeNames.includes(key))
   })
 
   return options
