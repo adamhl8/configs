@@ -30,6 +30,8 @@ const OVERRIDES = {
     noSecrets: "off",
     noUnresolvedImports: "off",
     useExplicitType: "off",
+    useQwikMethodUsage: "off",
+    useQwikValidLexicalScope: "off",
   },
   performance: {
     noBarrelFile: "off",
