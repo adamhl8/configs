@@ -11,6 +11,7 @@ const baseConfig = {
   unbundle: true,
   target: false,
   platform: "neutral",
+  fixedExtension: false,
   minify: "dce-only",
   sourcemap: true,
   hash: false,
