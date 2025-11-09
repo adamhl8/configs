@@ -2,7 +2,7 @@ import { mergeWith } from "es-toolkit"
 import { clone } from "remeda"
 import type { MergeDeep } from "type-fest"
 
-type AnyObj = Record<PropertyKey, unknown>
+type AnyObj = object
 
 /**
  * A wrapper around es-toolkit's `mergeWith` with a custom merge function that concatenates arrays.

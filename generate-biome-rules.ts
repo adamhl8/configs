@@ -22,12 +22,14 @@ const OVERRIDES = {
   },
   correctness: {
     noNodejsModules: "off",
+    noQwikUseVisibleTask: "off",
     noSolidDestructuredProps: "off",
     noUndeclaredDependencies: "off",
     noUndeclaredVariables: "off",
+    useQwikClasslist: "off",
   },
   nursery: {
-    noSecrets: "off",
+    noContinue: "off",
     noUnresolvedImports: "off",
     useExplicitType: "off",
     useQwikMethodUsage: "off",
@@ -37,6 +39,9 @@ const OVERRIDES = {
     noBarrelFile: "off",
     noNamespaceImport: "off",
     useSolidForComponent: "off",
+  },
+  security: {
+    noSecrets: "off",
   },
   style: {
     noEnum: "off",
