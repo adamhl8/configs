@@ -220,7 +220,7 @@
         "noParametersOnlyUsedInRecursion": "error",
         "noReactForwardRef": "error",
         "noShadow": "error",
-        "noSyncScripts": "error",
+        "noSyncScripts": "off",
         "noUnknownAttribute": "error",
         "noUnnecessaryConditions": "error",
         "noUnresolvedImports": "off",

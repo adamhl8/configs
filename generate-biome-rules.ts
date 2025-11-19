@@ -35,6 +35,7 @@ const OVERRIDES = {
     useExplicitType: "off",
     noIncrementDecrement: "off",
     noJsxLiterals: "off",
+    noSyncScripts: "off",
     useQwikMethodUsage: "off",
     useQwikValidLexicalScope: "off",
   },
