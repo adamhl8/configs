@@ -73,13 +73,13 @@ const OVERRIDES = {
 
 async function getAllRules() {
   const schema = (await (await fetch("https://biomejs.dev/schemas/latest/schema.json")).json()) as BiomeSchema
-  const ruleGroupName = Object.keys(schema.definitions.Rules.properties).filter((key) => key !== "recommended")
+  const ruleGroupName = Object.keys(schema.$defs.Rules.properties).filter((key) => key !== "recommended")
 
   const allRules: AllRules = {}
   for (const groupName of ruleGroupName) {
     // definition names are in PascalCase
     const groupDefinitionName = groupName.charAt(0).toUpperCase() + groupName.slice(1)
-    const groupDefinition = schema.definitions[groupDefinitionName]
+    const groupDefinition = schema.$defs[groupDefinitionName]
     const ruleNames = Object.keys(groupDefinition?.properties ?? {}).filter((key) => key !== "recommended")
 
     allRules[groupName] = {}
@@ -100,7 +100,7 @@ await fs.writeFile(BIOME_CONFIG_PATH, JSON.stringify(biomeConfig, null, 2))
 // ==== types ====
 
 interface BiomeSchema {
-  definitions: {
+  $defs: {
     Rules: {
       properties: Record<string, unknown>
     }
