@@ -19,6 +19,7 @@ const OVERRIDES = {
     noExcessiveCognitiveComplexity: "off",
     noExcessiveLinesPerFunction: "off",
     noVoid: "off",
+    noForEach: "off",
   },
   correctness: {
     noNodejsModules: "off",
@@ -32,6 +33,8 @@ const OVERRIDES = {
     noContinue: "off",
     noUnresolvedImports: "off",
     useExplicitType: "off",
+    noIncrementDecrement: "off",
+    noJsxLiterals: "off",
     useQwikMethodUsage: "off",
     useQwikValidLexicalScope: "off",
   },
