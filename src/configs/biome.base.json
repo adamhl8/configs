@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.6/schema.json",
+  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
   "root": false,
   "vcs": {
     "enabled": true,
@@ -253,7 +253,8 @@
         "useVueValidVElseIf": "error",
         "useVueValidVHtml": "error",
         "useVueValidVIf": "error",
-        "useVueValidVOn": "error"
+        "useVueValidVOn": "error",
+        "useVueValidVText": "error"
       },
       "performance": {
         "noAccumulatingSpread": "error",
