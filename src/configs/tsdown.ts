@@ -21,7 +21,7 @@ const baseConfig = {
   },
   attw: {
     level: "error",
-    profile: "esmOnly",
+    profile: "esm-only",
   },
   publint: true,
   failOnWarn: true,
