@@ -1,4 +1,4 @@
-import type { KnipConfig } from "knip"
+import type { RawConfiguration } from "knip/dist/types/config"
 
 import { createMergeConfigFn } from "./utils.ts"
 
@@ -10,6 +10,6 @@ const baseConfig = {
   entry: ["./src/index.ts", "**/*.test.ts", "./tsdown.config.ts"],
   project: ["**"],
   tsdown: false,
-} as const satisfies KnipConfig
+} as const satisfies RawConfiguration
 
-export const knipConfig = createMergeConfigFn<KnipConfig, typeof baseConfig>(baseConfig)
+export const knipConfig = createMergeConfigFn<RawConfiguration, typeof baseConfig>(baseConfig)

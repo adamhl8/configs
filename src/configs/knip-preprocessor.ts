@@ -1,5 +1,4 @@
-import type { Preprocessor, ReporterOptions } from "knip"
-import type { IssueRecords, SymbolIssueType } from "knip/dist/types/issues"
+import type { IssueRecords, Preprocessor, ReporterOptions, SymbolIssueType } from "knip/dist/types/issues"
 
 import { knipConfig } from "./knip.ts"
 

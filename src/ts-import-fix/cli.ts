@@ -11,7 +11,7 @@ export function cli() {
     }),
     fileIgnorePatterns: multiple(
       option("-f", "--file-ignore", string({ metavar: "PATTERN" }), {
-        description: message`Additional glob patterns for files to ignore (only applies to import fixes)`,
+        description: message`Additional glob patterns for files to ignore`,
       }),
     ),
     importIgnoreStrings: multiple(

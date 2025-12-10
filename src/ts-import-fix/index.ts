@@ -11,23 +11,20 @@ import { checkExports } from "./export-check.ts"
 import { fixImports } from "./import-fix.ts"
 
 const FILES_GLOB = "**/*.{ts,tsx,js,jsx,astro}"
-const BASE_IGNORE_PATTERNS = ["node_modules/", "dist/"]
+const BASE_IGNORE_PATTERNS = [".git/", "node_modules/", "dist/"]
 
 async function tsImportFix(): Promise<CtxError[]> {
   const { fileIgnorePatterns, ...fixImportsOptions } = cli()
 
   const errors: CtxError[] = []
 
-  const fixImportsIgnorePatterns = [...BASE_IGNORE_PATTERNS, "astro.config.ts", ...fileIgnorePatterns]
-  const [fixImportsFilePaths, checkExportsFilePaths] = await Promise.all([
-    Array.fromAsync(fs.glob(FILES_GLOB, { exclude: fixImportsIgnorePatterns })),
-    Array.fromAsync(fs.glob(FILES_GLOB, { exclude: BASE_IGNORE_PATTERNS })),
-  ])
+  const allFileIgnorePatterns = [...BASE_IGNORE_PATTERNS, "astro.config.ts", ...fileIgnorePatterns]
+  const filePaths = await Array.fromAsync(fs.glob(FILES_GLOB, { exclude: allFileIgnorePatterns }))
 
-  const fixImportsResult = await fixImports(fixImportsFilePaths, fixImportsOptions)
+  const fixImportsResult = await fixImports(filePaths, fixImportsOptions)
   if (isErr(fixImportsResult)) errors.push(fixImportsResult)
 
-  const checkExportsResult = await checkExports(checkExportsFilePaths)
+  const checkExportsResult = await checkExports(filePaths)
   if (isErr(checkExportsResult)) errors.push(checkExportsResult)
 
   return errors
