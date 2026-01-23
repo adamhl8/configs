@@ -1,5 +1,9 @@
-import type { IssueRecords, Preprocessor, ReporterOptions, SymbolIssueType } from "knip/dist/types/issues"
-
+import type {
+  IssueRecords,
+  Preprocessor,
+  ReporterOptions,
+  SymbolIssueType,
+} from "../../node_modules/knip/dist/types/issues.d.ts"
 import { knipConfig } from "./knip.ts"
 
 /*
@@ -88,14 +92,13 @@ const entries = knipConfig().entry as string[]
 
 const preprocess: Preprocessor = (options) => {
   // ignore the "Refine entry pattern (no matches)" configuration hints for entries in the base config
-  const filteredConfigurationHints = [...options.configurationHints].filter(
+  options.configurationHints = options.configurationHints.filter(
     (hint) =>
       !(
         entries.some((entry) => typeof hint.identifier === "string" && hint.identifier.includes(entry)) &&
         (hint.type === "entry-empty" || hint.type === "entry-redundant")
       ),
   )
-  options.configurationHints = new Set(filteredConfigurationHints)
 
   modifyIssues(options, "unlisted", ([, issueRecordEntries]) =>
     issueRecordEntries.filter(([key]) => !key.includes("prettier")),

@@ -1,5 +1,6 @@
-import type { RawConfiguration } from "knip/dist/types/config"
+import type { KnipConfig } from "knip"
 
+import type { OptionalMergeConfigFn } from "./utils.ts"
 import { createMergeConfigFn } from "./utils.ts"
 
 // Normally, specifying the `./src/index.ts` entry would cause knip to complain about a redundant entry because it gets automatically included via the tsdown plugin.
@@ -10,6 +11,6 @@ const baseConfig = {
   entry: ["./src/index.ts", "**/*.test.ts", "./tsdown.config.ts"],
   project: ["**"],
   tsdown: false,
-} as const satisfies RawConfiguration
+} as const satisfies KnipConfig
 
-export const knipConfig = createMergeConfigFn<RawConfiguration, typeof baseConfig>(baseConfig)
+export const knipConfig: OptionalMergeConfigFn<KnipConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)

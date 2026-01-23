@@ -1,6 +1,7 @@
 import type { Config } from "prettier"
 import type { Simplify } from "type-fest"
 
+import type { OptionalMergeConfigFn } from "./utils.ts"
 import { createMergeConfigFn } from "./utils.ts"
 
 // for some reason the Config type from prettier doesn't satisfy AnyObj unless we simplify it
@@ -34,4 +35,4 @@ const baseConfig = {
   ],
 } as const satisfies PrettierConfig
 
-export const prettierConfig = createMergeConfigFn<PrettierConfig, typeof baseConfig>(baseConfig)
+export const prettierConfig: OptionalMergeConfigFn<PrettierConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)

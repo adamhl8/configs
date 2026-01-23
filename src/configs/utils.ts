@@ -14,7 +14,7 @@ function merge<T extends AnyObj, S extends AnyObj>(target: T, source: S): T & S 
 }
 
 /**
- * Type representing a merge config function, where the `UserConfig` passed in is merged with `BaseConfig`.
+ * The merge config function, where the `UserConfig` passed in is merged with `BaseConfig`.
  */
 export interface MergeConfigFn<UserConfig, BaseConfig> {
   // biome-ignore lint/style/useShorthandFunctionType: need to use call signature type
@@ -25,11 +25,9 @@ export interface MergeConfigFn<UserConfig, BaseConfig> {
 }
 
 /**
- * Type representing an overloaded function signature for MergeConfigFn:
+ * The optional merge config function, where the `userConfig` argument is optional.
  * - if `UserConfig` is not provided, the return type is `BaseConfig`
  * - if `UserConfig` is provided, the return type is the merged type of `BaseConfig` and `UserConfig`.
- *
- * This is needed to handle the fact that the `userConfig` argument is optional.
  *
  * Note that this extends `MergeConfigFn`, so this type has both function signatures on it.
  */
@@ -40,11 +38,7 @@ export interface OptionalMergeConfigFn<UserConfig, BaseConfig> extends MergeConf
 /**
  * Creates a config merge function with proper type overloads for merging with a base config.
  */
-export function createMergeConfigFn<
-  UserConfig extends AnyObj,
-  BaseConfig extends UserConfig,
-  Required extends boolean = false, // if true, the created merge config function requires a userConfig to be passed in
->(baseConfig: BaseConfig) {
+export function createMergeConfigFn<UserConfig extends AnyObj, BaseConfig extends UserConfig>(baseConfig: BaseConfig) {
   // we don't care about the specific type of userConfig here because we assert mergeConfigFn as the correct type below
   const mergeConfigFn = (userConfig?: AnyObj) => {
     if (userConfig === undefined) return baseConfig
@@ -52,7 +46,5 @@ export function createMergeConfigFn<
     return merge(clone(baseConfig), clone(userConfig))
   }
 
-  return mergeConfigFn as Required extends true // if Required is true
-    ? MergeConfigFn<UserConfig, BaseConfig> // then the merge config function requires a userConfig to be passed in
-    : OptionalMergeConfigFn<UserConfig, BaseConfig> // else, userConfig is optional
+  return mergeConfigFn as MergeConfigFn<UserConfig, BaseConfig> & OptionalMergeConfigFn<UserConfig, BaseConfig>
 }

@@ -30,6 +30,7 @@ const OVERRIDES = {
     useQwikClasslist: "off",
   },
   nursery: {
+    useAwaitThenable: "off",
     noContinue: "off",
     noUnresolvedImports: "off",
     useExplicitType: "off",
