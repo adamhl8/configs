@@ -40,6 +40,8 @@ const OVERRIDES = {
     useQwikMethodUsage: "off",
     useQwikValidLexicalScope: "off",
     noTernary: "off",
+    noExcessiveLinesPerFile: "off",
+    noExcessiveClassesPerFile: "off",
 
     noVueDataObjectDeclaration: "off",
     noVueDuplicateKeys: "off",
