@@ -104,13 +104,6 @@ const preprocess: Preprocessor = (options) => {
     issueRecordEntries.filter(([key]) => !key.includes("prettier")),
   )
 
-  modifyIssues(options, "types", ([filePath, issueRecordEntries]) => {
-    if (filePath !== "src/configs/utils.ts") return issueRecordEntries
-    // We need to bring these types into scope of each merge config module: https://github.com/microsoft/TypeScript/issues/5711
-    const expectedTypeNames = ["MergeConfigFn", "OptionalMergeConfigFn"]
-    return issueRecordEntries.filter(([key]) => !expectedTypeNames.includes(key))
-  })
-
   return options
 }
 
