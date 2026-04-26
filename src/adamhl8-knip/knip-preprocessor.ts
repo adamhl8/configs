@@ -1,10 +1,6 @@
-import type {
-  IssueRecords,
-  Preprocessor,
-  ReporterOptions,
-  SymbolIssueType,
-} from "../../node_modules/knip/dist/types/issues.d.ts"
-import { knipConfig } from "./knip.ts"
+import type { IssueRecords, IssueType, Preprocessor, ReporterOptions } from "knip/types/issues"
+
+import { DEFAULT_ENTRIES } from "../configs/knip.ts"
 
 /*
  * The `IssueRecords` type represents an object where each key is the file path and the value is an object containing each issue object.
@@ -59,7 +55,7 @@ type IssueRecordsEntry = [keyof IssueRecords, IssueRecordEntry[]]
  */
 function modifyIssues(
   options: ReporterOptions,
-  issueType: SymbolIssueType,
+  issueType: IssueType,
   mapFn: (issueRecordsEntry: IssueRecordsEntry) => IssueRecordEntry[], // The mapFn should return the entries for the individual issues. We want to make the key (which is the file path) available, but we don't want to allow modification of the key.
 ) {
   const originalIssues: IssueRecords = options.issues[issueType]
@@ -88,14 +84,12 @@ function modifyIssues(
   options.issues[issueType] = modifiedIssues
 }
 
-const entries = knipConfig().entry as string[]
-
 const preprocess: Preprocessor = (options) => {
   // ignore the "Refine entry pattern (no matches)" configuration hints for entries in the base config
   options.configurationHints = options.configurationHints.filter(
     (hint) =>
       !(
-        entries.some((entry) => typeof hint.identifier === "string" && hint.identifier.includes(entry)) &&
+        DEFAULT_ENTRIES.some((entry) => typeof hint.identifier === "string" && hint.identifier.includes(entry)) &&
         (hint.type === "entry-empty" || hint.type === "entry-redundant")
       ),
   )

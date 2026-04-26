@@ -3,11 +3,10 @@ import { defineConfig } from "tsdown"
 import { tsdownBinConfig, tsdownConfig } from "./src/configs/tsdown.ts"
 
 const config = tsdownConfig({
-  entry: ["./src/configs/knip-preprocessor.ts"],
   platform: "neutral",
-  external: ["prettier", "tsdown"],
-  // knip gets partially bundled because we have to import some types directly from node_modules. If knip exports these types, we can remove this
-  inlineOnly: false,
+  deps: {
+    neverBundle: ["tsdown", "knip"],
+  },
   copy: [
     {
       from: "./src/configs/biome.base.json",
@@ -20,8 +19,15 @@ const config = tsdownConfig({
   ],
 } as const)
 
-const binConfig = tsdownBinConfig({
-  entry: ["./src/adamhl8-knip/index.ts", "./src/ts-import-fix/index.ts"],
+const adamhl8Knip = tsdownBinConfig({
+  entry: ["./src/adamhl8-knip/index.ts"],
+  outDir: "./dist/adamhl8-knip/",
 } as const)
 
-export default defineConfig([config, binConfig])
+const knipPreprocessor = tsdownBinConfig({
+  entry: ["./src/adamhl8-knip/knip-preprocessor.ts"],
+  outDir: "./dist/adamhl8-knip/",
+  outExtensions: () => ({}),
+} as const)
+
+export default defineConfig([config, adamhl8Knip, knipPreprocessor])

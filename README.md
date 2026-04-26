@@ -51,11 +51,3 @@ import { defineConfig } from "tsdown"
 
 export default defineConfig(tsdownConfig({ ... }))
 ```
-
-### prettier
-
-```js
-import { prettierConfig } from "@adamhl8/configs"
-
-export default prettierConfig({ ... })
-```

@@ -3,7 +3,7 @@
   "extends": ["./src/configs/biome.base.json"],
   "overrides": [
     {
-      "includes": ["./src/configs/knip-preprocessor.ts"],
+      "includes": ["./src/adamhl8-knip/knip-preprocessor.ts"],
       "linter": {
         "rules": {
           "style": {

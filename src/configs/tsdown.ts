@@ -1,8 +1,8 @@
 import type { UserConfig } from "tsdown"
 import type { SetRequired } from "type-fest"
 
-import type { MergeConfigFn, OptionalMergeConfigFn } from "./utils.ts"
-import { createMergeConfigFn } from "./utils.ts"
+import type { MergeConfigFn, OptionalMergeConfigFn } from "../utils.ts"
+import { createMergeConfigFn } from "../utils.ts"
 
 // force projects to specify platform
 type StrictUserConfig = SetRequired<UserConfig, "platform">
@@ -38,7 +38,6 @@ const binConfig = {
   sourcemap: false,
   dts: false,
   attw: false,
-  publint: false,
 } as const satisfies UserConfig
 
 export const tsdownConfig: MergeConfigFn<StrictUserConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)

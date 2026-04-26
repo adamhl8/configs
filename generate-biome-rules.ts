@@ -13,13 +13,13 @@ import { mergeDeep } from "remeda"
 const BIOME_CONFIG_PATH = "./src/configs/biome.base.json"
 const DEFAULT_RULE_SEVERITY = "error"
 
-const OVERRIDES = {
+const OVERRIDES: Rules = {
   complexity: {
-    useLiteralKeys: "off",
     noExcessiveCognitiveComplexity: "off",
     noExcessiveLinesPerFunction: "off",
-    noVoid: "off",
     noForEach: "off",
+    noVoid: "off",
+    useLiteralKeys: "off",
   },
   correctness: {
     noNodejsModules: "off",
@@ -27,32 +27,30 @@ const OVERRIDES = {
     noSolidDestructuredProps: "off",
     noUndeclaredDependencies: "off",
     noUndeclaredVariables: "off",
-    useQwikClasslist: "off",
-  },
-  nursery: {
-    useSortedClasses: {
-      level: DEFAULT_RULE_SEVERITY,
-      fix: "safe",
-    },
-
-    useAwaitThenable: "off",
-    noContinue: "off",
     noUnresolvedImports: "off",
-    useExplicitType: "off",
-    noIncrementDecrement: "off",
-    noJsxLiterals: "off",
-    noSyncScripts: "off",
-    useQwikMethodUsage: "off",
-    useQwikValidLexicalScope: "off",
-    noTernary: "off",
-    noExcessiveLinesPerFile: "off",
-    noExcessiveClassesPerFile: "off",
-
     noVueDataObjectDeclaration: "off",
     noVueDuplicateKeys: "off",
     noVueReservedKeys: "off",
     noVueReservedProps: "off",
+    useQwikClasslist: "off",
+    useQwikMethodUsage: "off",
+    useQwikValidLexicalScope: "off",
+  },
+  nursery: {
+    noContinue: "off",
+    noExcessiveClassesPerFile: "off",
+    noExcessiveLinesPerFile: "off",
+    noIncrementDecrement: "off",
+    noSyncScripts: "off",
+    noTernary: "off",
     noVueVIfWithVFor: "off",
+    useAwaitThenable: "off",
+    useExplicitReturnType: "off",
+    useExplicitType: "off",
+    useSortedClasses: {
+      level: DEFAULT_RULE_SEVERITY,
+      fix: "safe",
+    },
     useVueDefineMacrosOrder: "off",
     useVueHyphenatedAttributes: "off",
     useVueMultiWordComponentNames: "off",
@@ -74,6 +72,8 @@ const OVERRIDES = {
   },
   style: {
     noEnum: "off",
+    noHeadElement: "off",
+    noJsxLiterals: "off",
     noMagicNumbers: "off",
     noProcessEnv: "off",
     useBlockStatements: "off",
@@ -92,7 +92,6 @@ const OVERRIDES = {
       },
     },
     useNamingConvention: "off",
-    noHeadElement: "off",
   },
   suspicious: {
     noConsole: "off",
@@ -104,7 +103,7 @@ async function getAllRules() {
   const schema = (await (await fetch("https://biomejs.dev/schemas/latest/schema.json")).json()) as BiomeSchema
   const ruleGroupName = Object.keys(schema.$defs.Rules.properties).filter((key) => key !== "recommended")
 
-  const allRules: AllRules = {}
+  const allRules: Rules = {}
   for (const groupName of ruleGroupName) {
     // definition names are in PascalCase
     const groupDefinitionName = groupName.charAt(0).toUpperCase() + groupName.slice(1)
@@ -120,11 +119,32 @@ async function getAllRules() {
   return allRules
 }
 
+/** Sorts the rules alphabetically and puts overrides at the top */
+function sortRules(rules: Rules) {
+  const sortedRules: Rules = {}
+
+  for (const [groupName, groupRules] of Object.entries(rules)) {
+    sortedRules[groupName] = {
+      ...sortObjectKeys(OVERRIDES[groupName] ?? {}),
+      ...sortObjectKeys(groupRules),
+    }
+  }
+
+  return sortedRules
+}
+
 const allRules = await getAllRules()
 const mergedRules = mergeDeep(allRules, OVERRIDES)
+const sortedRules = sortRules(mergedRules)
 const biomeConfig = JSON.parse(await fs.readFile(BIOME_CONFIG_PATH, "utf-8")) as BiomeConfig
-biomeConfig.linter.rules = mergedRules
+biomeConfig.linter.rules = sortedRules
 await fs.writeFile(BIOME_CONFIG_PATH, JSON.stringify(biomeConfig, null, 2))
+
+// === utils ===
+
+function sortObjectKeys<T extends Record<string, unknown>>(obj: T): T {
+  return Object.fromEntries(Object.entries(obj).sort(([a], [b]) => a.localeCompare(b))) as T
+}
 
 // ==== types ====
 
@@ -139,9 +159,9 @@ interface BiomeSchema {
   }
 }
 
-interface AllRules {
+interface Rules {
   [groupName: string]: {
-    [ruleName: string]: string
+    [ruleName: string]: string | Record<string, unknown>
   }
 }
 

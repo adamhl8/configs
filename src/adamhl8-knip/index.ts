@@ -8,7 +8,7 @@ import process from "node:process"
  * Rather than forcing all consuming projects to specify the flag and path to the preprocessor, they can run `adamhl8-knip` instead.
  */
 
-const KNIP_PREPROCESSOR_PATH = `${path.resolve(import.meta.dir, "../configs/knip-preprocessor")}`
+const KNIP_PREPROCESSOR_PATH = `${path.resolve(import.meta.dir, "./knip-preprocessor")}`
 
 // need to handle calling this from the configs project itself vs. a consuming project
 const knipPreprocessorPathExt = (await Bun.file(`${KNIP_PREPROCESSOR_PATH}.ts`).exists()) ? ".ts" : ".js"
