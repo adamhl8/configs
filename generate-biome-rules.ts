@@ -43,6 +43,13 @@ const OVERRIDES: Rules = {
     noIncrementDecrement: "off",
     noSyncScripts: "off",
     noTernary: "off",
+    noUnknownAttribute: {
+      level: DEFAULT_RULE_SEVERITY,
+      options: {
+        ignore: ["class", "class:list"],
+      },
+    },
+    noUntrustedLicenses: "off",
     noVueVIfWithVFor: "off",
     useAwaitThenable: "off",
     useExplicitReturnType: "off",

@@ -239,6 +239,13 @@
         "noIncrementDecrement": "off",
         "noSyncScripts": "off",
         "noTernary": "off",
+        "noUnknownAttribute": {
+          "level": "error",
+          "options": {
+            "ignore": ["class", "class:list"]
+          }
+        },
+        "noUntrustedLicenses": "off",
         "noVueVIfWithVFor": "off",
         "useAwaitThenable": "off",
         "useExplicitReturnType": "off",
@@ -317,11 +324,9 @@
         "noShadow": "error",
         "noTopLevelLiterals": "error",
         "noUndeclaredEnvVars": "error",
-        "noUnknownAttribute": "error",
         "noUnnecessaryConditions": "error",
         "noUnnecessaryTemplateExpression": "error",
         "noUnsafePlusOperands": "error",
-        "noUntrustedLicenses": "error",
         "noUselessReturn": "error",
         "noUselessTypeConversion": "error",
         "noVueArrowFuncInWatch": "error",
