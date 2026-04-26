@@ -41,6 +41,7 @@ const OVERRIDES: Rules = {
     noExcessiveClassesPerFile: "off",
     noExcessiveLinesPerFile: "off",
     noIncrementDecrement: "off",
+    noReactNativeRawText: "off",
     noSyncScripts: "off",
     noTernary: "off",
     noUnknownAttribute: {

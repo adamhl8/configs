@@ -237,6 +237,7 @@
         "noExcessiveClassesPerFile": "off",
         "noExcessiveLinesPerFile": "off",
         "noIncrementDecrement": "off",
+        "noReactNativeRawText": "off",
         "noSyncScripts": "off",
         "noTernary": "off",
         "noUnknownAttribute": {
@@ -316,7 +317,6 @@
         "noProto": "error",
         "noReactNativeDeepImports": "error",
         "noReactNativeLiteralColors": "error",
-        "noReactNativeRawText": "error",
         "noRedundantDefaultExport": "error",
         "noReturnAssign": "error",
         "noRootType": "error",
