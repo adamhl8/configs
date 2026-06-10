@@ -31,9 +31,8 @@ for (const [subpath, value] of Object.entries(SUBPATH_EXPORTS)) {
   added.push(subpath)
 }
 
-if (added.length === 0) {
-  console.log("knip is already patched")
-} else {
+if (added.length === 0) console.log("knip is already patched")
+else {
   await bun.write(KNIP_PACKAGE_JSON_PATH, `${JSON.stringify(pkg, null, 2)}\n`)
   console.log(`knip patched: added subpath exports ${added.map((s) => `'${s}'`).join(", ")}`)
 }
