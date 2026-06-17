@@ -22,6 +22,12 @@ const OVERRIDES: NurseryRules = {
     level: DEFAULT_RULE_SEVERITY,
     fix: "safe",
   },
+  useBaseline: {
+    level: "error",
+    options: {
+      available: "newly",
+    },
+  },
 }
 
 async function getNurseryRules() {

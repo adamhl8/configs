@@ -102,6 +102,12 @@
         "noReactNativeRawText": "off",
         "noUntrustedLicenses": "off",
         "useAwaitThenable": "off",
+        "useBaseline": {
+          "level": "error",
+          "options": {
+            "available": "newly"
+          }
+        },
         "useExplicitReturnType": "off",
         "useExplicitType": "off",
         "useSortedClasses": {
@@ -151,7 +157,6 @@
         "noVueRefAsOperand": "error",
         "noVueVOnNumberValues": "error",
         "useArraySome": "error",
-        "useBaseline": "error",
         "useConsistentTestIt": "error",
         "useDisposables": "error",
         "useDomNodeTextContent": "error",
