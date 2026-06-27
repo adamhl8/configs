@@ -55,6 +55,9 @@ const baseConfig = {
     "import/prefer-default-export": "off",
     "jsdoc/require-param": "off",
     "jsdoc/require-returns": "off",
+    "max-classes-per-file": "off",
+    "max-lines-per-function": "off",
+    "max-statements": "off",
     "no-console": "off",
     "no-continue": "off",
     "no-duplicate-imports": "off",
@@ -69,6 +72,7 @@ const baseConfig = {
     "typescript/explicit-module-boundary-types": "off",
     "typescript/prefer-readonly-parameter-types": "off",
     "typescript/strict-boolean-expressions": "off",
+    "unicorn/switch-case-braces": "off",
   },
   settings: {
     vitest: {
