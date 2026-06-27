@@ -6,5 +6,4 @@ const config = knipConfig({
   ignoreFiles: ["patch-knip.ts"],
 } as const)
 
-// oxlint-disable-next-line import/no-default-export
 export default config

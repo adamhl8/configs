@@ -27,5 +27,4 @@ const knipPreprocessor = tsdownBinConfig({
   outExtensions: () => ({}),
 } as const)
 
-// oxlint-disable-next-line import/no-default-export
 export default defineConfig([config, adamhl8Knip, knipPreprocessor])

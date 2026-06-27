@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.20.0",
+  "version": "0.20.1",
   "homepage": "https://github.com/adamhl8/configs",
   "bugs": {
     "url": "https://github.com/adamhl8/configs/issues"
@@ -38,9 +38,8 @@
   "scripts": {
     "bundle": "nub run lint && tsdown",
     "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && ./src/adamhl8-knip/index.ts",
-    "prepare": "lefthook install",
+    "prepare": "lefthook install && nub ./patch-knip.ts",
     "prepublishOnly": "nub run bundle",
-    "postinstall": "nub ./patch-knip.ts",
     "bump-deps": "rm -f lock.yaml && nub update -L"
   },
   "dependencies": {

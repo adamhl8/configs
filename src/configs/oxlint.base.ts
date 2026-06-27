@@ -18,6 +18,14 @@ const baseConfig = {
     typeAware: true,
     typeCheck: true,
   },
+  overrides: [
+    {
+      files: ["knip.ts", "oxfmt.config.ts", "oxlint.config.ts", "tsdown.config.ts"],
+      rules: {
+        "import/no-default-export": "off",
+      },
+    },
+  ],
   plugins: [
     "eslint",
     "react",
