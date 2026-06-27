@@ -1,6 +1,6 @@
 import type { IssueRecords, IssueType, Preprocessor, ReporterOptions } from "knip/types/issues"
 
-import { DEFAULT_ENTRIES } from "../configs/knip.ts"
+import { DEFAULT_ENTRIES } from "#/configs/knip.base.ts"
 
 /*
  * The `IssueRecords` type represents an object where each key is the file path and the value is an object containing each issue object.
@@ -23,7 +23,8 @@ type IssueRecord = IssueRecords[keyof IssueRecords]
 type IssueRecordEntry = [keyof IssueRecord, IssueRecord[keyof IssueRecord]]
 
 /**
- * We transform `IssueRecords` into object entries where where the _value_ is an array of the object entries from each `IssueRecord`.
+ * We transform `IssueRecords` into object entries where where the _value_ is an array of the object entries from each
+ * `IssueRecord`.
  *
  * For example, we're going from this:
  *
@@ -37,7 +38,7 @@ type IssueRecordEntry = [keyof IssueRecord, IssueRecord[keyof IssueRecord]]
  * }
  * ```
  *
- * to this:
+ * To this:
  *
  * ```ts
  * [
@@ -48,16 +49,21 @@ type IssueRecordEntry = [keyof IssueRecord, IssueRecord[keyof IssueRecord]]
  */
 type IssueRecordsEntry = [keyof IssueRecords, IssueRecordEntry[]]
 
+const countIssues = (issueRecords: IssueRecords) =>
+  Object.values(issueRecords)
+    .map((issueRecord) => Object.keys(issueRecord).length) // Count the number of issues in each issue record
+    .reduce((acc, curr) => acc + curr, 0)
+
 /**
  * Modifies issues based on the provided map function.
  *
  * This is needed because we also need to update `options.counters` after modifying issues.
  */
-function modifyIssues(
+const modifyIssues = (
   options: ReporterOptions,
   issueType: IssueType,
   mapFn: (issueRecordsEntry: IssueRecordsEntry) => IssueRecordEntry[], // The mapFn should return the entries for the individual issues. We want to make the key (which is the file path) available, but we don't want to allow modification of the key.
-) {
+) => {
   const originalIssues: IssueRecords = options.issues[issueType]
   const originalIssueEntries: IssueRecordsEntry[] = Object.entries(originalIssues).map(([key, issueRecord]) => [
     key,
@@ -71,11 +77,6 @@ function modifyIssues(
   )
   const modifiedIssues: IssueRecords = Object.fromEntries(modifiedIssueEntries)
 
-  const countIssues = (issueRecords: IssueRecords) =>
-    Object.values(issueRecords)
-      .map((issueRecord) => Object.keys(issueRecord).length) // count the number of issues in each issue record
-      .reduce((acc, curr) => acc + curr, 0)
-
   const originalIssueCount = countIssues(originalIssues)
   const modifiedIssueCount = countIssues(modifiedIssues)
   const issuesRemovedCount = originalIssueCount - modifiedIssueCount
@@ -85,7 +86,7 @@ function modifyIssues(
 }
 
 const preprocess: Preprocessor = (options) => {
-  // ignore the "Refine entry pattern (no matches)" configuration hints for entries in the base config
+  // Ignore the "Refine entry pattern (no matches)" configuration hints for entries in the base config
   options.configurationHints = options.configurationHints.filter(
     (hint) =>
       !(
@@ -101,4 +102,5 @@ const preprocess: Preprocessor = (options) => {
   return options
 }
 
+// oxlint-disable-next-line import/no-default-export
 export default preprocess

@@ -3,7 +3,7 @@
   "include": ["${configDir}/**/*", "${configDir}/**/.*/**/*"],
   "exclude": ["${configDir}/dist/"],
   "compilerOptions": {
-    "types": ["bun"],
+    "types": ["node"],
     "lib": ["ESNext"],
     "target": "ESNext",
     "jsx": "react-jsx",
@@ -27,10 +27,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-
-    "paths": {
-      "~/*": ["${configDir}/src/*"]
-    }
+    "noUnusedParameters": true
   }
 }

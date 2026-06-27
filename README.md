@@ -1,9 +1,9 @@
 # configs
 
-Configs (`tsconfig`, `biome`, etc) I use across my projects.
+Configs (`tsconfig`, `oxfmt`, `oxlint`, etc.) I use across my projects.
 
 ```sh
-bun add -D @adamhl8/configs
+nub add -D @adamhl8/configs
 ```
 
 ### tsconfig
@@ -14,25 +14,15 @@ bun add -D @adamhl8/configs
 }
 ```
 
-### biome
+### oxfmt / oxlint
 
-```json
-{
-  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
-  "extends": ["@adamhl8/configs/biome"]
-}
-```
+```ts
+import { oxfmtConfig } from "@adamhl8/configs"
+import { defineConfig } from "oxfmt"
 
-#### Notes
+const config = oxfmtConfig({ ... })
 
-```jsonc
-"json": {
-  "formatter": {
-    // this is 'auto' by default, except that biome uses 'always' for package.json
-    // setting it to 'auto' explicitly makes it consistent across all files, including package.json
-    "expand": "auto"
-  }
-},
+export default defineConfig(config)
 ```
 
 ### knip
@@ -49,5 +39,7 @@ export default knipConfig({ ... })
 import { tsdownConfig } from "@adamhl8/configs"
 import { defineConfig } from "tsdown"
 
-export default defineConfig(tsdownConfig({ ... }))
+const config = tsdownConfig({ ... })
+
+export default defineConfig(config)
 ```

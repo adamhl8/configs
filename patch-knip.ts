@@ -1,4 +1,4 @@
-import bun from "bun"
+import fs from "node:fs/promises"
 
 /*
  * Some types we depend on from knip (e.g. `IssueRecords`, `IssueType`, `RawConfigurationOrFn`)
@@ -13,8 +13,8 @@ const KNIP_PACKAGE_JSON_PATH = "./node_modules/knip/package.json"
 
 const SUBPATH_EXPORTS: Record<string, { types: string; default: string }> = {
   "./types/issues": {
-    types: "./dist/types/issues.d.ts",
     default: "./dist/types/issues.js",
+    types: "./dist/types/issues.d.ts",
   },
 }
 
@@ -22,7 +22,8 @@ interface KnipPackageJson {
   exports: Record<string, unknown>
 }
 
-const pkg = (await bun.file(KNIP_PACKAGE_JSON_PATH).json()) as KnipPackageJson
+// oxlint-disable-next-line typescript/no-unsafe-type-assertion
+const pkg = JSON.parse(await fs.readFile(KNIP_PACKAGE_JSON_PATH, "utf8")) as KnipPackageJson
 
 const added: string[] = []
 for (const [subpath, value] of Object.entries(SUBPATH_EXPORTS)) {
@@ -33,6 +34,6 @@ for (const [subpath, value] of Object.entries(SUBPATH_EXPORTS)) {
 
 if (added.length === 0) console.log("knip is already patched")
 else {
-  await bun.write(KNIP_PACKAGE_JSON_PATH, `${JSON.stringify(pkg, null, 2)}\n`)
+  await fs.writeFile(KNIP_PACKAGE_JSON_PATH, `${JSON.stringify(pkg, undefined, 2)}\n`)
   console.log(`knip patched: added subpath exports ${added.map((s) => `'${s}'`).join(", ")}`)
 }

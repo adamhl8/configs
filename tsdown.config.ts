@@ -1,22 +1,19 @@
 import { defineConfig } from "tsdown"
 
-import { tsdownBinConfig, tsdownConfig } from "./src/configs/tsdown.ts"
+import { tsdownBinConfig, tsdownConfig } from "./src/configs/tsdown.base.ts"
 
 const config = tsdownConfig({
-  platform: "neutral",
-  deps: {
-    neverBundle: ["tsdown", "knip"],
-  },
   copy: [
-    {
-      from: "./src/configs/biome.base.json",
-      to: "./dist/configs/",
-    },
     {
       from: "./src/configs/tsconfig.base.json",
       to: "./dist/configs/",
     },
   ],
+  deps: {
+    // tsdown correctly bundles dev dependencies, so we need to exclude them here or else the types we import will be included in the bundle. Consuming projects are assumed to have these dependencies installed.
+    neverBundle: ["tsdown", "knip", "oxfmt", "oxlint"],
+  },
+  platform: "neutral",
 } as const)
 
 const adamhl8Knip = tsdownBinConfig({
@@ -30,4 +27,5 @@ const knipPreprocessor = tsdownBinConfig({
   outExtensions: () => ({}),
 } as const)
 
+// oxlint-disable-next-line import/no-default-export
 export default defineConfig([config, adamhl8Knip, knipPreprocessor])
