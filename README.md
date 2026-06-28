@@ -43,3 +43,14 @@ const config = tsdownConfig({ ... })
 
 export default defineConfig(config)
 ```
+
+### vitest
+
+```ts
+import { vitestConfig } from "@adamhl8/configs"
+import { defineConfig } from "vitest/config"
+
+const config = vitestConfig({ ... })
+
+export default defineConfig(config)
+```

@@ -10,8 +10,8 @@ const config = tsdownConfig({
     },
   ],
   deps: {
-    // tsdown correctly bundles dev dependencies, so we need to exclude them here or else the types we import will be included in the bundle. Consuming projects are assumed to have these dependencies installed.
-    neverBundle: ["tsdown", "knip", "oxfmt", "oxlint"],
+    // tsdown (correctly) bundles dev dependencies, but we don't want to bundle anything from them. Consuming projects are assumed to have the needed dependencies installed.
+    skipNodeModulesBundle: true,
   },
   platform: "neutral",
 } as const)
