@@ -36,11 +36,12 @@
     "access": "public"
   },
   "scripts": {
-    "bundle": "nub run lint && tsdown",
     "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && ./src/adamhl8-knip/index.ts",
+    "bump-deps": "rm -f lock.yaml && nub update -L && nub ./patch-knip.ts",
+    "bundle": "nub run lint && tsdown",
+    "release": "release-it",
     "prepare": "lefthook install && nub ./patch-knip.ts",
-    "prepublishOnly": "nub run bundle",
-    "bump-deps": "rm -f lock.yaml && nub update -L && nub ./patch-knip.ts"
+    "prepublishOnly": "nub run bundle"
   },
   "dependencies": {
     "es-toolkit": "^1.49.0",
@@ -55,6 +56,7 @@
     "oxlint": "^1.71.0",
     "oxlint-tsgolint": "^0.23.0",
     "publint": "^0.3.21",
+    "release-it": "^20.2.1",
     "tsdown": "^0.22.3",
     "typescript": "^6.0.3",
     "vitest": "^4.1.9"
