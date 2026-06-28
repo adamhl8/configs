@@ -10,9 +10,9 @@ import { createMergeConfigFn } from "#/utils.ts"
 export const DEFAULT_ENTRIES = ["./src/index.ts", "**/*.test.ts", "./tsdown.config.ts"] as const satisfies string[]
 
 const baseConfig = {
+  project: ["**"],
   entry: DEFAULT_ENTRIES,
   ignoreBinaries: ["lefthook"],
-  project: ["**"],
   tsdown: false,
 } as const satisfies KnipConfig
 

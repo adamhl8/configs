@@ -4,10 +4,10 @@ import { createMergeConfigFn } from "#/utils.ts"
 import type { OptionalMergeConfigFn } from "#/utils.ts"
 
 const baseConfig = {
-  jsdoc: true,
   printWidth: 120,
-  proseWrap: "never",
   semi: false,
+  jsdoc: true,
+  proseWrap: "never",
   sortImports: {
     groups: [
       "builtin",

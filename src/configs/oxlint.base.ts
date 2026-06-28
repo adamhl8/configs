@@ -91,11 +91,6 @@ const baseConfig = {
     "vitest/require-hook": "off", // reenable when false positives are fixed?
     "vitest/require-test-timeout": "off",
   },
-  settings: {
-    vitest: {
-      typecheck: true,
-    },
-  },
 } as const satisfies OxlintConfig
 
 export const oxlintConfig: OptionalMergeConfigFn<OxlintConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)
