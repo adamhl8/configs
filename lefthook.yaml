@@ -1,5 +1,4 @@
 pre-commit:
-  fail_on_changes: "always"
   commands:
     lint:
       run: nub run lint
