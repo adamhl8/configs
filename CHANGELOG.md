@@ -1,8 +1,14 @@
+## [0.23.5](https://github.com/adamhl8/configs/compare/v0.23.4..v0.23.5) - 2026-06-29
+
+### 🐛 Bug Fixes
+
+- _(vitest)_ don't set setupFiles by default ([92c2b6e](https://github.com/adamhl8/configs/commit/92c2b6eb50e3dec198c0d7ead8b33d8292611815))
+
 ## [0.23.4](https://github.com/adamhl8/configs/compare/v0.23.3..v0.23.4) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(knip)_ ignore config hint for @commitlint/config-conventional ([1027690](https://github.com/adamhl8/configs/commit/1027690551a5d4852da161d02afab4e645164685))
+- _(knip)_ ignore config hint for @commitlint/config-conventional by @adamhl8 ([1027690](https://github.com/adamhl8/configs/commit/1027690551a5d4852da161d02afab4e645164685))
 
 ## [0.23.3](https://github.com/adamhl8/configs/compare/v0.23.2..v0.23.3) - 2026-06-29
 
