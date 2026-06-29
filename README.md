@@ -54,3 +54,9 @@ const config = vitestConfig({ ... })
 
 export default defineConfig(config)
 ```
+
+## Notes
+
+The `prepare` script looks like: `"prepare": "lefthook install && nub ./patch-knip.ts && tsdown"`
+
+nub installs `package.json` bin executables into the local `node_modules/.bin`. This means that we can run something like `adamhl8-knip` directly instead of doing `src/adamhl8-knip/index.tx`. That's why we have `tsdown` in the prepare script. Those executables need to be available.
