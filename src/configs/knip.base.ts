@@ -8,12 +8,14 @@ import { createMergeConfigFn } from "#/utils.ts"
 // To handle this, we specify it and disable the tsdown plugin. This makes knip work in both cases.
 
 export const DEFAULT_ENTRIES = ["./src/index.ts", "**/*.test.ts", "./tsdown.config.ts"] as const satisfies string[]
+// In consuming projects, for some reason knip complains about these dependencies being unlisted.
+export const IGNORE_DEPENDENCIES_UNLISTED = ["@commitlint/config-conventional"]
 
 const baseConfig = {
   project: ["**"],
   entry: DEFAULT_ENTRIES,
   ignoreBinaries: ["lefthook"],
-  ignoreDependencies: ["@commitlint/cli"],
+  ignoreDependencies: ["@commitlint/cli", ...IGNORE_DEPENDENCIES_UNLISTED],
   tsdown: false,
 } as const satisfies KnipConfig
 
