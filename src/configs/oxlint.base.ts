@@ -51,7 +51,7 @@ const baseConfig = {
   rules: {
     curly: ["error", "multi-or-nest"],
     "func-style": ["error", "expression"],
-    "node/no-sync": ["error", { ignores: ["existsSync", "spawnSync"] }],
+    "node/no-sync": ["error", { ignores: ["existsSync", "spawnSync", "execFileSync"] }],
     "require-unicode-regexp": ["error", { requireFlag: "v" }],
 
     "capitalized-comments": "off",
