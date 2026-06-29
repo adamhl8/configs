@@ -1,8 +1,14 @@
+## [0.23.6](https://github.com/adamhl8/configs/compare/v0.23.5..v0.23.6) - 2026-06-29
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ exclude execFileSync from no-sync ([ea41632](https://github.com/adamhl8/configs/commit/ea41632a52f47acbfdc912a3acc3ce0a76eb1842))
+
 ## [0.23.5](https://github.com/adamhl8/configs/compare/v0.23.4..v0.23.5) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(vitest)_ don't set setupFiles by default ([92c2b6e](https://github.com/adamhl8/configs/commit/92c2b6eb50e3dec198c0d7ead8b33d8292611815))
+- _(vitest)_ don't set setupFiles by default by @adamhl8 ([92c2b6e](https://github.com/adamhl8/configs/commit/92c2b6eb50e3dec198c0d7ead8b33d8292611815))
 
 ## [0.23.4](https://github.com/adamhl8/configs/compare/v0.23.3..v0.23.4) - 2026-06-29
 
