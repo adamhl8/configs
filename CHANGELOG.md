@@ -1,8 +1,14 @@
+## [0.23.4](https://github.com/adamhl8/configs/compare/v0.23.3..v0.23.4) - 2026-06-29
+
+### 🐛 Bug Fixes
+
+- _(knip)_ ignore config hint for @commitlint/config-conventional ([1027690](https://github.com/adamhl8/configs/commit/1027690551a5d4852da161d02afab4e645164685))
+
 ## [0.23.3](https://github.com/adamhl8/configs/compare/v0.23.2..v0.23.3) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ turn off vitest/prefer-describe-function-title ([02f9ca4](https://github.com/adamhl8/configs/commit/02f9ca426916cb40d986d53fce6b54f547eca8c4))
+- _(oxlint)_ turn off vitest/prefer-describe-function-title by @adamhl8 ([02f9ca4](https://github.com/adamhl8/configs/commit/02f9ca426916cb40d986d53fce6b54f547eca8c4))
 
 ## [0.23.2](https://github.com/adamhl8/configs/compare/v0.23.1..v0.23.2) - 2026-06-29
 
