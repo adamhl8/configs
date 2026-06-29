@@ -1,3 +1,13 @@
+## [0.23.1] - 2026-06-29
+
+### 🐛 Bug Fixes
+
+- Move commitlint packages to deps
+
+### ⚙️ Miscellaneous Tasks
+
+- Improve bump-deps script
+
 ## [0.23.0] - 2026-06-29
 
 ### 🚀 Features
@@ -9,6 +19,10 @@
 ### 🐛 Bug Fixes
 
 - Script calls
+
+### 💼 Other
+
+- V0.23.0
 
 ## [0.22.2] - 2026-06-29
 
