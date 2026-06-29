@@ -2,3 +2,8 @@ pre-commit:
   commands:
     lint:
       run: nub run lint
+
+commit-msg:
+  commands:
+    commitlint:
+      run: nubx commitlint --edit {1}

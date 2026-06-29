@@ -1,6 +1,6 @@
 {
   "name": "@adamhl8/configs",
-  "version": "0.21.2",
+  "version": "0.21.0",
   "homepage": "https://github.com/adamhl8/configs",
   "bugs": {
     "url": "https://github.com/adamhl8/configs/issues"
@@ -36,7 +36,7 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && ./src/adamhl8-knip/index.ts",
+    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously",
     "bump-deps": "rm -f lock.yaml && nub update -L && nub ./patch-knip.ts",
     "bundle": "nub run lint && tsdown",
     "release": "release-it",
@@ -49,6 +49,9 @@
   },
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.4",
+    "@commitlint/cli": "^21.1.0",
+    "@commitlint/config-conventional": "^21.1.0",
+    "@commitlint/types": "^21.1.0",
     "@types/node": "^26.0.1",
     "knip": "^6.23.0",
     "markdown-toc": "^1.2.0",
@@ -57,6 +60,7 @@
     "oxlint-tsgolint": "^0.23.0",
     "publint": "^0.3.21",
     "release-it": "^20.2.1",
+    "semantic-release": "^25.0.5",
     "tsdown": "^0.22.3",
     "typescript": "^6.0.3",
     "vitest": "^4.1.9"
