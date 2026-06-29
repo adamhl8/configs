@@ -51,7 +51,6 @@ const baseConfig = {
   rules: {
     curly: ["error", "multi-or-nest"],
     "func-style": ["error", "expression"],
-    "node/no-sync": ["error", { ignores: ["existsSync", "spawnSync", "execFileSync"] }],
     "require-unicode-regexp": ["error", { requireFlag: "v" }],
 
     "capitalized-comments": "off",
@@ -79,6 +78,7 @@ const baseConfig = {
     "no-undefined": "off",
     "no-useless-return": "off",
     "node/callback-return": "off",
+    "node/no-sync": "off",
     "oxc/no-async-await": "off",
     "oxc/no-optional-chaining": "off",
     "oxc/no-rest-spread-properties": "off",
