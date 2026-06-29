@@ -1,8 +1,14 @@
+## [0.23.3](https://github.com/adamhl8/configs/compare/v0.23.2..v0.23.3) - 2026-06-29
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ turn off vitest/prefer-describe-function-title ([02f9ca4](https://github.com/adamhl8/configs/commit/02f9ca426916cb40d986d53fce6b54f547eca8c4))
+
 ## [0.23.2](https://github.com/adamhl8/configs/compare/v0.23.1..v0.23.2) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- copy cliff.base.toml to build output ([258079f](https://github.com/adamhl8/configs/commit/258079fdaaf3c4a43bd5b2c26e5e8293ec785fce))
+- copy cliff.base.toml to build output by @adamhl8 ([258079f](https://github.com/adamhl8/configs/commit/258079fdaaf3c4a43bd5b2c26e5e8293ec785fce))
 
 ## [0.23.1](https://github.com/adamhl8/configs/compare/v0.23.0..v0.23.1) - 2026-06-29
 
