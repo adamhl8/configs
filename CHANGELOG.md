@@ -1,19 +1,52 @@
-## [0.22.2](https://github.com/adamhl8/configs/compare/v0.22.1..v0.22.2) - 2026-06-29
+## [0.23.0] - 2026-06-29
+
+### 🚀 Features
+
+- Add lefthook base config
+- Add commitlint config
+- Add cliff wrapper
+
+### 🐛 Bug Fixes
+
+- Script calls
+
+## [0.22.2] - 2026-06-29
+
+### 💼 Other
+
+- V0.22.2
 
 ### ⚙️ Miscellaneous Tasks
 
-- use full "v" version in release ([3907a6f](https://github.com/adamhl8/configs/commit/3907a6f4a722fcd9bd8fc9ba07f56f00aed03831))
+- Use full "v" version in release
 
-## [0.22.1](https://github.com/adamhl8/configs/compare/v0.22.0..v0.22.1) - 2026-06-29
+## [0.22.1] - 2026-06-29
+
+### 💼 Other
+
+- V0.22.1
 
 ### ⚙️ Miscellaneous Tasks
 
-- set up release-it by @adamhl8 ([30a37c1](https://github.com/adamhl8/configs/commit/30a37c1242edc364e071da9a9d62a1f3ad1208f0))
-
-- _(git-cliff)_ set filter_commits to true by @adamhl8 ([cd9c7f2](https://github.com/adamhl8/configs/commit/cd9c7f2178c1ec77859bc1a9596184c9eda5f462))
+- _(git-cliff)_ Set filter_commits to true
+- Set up release-it
 
 ## [0.22.0] - 2026-06-29
 
 ### 🚀 Features
 
-- add git-cliff by @adamhl8 ([ae811f9](https://github.com/adamhl8/configs/commit/ae811f94198947727e79fbe1e7bff645a20f90f0))
+- Add git-cliff
+
+### 💼 Other
+
+- Bump-deps (#8)
+- Sync (#9)
+- Bump-deps (#10)
+- Bump-deps (#11)
+- Bump-deps (#12)
+- Bump-deps (#13)
+- Sync (#14)
+- Bump-deps (#15)
+- Bump-deps (#16)
+- Bump-deps (#17)
+- Apply ignores to export check
