@@ -12,7 +12,6 @@ const baseConfig = {
     expect: {
       requireAssertions: true,
     },
-    setupFiles: ["src/test-setup.ts"],
   },
 } as const satisfies ViteUserConfig
 
