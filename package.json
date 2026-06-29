@@ -37,11 +37,11 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && ./src/adamhl8-knip/index.ts",
+    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && adamhl8-knip",
     "bump-deps": "rm -f lock.yaml && nub update -L && nub ./patch-knip.ts",
     "bundle": "nub run lint && tsdown",
-    "release": "release-it --ci -i \"$(./src/adamhl8-cliff/index.ts --bumped-version)\"",
-    "prepare": "lefthook install && nub ./patch-knip.ts"
+    "release": "release-it --ci -i \"$(adamhl8-cliff --bumped-version)\"",
+    "prepare": "lefthook install && nub ./patch-knip.ts && tsdown"
   },
   "dependencies": {
     "es-toolkit": "^1.49.0",

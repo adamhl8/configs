@@ -12,7 +12,7 @@ export const DEFAULT_ENTRIES = ["./src/index.ts", "**/*.test.ts", "./tsdown.conf
 const baseConfig = {
   project: ["**"],
   entry: DEFAULT_ENTRIES,
-  ignoreBinaries: ["lefthook", "git-cliff"],
+  ignoreBinaries: ["lefthook"],
   ignoreDependencies: ["@commitlint/cli"],
   tsdown: false,
 } as const satisfies KnipConfig
