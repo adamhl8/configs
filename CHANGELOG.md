@@ -1,8 +1,14 @@
+## [0.23.7](https://github.com/adamhl8/configs/compare/v0.23.6..v0.23.7) - 2026-06-29
+
+### 🐛 Bug Fixes
+
+- _(oxling)_ turn off vitest/no-hooks ([847dac1](https://github.com/adamhl8/configs/commit/847dac114b8992492389d9bbfe9959b78d0cff30))
+
 ## [0.23.6](https://github.com/adamhl8/configs/compare/v0.23.5..v0.23.6) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ exclude execFileSync from no-sync ([ea41632](https://github.com/adamhl8/configs/commit/ea41632a52f47acbfdc912a3acc3ce0a76eb1842))
+- _(oxlint)_ exclude execFileSync from no-sync by @adamhl8 ([ea41632](https://github.com/adamhl8/configs/commit/ea41632a52f47acbfdc912a3acc3ce0a76eb1842))
 
 ## [0.23.5](https://github.com/adamhl8/configs/compare/v0.23.4..v0.23.5) - 2026-06-29
 
