@@ -79,6 +79,7 @@ const baseConfig = {
     "no-undefined": "off",
     "no-useless-return": "off",
     "node/callback-return": "off",
+    "oxc/no-async-await": "off",
     "oxc/no-optional-chaining": "off",
     "oxc/no-rest-spread-properties": "off",
     "sort-imports": "off",
