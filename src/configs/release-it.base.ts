@@ -6,12 +6,13 @@ import type { OptionalMergeConfigFn } from "#/utils.ts"
 
 const baseConfig = {
   git: {
-    commitMessage: "release: v${version}",
-    tagName: "v${version}",
-    tagAnnotation: "version ${version}",
+    commitMessage: "release: ${version}",
+    tagName: "${version}",
+    tagAnnotation: "release ${version}",
   },
   hooks: {
-    "after:bump": "git-cliff --tag ${version} -o",
+    "before:init": "nub run bundle",
+    "after:bump": ["git-cliff --tag ${version} -o", "nubx oxfmt CHANGELOG.md"],
   },
   github: {
     release: true,

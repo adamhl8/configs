@@ -39,7 +39,7 @@
     "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && ./src/adamhl8-knip/index.ts",
     "bump-deps": "rm -f lock.yaml && nub update -L && nub ./patch-knip.ts",
     "bundle": "nub run lint && tsdown",
-    "release": "nub run bundle && release-it --ci -i \"$(git-cliff --bumped-version | sed 's|^v||')\"",
+    "release": "release-it --ci -i \"$(git-cliff --bumped-version)\"",
     "prepare": "lefthook install && nub ./patch-knip.ts"
   },
   "dependencies": {
