@@ -12,12 +12,12 @@ const baseConfig = {
   },
   hooks: {
     "before:init": "nub run bundle",
-    "after:bump": ["git-cliff --tag ${version} -o", "nubx oxfmt CHANGELOG.md"],
+    "after:bump": ["adamhl8-cliff --tag ${version} -o", "nubx oxfmt CHANGELOG.md"],
   },
   github: {
     release: true,
     releaseName: "${version}",
-    releaseNotes: "git-cliff --unreleased --tag ${version}",
+    releaseNotes: "adamhl8-cliff --unreleased --tag ${version}",
   },
   npm: {
     // oxlint-disable-next-line typescript/no-unsafe-type-assertion - release-it doesn't support nub directly yet

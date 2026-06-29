@@ -16,6 +16,7 @@
     "url": "git+https://github.com/adamhl8/configs.git"
   },
   "bin": {
+    "adamhl8-cliff": "./dist/adamhl8-cliff/index",
     "adamhl8-knip": "./dist/adamhl8-knip/index"
   },
   "files": [
@@ -39,7 +40,7 @@
     "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && ./src/adamhl8-knip/index.ts",
     "bump-deps": "rm -f lock.yaml && nub update -L && nub ./patch-knip.ts",
     "bundle": "nub run lint && tsdown",
-    "release": "release-it --ci -i \"$(git-cliff --bumped-version)\"",
+    "release": "release-it --ci -i \"$(./src/adamhl8-cliff/index.ts --bumped-version)\"",
     "prepare": "lefthook install && nub ./patch-knip.ts"
   },
   "dependencies": {
