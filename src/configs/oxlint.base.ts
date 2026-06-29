@@ -21,10 +21,11 @@ const baseConfig = {
   overrides: [
     {
       files: [
+        ".release-it.ts",
+        "commitlint.config.ts",
         "knip.ts",
         "oxfmt.config.ts",
         "oxlint.config.ts",
-        ".release-it.ts",
         "tsdown.config.ts",
         "vitest.config.ts",
       ],
