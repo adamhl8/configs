@@ -14,6 +14,10 @@ const config = tsdownConfig({
       from: "./src/configs/lefthook.base.yaml",
       to: "./dist/configs/",
     },
+    {
+      from: "./src/configs/cliff.base.toml",
+      to: "./dist/configs/",
+    },
   ],
   deps: {
     // tsdown (correctly) bundles dev dependencies, but we don't want to bundle anything from them. Consuming projects are assumed to have the needed dependencies installed.
