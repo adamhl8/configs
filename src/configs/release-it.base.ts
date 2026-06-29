@@ -11,16 +11,18 @@ const baseConfig = {
     tagAnnotation: "version ${version}",
   },
   hooks: {
-    "before:init": "nub run bundle",
+    "after:bump": "git-cliff --tag ${version} -o",
   },
   github: {
     release: true,
     releaseName: "${version}",
+    releaseNotes: "git-cliff --unreleased --tag ${version}",
   },
   npm: {
     // oxlint-disable-next-line typescript/no-unsafe-type-assertion - release-it doesn't support nub directly yet
     publishPackageManager: "nub" as "bun",
     publishPath: "",
+    publishArgs: ["--no-git-checks"],
   },
 } as const satisfies Config
 

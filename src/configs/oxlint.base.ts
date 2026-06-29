@@ -20,7 +20,14 @@ const baseConfig = {
   },
   overrides: [
     {
-      files: ["knip.ts", "oxfmt.config.ts", "oxlint.config.ts", "tsdown.config.ts", "vitest.config.ts"],
+      files: [
+        "knip.ts",
+        "oxfmt.config.ts",
+        "oxlint.config.ts",
+        ".release-it.ts",
+        "tsdown.config.ts",
+        "vitest.config.ts",
+      ],
       rules: {
         "import/no-default-export": "off",
       },

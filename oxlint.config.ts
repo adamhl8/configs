@@ -11,6 +11,6 @@ const config = oxlintConfig({
       },
     },
   ],
-})
+} as const)
 
 export default defineConfig(config)
