@@ -1,8 +1,14 @@
+## [0.23.9](https://github.com/adamhl8/configs/compare/v0.23.8..v0.23.9) - 2026-06-29
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ turn off node/no-sync ([93477cd](https://github.com/adamhl8/configs/commit/93477cdf0ff167419d4c37d9c4faf576cb459029))
+
 ## [0.23.8](https://github.com/adamhl8/configs/compare/v0.23.7..v0.23.8) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ turn off oxc/no-async-await ([c10f58c](https://github.com/adamhl8/configs/commit/c10f58c6d9781cdcb6a38ff973d4dc1527527a03))
+- _(oxlint)_ turn off oxc/no-async-await by @adamhl8 ([c10f58c](https://github.com/adamhl8/configs/commit/c10f58c6d9781cdcb6a38ff973d4dc1527527a03))
 
 ## [0.23.7](https://github.com/adamhl8/configs/compare/v0.23.6..v0.23.7) - 2026-06-29
 
