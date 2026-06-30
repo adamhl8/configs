@@ -44,6 +44,7 @@
     "prepare": "lefthook install && nub ./patch-knip.ts && tsdown"
   },
   "dependencies": {
+    "@adamhl8/eslint-plugin-clean-modules": "^0.1.1",
     "@commitlint/config-conventional": "^21.1.0",
     "@commitlint/types": "^21.1.0",
     "es-toolkit": "^1.49.0",

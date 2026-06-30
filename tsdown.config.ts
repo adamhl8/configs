@@ -2,7 +2,7 @@ import path from "node:path"
 
 import { defineConfig } from "tsdown"
 
-import { tsdownBinConfig, tsdownConfig } from "./src/configs/tsdown.base.ts"
+import { tsdownBinConfig, tsdownConfig } from "#/configs/tsdown.base.ts"
 
 const config = tsdownConfig({
   copy: [

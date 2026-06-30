@@ -13,6 +13,7 @@ const baseConfig = {
     style: "error",
     suspicious: "error",
   },
+  jsPlugins: ["@adamhl8/eslint-plugin-clean-modules"],
   options: {
     reportUnusedDisableDirectives: "error",
     typeAware: true,
@@ -49,6 +50,10 @@ const baseConfig = {
     "node",
   ],
   rules: {
+    "clean-modules/require-direct-exports": "error",
+    "clean-modules/require-import-extensions": "error",
+    "clean-modules/require-subpath-imports": "error",
+
     curly: ["error", "multi-or-nest"],
     "func-style": ["error", "expression"],
     "require-unicode-regexp": ["error", { requireFlag: "v" }],
