@@ -1,8 +1,22 @@
+## [0.24.0](https://github.com/adamhl8/configs/compare/v0.23.9..v0.24.0) - 2026-06-30
+
+### 🚀 Features
+
+- _(oxlint)_ add @adamhl8/eslint-plugin-clean-modules ([2d98cbe](https://github.com/adamhl8/configs/commit/2d98cbe98f6381e7324f633f9364c038b952cf53))
+
+### ⚙️ Miscellaneous Tasks
+
+- fix update-deps workflow by @adamhl8 ([9feb013](https://github.com/adamhl8/configs/commit/9feb0134ffa98deac07e73ba17591ab4099157aa))
+
+- fix lefthook install by @adamhl8 ([b286e45](https://github.com/adamhl8/configs/commit/b286e458f605f39ee3fb9c231274d1e9301872ad))
+
+- add workflows by @adamhl8 ([6870ac6](https://github.com/adamhl8/configs/commit/6870ac6419f0e2acb1aca568289a3a75201a72e3))
+
 ## [0.23.9](https://github.com/adamhl8/configs/compare/v0.23.8..v0.23.9) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ turn off node/no-sync ([93477cd](https://github.com/adamhl8/configs/commit/93477cdf0ff167419d4c37d9c4faf576cb459029))
+- _(oxlint)_ turn off node/no-sync by @adamhl8 ([93477cd](https://github.com/adamhl8/configs/commit/93477cdf0ff167419d4c37d9c4faf576cb459029))
 
 ## [0.23.8](https://github.com/adamhl8/configs/compare/v0.23.7..v0.23.8) - 2026-06-29
 
