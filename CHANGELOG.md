@@ -1,3 +1,13 @@
+## [0.24.2](https://github.com/adamhl8/configs/compare/v0.24.1..v0.24.2) - 2026-06-30
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ fix transitive plugin resolutin ([09cea4e](https://github.com/adamhl8/configs/commit/09cea4e88c4b149064e1e8f4009ac6dc0a4c5fd7))
+
+### ⚙️ Miscellaneous Tasks
+
+- _(update-deps)_ disable lefthook for pull request creation ([2aa575e](https://github.com/adamhl8/configs/commit/2aa575e30394be705d0897d8bd62848538e79005))
+
 ## [0.24.1](https://github.com/adamhl8/configs/compare/v0.24.0..v0.24.1) - 2026-06-30
 
 ### ⚙️ Miscellaneous Tasks
