@@ -85,6 +85,7 @@ const baseConfig = {
     "no-undef": "off",
     "no-undefined": "off",
     "no-useless-return": "off",
+    "no-void": "off",
     "node/callback-return": "off",
     "node/no-sync": "off",
     "oxc/no-async-await": "off",
