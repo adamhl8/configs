@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: "0 13 * * 5" # Fridays, 13:00 UTC
   workflow_dispatch: {}
+  workflow_call:
+    secrets:
+      CI_TOKEN:
+        required: true
 
 permissions:
   contents: read
