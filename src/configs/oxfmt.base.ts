@@ -7,7 +7,6 @@ const baseConfig = {
   printWidth: 120,
   semi: false,
   jsdoc: true,
-  proseWrap: "never",
   sortImports: {
     groups: [
       "builtin",
