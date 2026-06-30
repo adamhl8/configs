@@ -1,6 +1,6 @@
 import type { Preprocessor } from "knip/types/issues"
 
-import { DEFAULT_ENTRIES, IGNORE_DEPENDENCIES_UNLISTED } from "#/configs/knip.base.ts"
+import { DEFAULT_ENTRIES, IGNORE_DEPENDENCIES } from "#/configs/knip.base.ts"
 
 const preprocess: Preprocessor = (options) => {
   // Ignore the "Refine entry pattern (no matches)" configuration hints for entries in the base config
@@ -15,9 +15,8 @@ const preprocess: Preprocessor = (options) => {
   options.configurationHints = options.configurationHints.filter(
     (hint) =>
       !(
-        IGNORE_DEPENDENCIES_UNLISTED.some(
-          (dep) => typeof hint.identifier === "string" && hint.identifier.includes(dep),
-        ) && hint.type === "ignoreDependencies"
+        IGNORE_DEPENDENCIES.some((dep) => typeof hint.identifier === "string" && hint.identifier.includes(dep)) &&
+        hint.type === "ignoreDependencies"
       ),
   )
 

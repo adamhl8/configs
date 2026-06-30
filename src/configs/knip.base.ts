@@ -8,14 +8,25 @@ import type { OptionalMergeConfigFn } from "#/utils.ts"
 // To handle this, we specify it and disable the tsdown plugin. This makes knip work in both cases.
 
 export const DEFAULT_ENTRIES = ["./src/index.ts", "**/*.test.ts", "./tsdown.config.ts"] as const satisfies string[]
-// In consuming projects, for some reason knip complains about these dependencies being unlisted.
-export const IGNORE_DEPENDENCIES_UNLISTED = ["@commitlint/config-conventional"]
+
+/**
+ * Consuming projects show these transitive dependencies as unlisted. e.g. knip resolves
+ * `@adamhl8/eslint-plugin-clean-modules` via the oxlint config, but we don't need to install it directly in the
+ * consuming project.
+ */
+const UNLISTED_DEPENDENCIES = ["@adamhl8/eslint-plugin-clean-modules"]
+/**
+ * Consuming projects show these dependencies as unused. e.g. `@commitlint/cli` can't be found by knip because it's
+ * hidden by the fact that we call/extend our GitHub workflows.
+ */
+const UNUSED_DEPENDENCIES = ["@commitlint/cli"]
+export const IGNORE_DEPENDENCIES = [...UNUSED_DEPENDENCIES, ...UNLISTED_DEPENDENCIES]
 
 const baseConfig = {
   project: ["**"],
   entry: DEFAULT_ENTRIES,
   ignoreBinaries: ["lefthook"],
-  ignoreDependencies: [...IGNORE_DEPENDENCIES_UNLISTED],
+  ignoreDependencies: IGNORE_DEPENDENCIES,
   tsdown: false,
 } as const satisfies KnipConfig
 

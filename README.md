@@ -14,13 +14,24 @@ nub add -D @adamhl8/configs
 }
 ```
 
-### oxfmt / oxlint
+### oxfmt
 
 ```ts
 import { oxfmtConfig } from "@adamhl8/configs"
 import { defineConfig } from "oxfmt"
 
 const config = oxfmtConfig({ ... })
+
+export default defineConfig(config)
+```
+
+### oxlint
+
+```ts
+import { oxlintConfig } from "@adamhl8/configs"
+import { defineConfig } from "oxlint"
+
+const config = oxlintConfig({ ... })
 
 export default defineConfig(config)
 ```
@@ -44,6 +55,8 @@ const config = tsdownConfig({ ... })
 export default defineConfig(config)
 ```
 
+`tsdownBinConfig` is also exported for building `package.json` bin executables: a bundled, single-file, extensionless build with no type declarations.
+
 ### vitest
 
 ```ts
@@ -54,6 +67,46 @@ const config = vitestConfig({ ... })
 
 export default defineConfig(config)
 ```
+
+### commitlint
+
+```ts
+import { commitlintConfig } from "@adamhl8/configs"
+
+export default commitlintConfig({ ... })
+```
+
+### release-it
+
+```ts
+import { releaseItConfig } from "@adamhl8/configs"
+
+export default releaseItConfig({ ... })
+```
+
+The release config wires up its hooks to use `adamhl8-cliff` for the changelog and release notes, so the two are meant to be used together.
+
+### git-cliff
+
+There is no per-project file to write. The `adamhl8-cliff` bin wraps `git-cliff` with the bundled config (`cliff.base.toml`), so run it in place of `git-cliff`:
+
+```sh
+adamhl8-cliff --bumped-version
+```
+
+`releaseItConfig` already calls it to build the changelog and release notes.
+
+### lefthook
+
+`lefthook.base.yaml` runs `lint` on pre-commit and `commitlint` on commit-msg. Extend it from your `lefthook.yaml`:
+
+```yaml
+# lefthook.yaml
+extends:
+  - node_modules/@adamhl8/configs/dist/configs/lefthook.base.yaml
+```
+
+`lefthook install` (run it from `prepare`) sets up the hooks.
 
 ## GitHub Actions
 
