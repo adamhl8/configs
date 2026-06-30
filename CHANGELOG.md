@@ -1,3 +1,9 @@
+## [0.24.7](https://github.com/adamhl8/configs/compare/v0.24.6..v0.24.7) - 2026-06-30
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ turn off require-await by @adamhl8 ([85ad35a](https://github.com/adamhl8/configs/commit/85ad35a949fc35a4ed5878f1d2cfeb5933f3b2bb))
+
 ## [0.24.6](https://github.com/adamhl8/configs/compare/v0.24.5..v0.24.6) - 2026-06-30
 
 ### 🐛 Bug Fixes
