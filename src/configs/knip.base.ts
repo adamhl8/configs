@@ -15,7 +15,7 @@ const baseConfig = {
   project: ["**"],
   entry: DEFAULT_ENTRIES,
   ignoreBinaries: ["lefthook"],
-  ignoreDependencies: ["@commitlint/cli", ...IGNORE_DEPENDENCIES_UNLISTED],
+  ignoreDependencies: [...IGNORE_DEPENDENCIES_UNLISTED],
   tsdown: false,
 } as const satisfies KnipConfig
 
