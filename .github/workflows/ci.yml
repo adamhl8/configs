@@ -23,7 +23,9 @@ jobs:
           node-version: "26"
 
       - name: Install lefthook
-        run: nub add -g lefthook
+        run: |
+          nub add -g lefthook
+          nub bin -g >> "$GITHUB_PATH"
 
       - name: Install
         run: nub i --frozen-lockfile
