@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  workflow_dispatch: {}
+  workflow_call:
+    secrets:
+      NPM_CI_TOKEN:
+        required: true
+      CI_SIGNING_KEY:
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up nub
+        uses: nubjs/setup-nub@v0
+        with:
+          node-version: "26"
+
+      - name: Install git-cliff
+        uses: taiki-e/install-action@git-cliff
+
+      - name: Install lefthook
+        run: |
+          nub add -g lefthook
+          nub bin -g >> "$GITHUB_PATH"
+
+      - name: Install
+        run: nub i
+
+      - name: Configure npm auth
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_CI_TOKEN}" > ~/.npmrc
+        env:
+          NPM_CI_TOKEN: ${{ secrets.NPM_CI_TOKEN }}
+
+      - name: Configure git identity and signing
+        run: |
+          git config user.name "Adam Langbert"
+          git config user.email "adamhl@pm.me"
+          mkdir -p ~/.ssh
+          printf '%s\n' "$CI_SIGNING_KEY" > ~/.ssh/signing_key
+          chmod 600 ~/.ssh/signing_key
+          git config gpg.format ssh
+          git config user.signingkey '~/.ssh/signing_key'
+          git config commit.gpgsign true
+          git config tag.gpgsign true
+        env:
+          CI_SIGNING_KEY: ${{ secrets.CI_SIGNING_KEY }}
+
+      - name: Release
+        run: nub run release:run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LEFTHOOK: "0"

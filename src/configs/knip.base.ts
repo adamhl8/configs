@@ -25,7 +25,7 @@ export const IGNORE_DEPENDENCIES = [...UNUSED_DEPENDENCIES, ...UNLISTED_DEPENDEN
 const baseConfig = {
   project: ["**"],
   entry: DEFAULT_ENTRIES,
-  ignoreBinaries: ["lefthook"],
+  ignoreBinaries: ["lefthook", "gh"],
   ignoreDependencies: IGNORE_DEPENDENCIES,
   tsdown: false,
 } as const satisfies KnipConfig

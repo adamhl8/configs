@@ -110,10 +110,11 @@ extends:
 
 ## GitHub Actions
 
-This repo hosts two reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `nub` and define `lint` / `bundle` / `bump-deps` scripts and a commitlint config (e.g. via these configs).
+This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `nub` and define `lint` / `bundle` / `bump-deps` / `release:run` scripts and a commitlint config (e.g. via these configs).
 
 - `ci.yml`: runs `bundle` (build + lint) on pushes/PRs and lints commit messages with commitlint
 - `update-deps.yml`: weekly `bump-deps` run that opens a dependency-update PR
+- `release.yml`: manually dispatched release where git-cliff sets the version, then publishes to npm and cuts a GitHub release (commit and tag signed)
 
 Reference `@main` for latest, or pin to a release tag or commit SHA to update deliberately.
 
@@ -133,7 +134,7 @@ jobs:
 
 ### Update dependencies
 
-Requires a `CI_TOKEN` repo secret (a PAT with `contents` and `pull-requests` write) so the opened PR triggers the CI workflow.
+Needs the `CI_TOKEN` secret (see [Secrets](#secrets)).
 
 ```yaml
 # .github/workflows/update-deps.yml
@@ -147,6 +148,37 @@ jobs:
     uses: adamhl8/configs/.github/workflows/update-deps.yml@main
     secrets: inherit
 ```
+
+### Release
+
+Manually dispatched. git-cliff computes the next version from the commits, then `release-it` bumps `package.json`, regenerates the changelog, commits and tags (both SSH-signed), publishes to npm, and cuts a GitHub release. There is no automatic trigger, so run it when a release is ready (the `release` script just does `gh workflow run release.yml`). A dispatch with no releasable commits fails fast at release-it's `Version not changed`.
+
+Needs the `NPM_CI_TOKEN` and `CI_SIGNING_KEY` secrets (see [Secrets](#secrets)). The calling project must define `release` and `release:run` scripts, where `release:run` is `release-it --ci -i "$(adamhl8-cliff --bumped-version)"`.
+
+```yaml
+# .github/workflows/release.yml
+name: Release
+on:
+  workflow_dispatch: {}
+jobs:
+  release:
+    permissions:
+      contents: write
+    uses: adamhl8/configs/.github/workflows/release.yml@main
+    secrets: inherit
+```
+
+### Secrets
+
+Configure these on each repo that uses the workflows (Settings -> Secrets and variables -> Actions):
+
+| Secret           | Used by           | What it is                                                                                                                                                                                                                     |
+| ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `CI_TOKEN`       | `update-deps.yml` | PAT with `contents` and `pull-requests` write, so the opened PR triggers CI                                                                                                                                                    |
+| `NPM_CI_TOKEN`   | `release.yml`     | npm automation token with publish access                                                                                                                                                                                       |
+| `CI_SIGNING_KEY` | `release.yml`     | Private SSH key that signs the release commit and tag. Add the matching public key to your GitHub account as a Signing Key so the signature verifies as you. Use a dedicated, passphrase-less key, not your personal auth key. |
+
+`GITHUB_TOKEN` is provided automatically. The release wrapper grants it `contents: write` to push the release commit and tag and to create the GitHub release.
 
 ## Notes
 
