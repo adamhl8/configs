@@ -1,8 +1,14 @@
+## [0.24.5](https://github.com/adamhl8/configs/compare/v0.24.4..v0.24.5) - 2026-06-30
+
+### ⚙️ Miscellaneous Tasks
+
+- add release workflow by @adamhl8 ([12b50db](https://github.com/adamhl8/configs/commit/12b50db8934b72d3f76f9821b9a2d20b4586efe2))
+
 ## [0.24.4](https://github.com/adamhl8/configs/compare/v0.24.3..v0.24.4) - 2026-06-30
 
 ### 🐛 Bug Fixes
 
-- _(oxfmt)_ set proseWrap to default ([d54c1c7](https://github.com/adamhl8/configs/commit/d54c1c73ad9eaa307275f66f2f967c8012fb2f61))
+- _(oxfmt)_ set proseWrap to default by @adamhl8 ([d54c1c7](https://github.com/adamhl8/configs/commit/d54c1c73ad9eaa307275f66f2f967c8012fb2f61))
 
 ## [0.24.3](https://github.com/adamhl8/configs/compare/v0.24.2..v0.24.3) - 2026-06-30
 
