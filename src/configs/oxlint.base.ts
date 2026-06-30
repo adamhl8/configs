@@ -1,3 +1,5 @@
+import { fileURLToPath } from "node:url"
+
 import type { OxlintConfig } from "oxlint"
 
 import { createMergeConfigFn } from "#/utils.ts"
@@ -13,7 +15,8 @@ const baseConfig = {
     style: "error",
     suspicious: "error",
   },
-  jsPlugins: ["@adamhl8/eslint-plugin-clean-modules"],
+  // Resolve to an absolute path so consumers load it from this package's own deps.
+  jsPlugins: [fileURLToPath(import.meta.resolve("@adamhl8/eslint-plugin-clean-modules"))],
   options: {
     reportUnusedDisableDirectives: "error",
     typeAware: true,
