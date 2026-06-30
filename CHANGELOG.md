@@ -1,8 +1,14 @@
+## [0.24.4](https://github.com/adamhl8/configs/compare/v0.24.3..v0.24.4) - 2026-06-30
+
+### 🐛 Bug Fixes
+
+- _(oxfmt)_ set proseWrap to default ([d54c1c7](https://github.com/adamhl8/configs/commit/d54c1c73ad9eaa307275f66f2f967c8012fb2f61))
+
 ## [0.24.3](https://github.com/adamhl8/configs/compare/v0.24.2..v0.24.3) - 2026-06-30
 
 ### 🐛 Bug Fixes
 
-- _(knip)_ fix preprocessor ([80313f0](https://github.com/adamhl8/configs/commit/80313f005a7113fd31780a285aa78694d65eb55d))
+- _(knip)_ fix preprocessor by @adamhl8 ([80313f0](https://github.com/adamhl8/configs/commit/80313f005a7113fd31780a285aa78694d65eb55d))
 
 ## [0.24.2](https://github.com/adamhl8/configs/compare/v0.24.1..v0.24.2) - 2026-06-30
 
