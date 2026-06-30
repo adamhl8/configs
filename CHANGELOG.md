@@ -1,3 +1,9 @@
+## [0.24.8](https://github.com/adamhl8/configs/compare/v0.24.7..v0.24.8) - 2026-06-30
+
+### ⚙️ Miscellaneous Tasks
+
+- _(deps)_ update deps by @adamhl8 ([6386e4c](https://github.com/adamhl8/configs/commit/6386e4c8b6344ae00e73bf25154123033b7882a7))
+
 ## [0.24.7](https://github.com/adamhl8/configs/compare/v0.24.6..v0.24.7) - 2026-06-30
 
 ### 🐛 Bug Fixes
