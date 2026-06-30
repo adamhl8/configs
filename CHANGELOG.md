@@ -1,3 +1,9 @@
+## [0.24.6](https://github.com/adamhl8/configs/compare/v0.24.5..v0.24.6) - 2026-06-30
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ turn off no-void by @adamhl8 ([cf580b7](https://github.com/adamhl8/configs/commit/cf580b7cd5a48516dfde37c4d36449fa01bc943c))
+
 ## [0.24.5](https://github.com/adamhl8/configs/compare/v0.24.4..v0.24.5) - 2026-06-30
 
 ### ⚙️ Miscellaneous Tasks
