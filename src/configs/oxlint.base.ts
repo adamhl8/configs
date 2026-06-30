@@ -91,6 +91,7 @@ const baseConfig = {
     "oxc/no-async-await": "off",
     "oxc/no-optional-chaining": "off",
     "oxc/no-rest-spread-properties": "off",
+    "require-await": "off",
     "sort-imports": "off",
     "sort-keys": "off",
     "typescript/consistent-return": "off",
