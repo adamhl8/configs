@@ -25,6 +25,9 @@ jobs:
           nub add -g lefthook
           nub bin -g >> "$GITHUB_PATH"
 
+      - name: Install
+        run: nub i
+
       - name: Update dependencies
         run: nub run bump-deps
 

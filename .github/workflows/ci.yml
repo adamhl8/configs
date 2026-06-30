@@ -28,7 +28,7 @@ jobs:
           nub bin -g >> "$GITHUB_PATH"
 
       - name: Install
-        run: nub i --frozen-lockfile
+        run: nub i
 
       - name: Build + lint
         run: nub run bundle
