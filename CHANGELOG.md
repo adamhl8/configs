@@ -1,10 +1,18 @@
+## [0.24.1](https://github.com/adamhl8/configs/compare/v0.24.0..v0.24.1) - 2026-06-30
+
+### ⚙️ Miscellaneous Tasks
+
+- make workflows callable by @adamhl8 ([004cd25](https://github.com/adamhl8/configs/commit/004cd256a06c5638dd27c5944b664b9c7d59e65b))
+
 ## [0.24.0](https://github.com/adamhl8/configs/compare/v0.23.9..v0.24.0) - 2026-06-30
 
 ### 🚀 Features
 
-- _(oxlint)_ add @adamhl8/eslint-plugin-clean-modules ([2d98cbe](https://github.com/adamhl8/configs/commit/2d98cbe98f6381e7324f633f9364c038b952cf53))
+- _(oxlint)_ add @adamhl8/eslint-plugin-clean-modules by @adamhl8 ([e99a266](https://github.com/adamhl8/configs/commit/e99a26600fd0a0e103e05d2424815985cd7daed8))
 
 ### ⚙️ Miscellaneous Tasks
+
+- _(deps)_ update dependencies by @adamhl8 in [#18](https://github.com/adamhl8/configs/pull/18) ([412e649](https://github.com/adamhl8/configs/commit/412e6495c7dc8af5d6dac84f72cd66605c8fc7ad))
 
 - fix update-deps workflow by @adamhl8 ([9feb013](https://github.com/adamhl8/configs/commit/9feb0134ffa98deac07e73ba17591ab4099157aa))
 
