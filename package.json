@@ -67,7 +67,52 @@
     "vitest": "^4.1.9"
   },
   "peerDependencies": {
-    "@commitlint/config-conventional": "^21.0.0",
-    "typescript": "^6.0.0"
+    "@arethetypeswrong/core": ">=0.18",
+    "@commitlint/cli": ">=21",
+    "@commitlint/config-conventional": ">=21",
+    "knip": ">=6",
+    "oxfmt": ">=0.50",
+    "oxlint": ">=1",
+    "oxlint-tsgolint": ">=0.24",
+    "publint": ">=0.3",
+    "release-it": ">=19",
+    "tsdown": ">=0.20",
+    "typescript": "^6.0.0",
+    "vitest": ">=4"
+  },
+  "peerDependenciesMeta": {
+    "@arethetypeswrong/core": {
+      "optional": true
+    },
+    "@commitlint/cli": {
+      "optional": true
+    },
+    "@commitlint/config-conventional": {
+      "optional": true
+    },
+    "knip": {
+      "optional": true
+    },
+    "oxfmt": {
+      "optional": true
+    },
+    "oxlint-tsgolint": {
+      "optional": true
+    },
+    "oxlint": {
+      "optional": true
+    },
+    "publint": {
+      "optional": true
+    },
+    "release-it": {
+      "optional": true
+    },
+    "tsdown": {
+      "optional": true
+    },
+    "vitest": {
+      "optional": true
+    }
   }
 }
