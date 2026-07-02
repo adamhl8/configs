@@ -29,6 +29,7 @@ const baseConfig = {
         "knip.ts",
         "oxfmt.config.ts",
         "oxlint.config.ts",
+        "prisma.config.ts",
         "tsdown.config.ts",
         "vitest.config.ts",
       ],
