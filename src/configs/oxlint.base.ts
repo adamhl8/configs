@@ -103,6 +103,7 @@ const baseConfig = {
     "unicorn/no-array-callback-reference": "off",
     "unicorn/no-array-method-this-argument": "off",
     "unicorn/no-process-exit": "off",
+    "unicorn/number-literal-case": "off",
     "unicorn/switch-case-braces": "off",
     "vitest/no-hooks": "off",
     "vitest/no-importing-vitest-globals": "off",
