@@ -1,3 +1,9 @@
+## [0.24.12](https://github.com/adamhl8/configs/compare/v0.24.11..v0.24.12) - 2026-07-02
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ ignore default exports in prisma config by @adamhl8 ([5946cb0](https://github.com/adamhl8/configs/commit/5946cb03774fb3dbc7dc0ce73d2e8efad4838ed4))
+
 ## [0.24.11](https://github.com/adamhl8/configs/compare/v0.24.10..v0.24.11) - 2026-07-02
 
 ### ⚙️ Miscellaneous Tasks
