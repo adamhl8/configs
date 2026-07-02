@@ -8,6 +8,7 @@ const baseConfig = {
     commitMessage: "release: ${version}",
     tagName: "${version}",
     tagAnnotation: "release ${version}",
+    addUntrackedFiles: true,
   },
   hooks: {
     "before:init": "nub run bundle",
