@@ -1,3 +1,13 @@
+## [0.24.10](https://github.com/adamhl8/configs/compare/v0.24.9..v0.24.10) - 2026-07-02
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ turn off unicorn/number-literal-case by @adamhl8 ([ac3e100](https://github.com/adamhl8/configs/commit/ac3e1004e620f7cc6a5ef86ed28e74ef66fa73cd))
+
+### ⚙️ Miscellaneous Tasks
+
+- use github.token by @adamhl8 ([1ad5822](https://github.com/adamhl8/configs/commit/1ad5822b34640d76ad3aed7d230a96abfef9be2d))
+
 ## [0.24.9](https://github.com/adamhl8/configs/compare/v0.24.8..v0.24.9) - 2026-07-02
 
 ### 🐛 Bug Fixes
