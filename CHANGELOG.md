@@ -1,3 +1,9 @@
+## [0.24.13](https://github.com/adamhl8/configs/compare/v0.24.12..v0.24.13) - 2026-07-02
+
+### 🐛 Bug Fixes
+
+- _(release-it)_ set addUntrackedFiles to true by @adamhl8 ([7b3ca67](https://github.com/adamhl8/configs/commit/7b3ca674f88086a604e60955c232a13173d18a37))
+
 ## [0.24.12](https://github.com/adamhl8/configs/compare/v0.24.11..v0.24.12) - 2026-07-02
 
 ### 🐛 Bug Fixes
