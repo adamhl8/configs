@@ -1,5 +1,5 @@
 import { cloneDeep, mergeWith } from "es-toolkit"
-import type { MergeDeep } from "type-fest"
+import type { MergeDeep, ReadonlyDeep, WritableDeep, SimplifyDeep } from "type-fest"
 
 type AnyObj = object
 
@@ -10,12 +10,22 @@ const merge = <T extends AnyObj, S extends AnyObj>(target: T, source: S): T & S 
     Array.isArray(objValue) ? objValue.concat(srcValue) : undefined,
   )
 
-/** The merge config function, where the `UserConfig` passed in is merged with `BaseConfig`. */
+/**
+ * The merge config function, where the `UserConfig` passed in is merged with `BaseConfig`.
+ *
+ * The `const` type parameter keeps literal types without requiring `as const` at the call site. The constraint is
+ * `ReadonlyDeep` so readonly arrays/objects (e.g. from `as const`) are accepted, and the result is `WritableDeep` so it
+ * stays assignable to the tools' own (mutable) config types.
+ */
 export interface MergeConfigFn<UserConfig, BaseConfig> {
   // oxlint-disable-next-line typescript/prefer-function-type - need to use call signature type
-  <UserConfigToMerge extends UserConfig>(
+  <const UserConfigToMerge extends ReadonlyDeep<UserConfig>>(
     userConfig: UserConfigToMerge,
-  ): MergeDeep<BaseConfig, UserConfigToMerge, { arrayMergeMode: "spread" }>
+  ): MergeDeep<
+    SimplifyDeep<WritableDeep<BaseConfig>>,
+    SimplifyDeep<WritableDeep<UserConfigToMerge>>,
+    { arrayMergeMode: "spread" }
+  >
   // Instead of returning `BaseConfig & UserConfig` (from `merge`), return a more friendly type using `MergeDeep`
 }
 
@@ -27,21 +37,30 @@ export interface MergeConfigFn<UserConfig, BaseConfig> {
  * Note that this extends `MergeConfigFn`, so this type has both function signatures on it.
  */
 export interface OptionalMergeConfigFn<UserConfig, BaseConfig> extends MergeConfigFn<UserConfig, BaseConfig> {
-  (): BaseConfig
+  (): SimplifyDeep<WritableDeep<BaseConfig>>
 }
 
-/** Creates a config merge function with proper type overloads for merging with a base config. */
-export const createMergeConfigFn = <UserConfig extends AnyObj, BaseConfig extends UserConfig>(
+/**
+ * Creates a config merge function with proper type overloads for merging with a base config.
+ *
+ * `UserConfig` is not inferrable, so both type arguments must be passed explicitly. Returning the exact
+ * `OptionalMergeConfigFn` instantiation (instead of relating a looser type to an annotation at the export site) keeps
+ * tsc from eagerly evaluating the deep-mapped types over the full config type, which blows the instantiation depth
+ * limit on large configs like tsdown's.
+ */
+export const createMergeConfigFn = <UserConfig extends AnyObj, BaseConfig extends ReadonlyDeep<UserConfig>>(
   baseConfig: BaseConfig,
-) => {
+): OptionalMergeConfigFn<UserConfig, BaseConfig> => {
   // We don't care about the specific type of userConfig here because we assert mergeConfigFn as the correct type below
   const mergeConfigFn = (userConfig?: AnyObj) => {
-    if (userConfig === undefined) return baseConfig
+    // Return a clone so consumers can't mutate the shared base config
+    // oxlint-disable-next-line unicorn/prefer-structured-clone - structuredClone does not properly clone functions
+    if (userConfig === undefined) return cloneDeep(baseConfig)
     // Clone both target and source so we never mutate the original objects
     // oxlint-disable-next-line unicorn/prefer-structured-clone - structuredClone does not properly clone functions
     return merge(cloneDeep(baseConfig), cloneDeep(userConfig))
   }
 
   // oxlint-disable-next-line typescript/no-unsafe-type-assertion
-  return mergeConfigFn as MergeConfigFn<UserConfig, BaseConfig> & OptionalMergeConfigFn<UserConfig, BaseConfig>
+  return mergeConfigFn as OptionalMergeConfigFn<UserConfig, BaseConfig>
 }

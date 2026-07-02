@@ -2,7 +2,6 @@
 import type { Config } from "release-it"
 
 import { createMergeConfigFn } from "#/utils.ts"
-import type { OptionalMergeConfigFn } from "#/utils.ts"
 
 const baseConfig = {
   git: {
@@ -27,4 +26,4 @@ const baseConfig = {
   },
 } as const satisfies Config
 
-export const releaseItConfig: OptionalMergeConfigFn<Config, typeof baseConfig> = createMergeConfigFn(baseConfig)
+export const releaseItConfig = createMergeConfigFn<Config, typeof baseConfig>(baseConfig)

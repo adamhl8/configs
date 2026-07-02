@@ -1,7 +1,6 @@
 import type { OxfmtConfig } from "oxfmt"
 
 import { createMergeConfigFn } from "#/utils.ts"
-import type { OptionalMergeConfigFn } from "#/utils.ts"
 
 const baseConfig = {
   printWidth: 120,
@@ -20,4 +19,4 @@ const baseConfig = {
   sortTailwindcss: true,
 } as const satisfies OxfmtConfig
 
-export const oxfmtConfig: OptionalMergeConfigFn<OxfmtConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)
+export const oxfmtConfig = createMergeConfigFn<OxfmtConfig, typeof baseConfig>(baseConfig)

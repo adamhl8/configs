@@ -3,7 +3,6 @@ import { fileURLToPath } from "node:url"
 import type { OxlintConfig } from "oxlint"
 
 import { createMergeConfigFn } from "#/utils.ts"
-import type { OptionalMergeConfigFn } from "#/utils.ts"
 
 const baseConfig = {
   categories: {
@@ -60,11 +59,13 @@ const baseConfig = {
     curly: ["error", "multi-or-nest"],
     "func-style": ["error", "expression"],
     "require-unicode-regexp": ["error", { requireFlag: "v" }],
+    "unicorn/no-useless-undefined": ["error", { checkArguments: false }],
 
     "capitalized-comments": "off",
     "id-length": "off",
     "import/exports-last": "off",
     "import/group-exports": "off",
+    "import/max-dependencies": "off",
     "import/no-named-export": "off",
     "import/no-nodejs-modules": "off",
     "import/prefer-default-export": "off",
@@ -101,6 +102,7 @@ const baseConfig = {
     "typescript/strict-boolean-expressions": "off",
     "unicorn/no-array-callback-reference": "off",
     "unicorn/no-array-method-this-argument": "off",
+    "unicorn/no-process-exit": "off",
     "unicorn/switch-case-braces": "off",
     "vitest/no-hooks": "off",
     "vitest/no-importing-vitest-globals": "off",
@@ -114,4 +116,4 @@ const baseConfig = {
   },
 } as const satisfies OxlintConfig
 
-export const oxlintConfig: OptionalMergeConfigFn<OxlintConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)
+export const oxlintConfig = createMergeConfigFn<OxlintConfig, typeof baseConfig>(baseConfig)

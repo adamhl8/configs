@@ -1,7 +1,6 @@
 import type { KnipConfig } from "knip"
 
 import { createMergeConfigFn } from "#/utils.ts"
-import type { OptionalMergeConfigFn } from "#/utils.ts"
 
 // Normally, specifying the `./src/index.ts` entry would cause knip to complain about a redundant entry because it gets automatically included via the tsdown plugin.
 // However, in projects that _don't_ use tsdown, the `./src/index.ts` entry would be missing entirely.
@@ -14,12 +13,12 @@ export const DEFAULT_ENTRIES = ["./src/index.ts", "**/*.test.ts", "./tsdown.conf
  * `@adamhl8/eslint-plugin-clean-modules` via the oxlint config, but we don't need to install it directly in the
  * consuming project.
  */
-const UNLISTED_DEPENDENCIES = ["@adamhl8/eslint-plugin-clean-modules"]
+const UNLISTED_DEPENDENCIES = ["@adamhl8/eslint-plugin-clean-modules"] as const
 /**
  * Consuming projects show these dependencies as unused. e.g. `@commitlint/cli` can't be found by knip because it's
  * hidden by the fact that we call/extend our GitHub workflows.
  */
-const UNUSED_DEPENDENCIES = ["@commitlint/cli"]
+const UNUSED_DEPENDENCIES = ["@commitlint/cli"] as const
 export const IGNORE_DEPENDENCIES = [...UNUSED_DEPENDENCIES, ...UNLISTED_DEPENDENCIES]
 
 const baseConfig = {
@@ -30,4 +29,4 @@ const baseConfig = {
   tsdown: false,
 } as const satisfies KnipConfig
 
-export const knipConfig: OptionalMergeConfigFn<KnipConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)
+export const knipConfig = createMergeConfigFn<KnipConfig, typeof baseConfig>(baseConfig)

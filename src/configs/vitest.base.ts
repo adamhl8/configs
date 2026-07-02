@@ -1,7 +1,6 @@
 import type { ViteUserConfig } from "vitest/config"
 
 import { createMergeConfigFn } from "#/utils.ts"
-import type { OptionalMergeConfigFn } from "#/utils.ts"
 
 const baseConfig = {
   test: {
@@ -15,4 +14,4 @@ const baseConfig = {
   },
 } as const satisfies ViteUserConfig
 
-export const vitestConfig: OptionalMergeConfigFn<ViteUserConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)
+export const vitestConfig = createMergeConfigFn<ViteUserConfig, typeof baseConfig>(baseConfig)

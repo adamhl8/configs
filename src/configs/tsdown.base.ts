@@ -1,7 +1,7 @@
 import type { UserConfig } from "tsdown"
 import type { SetRequired } from "type-fest"
 
-import type { MergeConfigFn, OptionalMergeConfigFn } from "#/utils.ts"
+import type { MergeConfigFn } from "#/utils.ts"
 import { createMergeConfigFn } from "#/utils.ts"
 
 // Force projects to specify platform
@@ -34,11 +34,15 @@ const binConfig = {
   attw: false,
   dts: false,
   entry: [],
-  outExtensions: () => ({ js: "" }),
+  outExtensions: () => ({ js: "" }) as const,
   platform: "node",
   sourcemap: false,
   unbundle: false,
 } as const satisfies UserConfig
 
-export const tsdownConfig: MergeConfigFn<StrictUserConfig, typeof baseConfig> = createMergeConfigFn(baseConfig)
-export const tsdownBinConfig: OptionalMergeConfigFn<UserConfig, typeof binConfig> = createMergeConfigFn(binConfig)
+// Annotated as the non-optional MergeConfigFn so projects must pass a config (platform is required)
+export const tsdownConfig: MergeConfigFn<StrictUserConfig, typeof baseConfig> = createMergeConfigFn<
+  StrictUserConfig,
+  typeof baseConfig
+>(baseConfig)
+export const tsdownBinConfig = createMergeConfigFn<UserConfig, typeof binConfig>(binConfig)
