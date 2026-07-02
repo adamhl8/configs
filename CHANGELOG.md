@@ -1,3 +1,13 @@
+## [0.24.9](https://github.com/adamhl8/configs/compare/v0.24.8..v0.24.9) - 2026-07-02
+
+### 🐛 Bug Fixes
+
+- fix types by @adamhl8 ([d032313](https://github.com/adamhl8/configs/commit/d032313812251acba05880f7b35c7e27ffc96121))
+
+### ⚙️ Miscellaneous Tasks
+
+- add all peer dependencies by @adamhl8 ([7f4ab15](https://github.com/adamhl8/configs/commit/7f4ab158a43928f590a9287a94547b5d07a61efb))
+
 ## [0.24.8](https://github.com/adamhl8/configs/compare/v0.24.7..v0.24.8) - 2026-06-30
 
 ### ⚙️ Miscellaneous Tasks
