@@ -1,3 +1,9 @@
+## [0.24.11](https://github.com/adamhl8/configs/compare/v0.24.10..v0.24.11) - 2026-07-02
+
+### ⚙️ Miscellaneous Tasks
+
+- remove patch-knip.ts by @adamhl8 ([00badab](https://github.com/adamhl8/configs/commit/00badab7a2da2f6892b586b90b6887fa5b154dc1))
+
 ## [0.24.10](https://github.com/adamhl8/configs/compare/v0.24.9..v0.24.10) - 2026-07-02
 
 ### 🐛 Bug Fixes
