@@ -182,6 +182,6 @@ Configure these on each repo that uses the workflows (Settings -> Secrets and va
 
 ## Notes
 
-The `prepare` script looks like: `"prepare": "lefthook install && nub ./patch-knip.ts && tsdown"`
+The `prepare` script looks like: `"prepare": "lefthook install && tsdown"`
 
 nub installs `package.json` bin executables into the local `node_modules/.bin`. This means that we can run something like `adamhl8-knip` directly instead of doing `src/adamhl8-knip/index.tx`. That's why we have `tsdown` in the prepare script. Those executables need to be available.

@@ -1,4 +1,4 @@
-import type { Preprocessor } from "knip/types/issues"
+import type { Preprocessor } from "knip"
 
 import { DEFAULT_ENTRIES, IGNORE_DEPENDENCIES } from "#/configs/knip.base.ts"
 
