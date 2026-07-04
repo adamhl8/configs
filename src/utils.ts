@@ -3,24 +3,42 @@ import type { MergeDeep, ReadonlyDeep, WritableDeep, SimplifyDeep } from "type-f
 
 type AnyObj = object
 
-/** A wrapper around es-toolkit's `mergeWith` with a custom merge function that concatenates arrays. */
-const merge = <T extends AnyObj, S extends AnyObj>(target: T, source: S): T & S =>
-  mergeWith(target, source, (objValue: unknown, srcValue: unknown) =>
+/**
+ * How arrays in the user config are combined with arrays in the base config. - `"merge"` (default): the user array is
+ * appended to the base array - `"replace"`: the user array is used as-is
+ */
+type ArrayMergeMode = "merge" | "replace"
+
+/** A wrapper around es-toolkit's `mergeWith` with a custom merge function that concatenates or replaces arrays. */
+const merge = <T extends AnyObj, S extends AnyObj>(target: T, source: S, arrays: ArrayMergeMode): T & S =>
+  mergeWith(target, source, (objValue: unknown, srcValue: unknown) => {
+    if (!Array.isArray(objValue)) return
     // oxlint-disable-next-line unicorn/prefer-spread
-    Array.isArray(objValue) ? objValue.concat(srcValue) : undefined,
-  )
+    return arrays === "merge" ? objValue.concat(srcValue) : srcValue
+  })
 
 /**
  * The merge config function, where the `UserConfig` passed in is merged with `BaseConfig`.
+ *
+ * Each `arrays` mode gets its own overload so the return type's `arrayMergeMode` matches the runtime behavior. The
+ * `"replace"` overload comes first so it wins overload resolution when `{ arrays: "replace" }` is passed.
  *
  * The `const` type parameter keeps literal types without requiring `as const` at the call site. The constraint is
  * `ReadonlyDeep` so readonly arrays/objects (e.g. from `as const`) are accepted, and the result is `WritableDeep` so it
  * stays assignable to the tools' own (mutable) config types.
  */
 export interface MergeConfigFn<UserConfig, BaseConfig> {
-  // oxlint-disable-next-line typescript/prefer-function-type - need to use call signature type
   <const UserConfigToMerge extends ReadonlyDeep<UserConfig>>(
     userConfig: UserConfigToMerge,
+    options: { arrays: "replace" },
+  ): MergeDeep<
+    SimplifyDeep<WritableDeep<BaseConfig>>,
+    SimplifyDeep<WritableDeep<UserConfigToMerge>>,
+    { arrayMergeMode: "replace" }
+  >
+  <const UserConfigToMerge extends ReadonlyDeep<UserConfig>>(
+    userConfig: UserConfigToMerge,
+    options?: { arrays?: "merge" },
   ): MergeDeep<
     SimplifyDeep<WritableDeep<BaseConfig>>,
     SimplifyDeep<WritableDeep<UserConfigToMerge>>,
@@ -52,13 +70,13 @@ export const createMergeConfigFn = <UserConfig extends AnyObj, BaseConfig extend
   baseConfig: BaseConfig,
 ): OptionalMergeConfigFn<UserConfig, BaseConfig> => {
   // We don't care about the specific type of userConfig here because we assert mergeConfigFn as the correct type below
-  const mergeConfigFn = (userConfig?: AnyObj) => {
+  const mergeConfigFn = (userConfig?: AnyObj, options?: { arrays?: ArrayMergeMode }) => {
     // Return a clone so consumers can't mutate the shared base config
     // oxlint-disable-next-line unicorn/prefer-structured-clone - structuredClone does not properly clone functions
     if (userConfig === undefined) return cloneDeep(baseConfig)
     // Clone both target and source so we never mutate the original objects
     // oxlint-disable-next-line unicorn/prefer-structured-clone - structuredClone does not properly clone functions
-    return merge(cloneDeep(baseConfig), cloneDeep(userConfig))
+    return merge(cloneDeep(baseConfig), cloneDeep(userConfig), options?.arrays ?? "merge")
   }
 
   // oxlint-disable-next-line typescript/no-unsafe-type-assertion

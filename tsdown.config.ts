@@ -30,13 +30,14 @@ const config = tsdownConfig({
   publint: false,
 })
 
-const env = {
-  ...tsdownConfig({
+const env = tsdownConfig(
+  {
+    entry: ["./src/env/index.ts"],
     platform: "node",
     outDir: "./dist/env/",
-  }),
-  entry: ["./src/env/index.ts"],
-}
+  },
+  { arrays: "replace" },
+)
 
 const adamhl8Knip = tsdownBinConfig({
   entry: ["./src/adamhl8-knip/index.ts"],
