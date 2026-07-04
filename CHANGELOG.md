@@ -1,3 +1,13 @@
+## [0.25.0](https://github.com/adamhl8/configs/compare/v0.24.13..v0.25.0) - 2026-07-04
+
+### 🚀 Features
+
+- add env by @adamhl8 ([07651d6](https://github.com/adamhl8/configs/commit/07651d6e1d457ed437912cc7e9dc9d49e2375e86))
+
+### ⚙️ Miscellaneous Tasks
+
+- _(deps)_ update dependencies by @adamhl8 in [#19](https://github.com/adamhl8/configs/pull/19) ([aa167b6](https://github.com/adamhl8/configs/commit/aa167b6155b11633710aa41042bde1631ddd4d9d))
+
 ## [0.24.13](https://github.com/adamhl8/configs/compare/v0.24.12..v0.24.13) - 2026-07-02
 
 ### 🐛 Bug Fixes
