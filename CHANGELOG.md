@@ -1,3 +1,17 @@
+## [0.27.0](https://github.com/adamhl8/configs/compare/v0.26.0..v0.27.0) - 2026-07-04
+
+### 🚀 Features
+
+- add "improve" commit type by @adamhl8 ([51be146](https://github.com/adamhl8/configs/commit/51be146b129cf463825410a55137f848199941d2))
+
+### ✨ Improvements
+
+- remove knip wrapper by @adamhl8 ([db8a1f8](https://github.com/adamhl8/configs/commit/db8a1f88da69fb9eda40b0dd09078645c90227fa))
+
+### ⚙️ Miscellaneous Tasks
+
+- reorder config keys by @adamhl8 ([d61c16b](https://github.com/adamhl8/configs/commit/d61c16b48bf5102da5dc95b8ef477193517866ff))
+
 ## [0.26.0](https://github.com/adamhl8/configs/compare/v0.25.0..v0.26.0) - 2026-07-04
 
 ### 🚀 Features
