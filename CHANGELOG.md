@@ -1,3 +1,9 @@
+## [0.28.0](https://github.com/adamhl8/configs/compare/v0.27.3..v0.28.0) - 2026-07-04
+
+### 🚀 Features
+
+- add justfile by @adamhl8 ([e323fe4](https://github.com/adamhl8/configs/commit/e323fe4c8f7499c435ff12ca22e112ba2e8173f8))
+
 ## [0.27.3](https://github.com/adamhl8/configs/compare/v0.27.2..v0.27.3) - 2026-07-04
 
 ### 🐛 Bug Fixes
