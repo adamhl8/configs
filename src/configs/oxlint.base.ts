@@ -5,6 +5,12 @@ import type { OxlintConfig } from "oxlint"
 import { createMergeConfigFn } from "#/utils.ts"
 
 const baseConfig = {
+  options: {
+    reportUnusedDisableDirectives: "error",
+    typeAware: true,
+    typeCheck: true,
+  },
+
   categories: {
     correctness: "error",
     nursery: "error",
@@ -14,13 +20,25 @@ const baseConfig = {
     style: "error",
     suspicious: "error",
   },
+
+  plugins: [
+    "eslint",
+    "react",
+    "unicorn",
+    "typescript",
+    "oxc",
+    "import",
+    "jsdoc",
+    "vitest",
+    "jsx-a11y",
+    "react-perf",
+    "promise",
+    "node",
+  ],
+
   // Resolve to an absolute path so consumers load it from this package's own deps.
   jsPlugins: [fileURLToPath(import.meta.resolve("@adamhl8/eslint-plugin-clean-modules"))],
-  options: {
-    reportUnusedDisableDirectives: "error",
-    typeAware: true,
-    typeCheck: true,
-  },
+
   overrides: [
     {
       files: [
@@ -38,20 +56,7 @@ const baseConfig = {
       },
     },
   ],
-  plugins: [
-    "eslint",
-    "react",
-    "unicorn",
-    "typescript",
-    "oxc",
-    "import",
-    "jsdoc",
-    "vitest",
-    "jsx-a11y",
-    "react-perf",
-    "promise",
-    "node",
-  ],
+
   rules: {
     "clean-modules/require-direct-exports": "error",
     "clean-modules/require-import-extensions": "error",

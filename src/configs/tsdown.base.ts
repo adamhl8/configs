@@ -8,36 +8,36 @@ import { createMergeConfigFn } from "#/utils.ts"
 type StrictUserConfig = SetRequired<UserConfig, "platform">
 
 const baseConfig = {
-  attw: {
-    level: "error",
-    profile: "esm-only",
-  },
+  entry: ["./src/index.ts"],
+  platform: "neutral",
+  target: false,
+  unbundle: true,
+  sourcemap: true,
+  minify: "dce-only",
+  fixedExtension: false,
+  hash: false,
   dts: {
     newContext: true,
     resolver: "tsc",
     sourcemap: true,
   },
-  entry: ["./src/index.ts"],
-  failOnWarn: true,
-  fixedExtension: false,
-  hash: false,
-  minify: "dce-only",
-  platform: "neutral",
+  attw: {
+    level: "error",
+    profile: "esm-only",
+  },
   publint: true,
-  sourcemap: true,
-  target: false,
-  unbundle: true,
+  failOnWarn: true,
 } as const satisfies StrictUserConfig
 
 const binConfig = {
   ...baseConfig,
-  attw: false,
-  dts: false,
   entry: [],
-  outExtensions: () => ({ js: "" }) as const,
   platform: "node",
-  sourcemap: false,
   unbundle: false,
+  sourcemap: false,
+  outExtensions: () => ({ js: "" }) as const,
+  dts: false,
+  attw: false,
 } as const satisfies UserConfig
 
 // Annotated as the non-optional MergeConfigFn so projects must pass a config (platform is required)
