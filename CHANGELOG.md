@@ -1,3 +1,9 @@
+## [0.28.1](https://github.com/adamhl8/configs/compare/v0.28.0..v0.28.1) - 2026-07-04
+
+### 🐛 Bug Fixes
+
+- _(knip)_ removed unecessary ignored deps by @adamhl8 ([c2628ff](https://github.com/adamhl8/configs/commit/c2628ffe9ba9256fc789d9df6d8bb6dc7c75b78a))
+
 ## [0.28.0](https://github.com/adamhl8/configs/compare/v0.27.3..v0.28.0) - 2026-07-04
 
 ### 🚀 Features
