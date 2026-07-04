@@ -1,267 +1,273 @@
+## [0.30.0](https://github.com/adamhl8/configs/compare/v0.29.0..v0.30.0) - 2026-07-04
+
+### ✨ Improvements
+
+- _(git-cliff)_ improve changelog format ([90bfe0a](https://github.com/adamhl8/configs/commit/90bfe0afd3f1ab392069c721770aae42b15a1244) by @adamhl8)
+
 ## [0.29.0](https://github.com/adamhl8/configs/compare/v0.28.1..v0.29.0) - 2026-07-04
 
 ### 🚀 Features
 
-- add justfile recipe wrappers so recipes can be extended by @adamhl8 ([29303dd](https://github.com/adamhl8/configs/commit/29303dd842f6be28e97a19b724bdb0e499b75ecc))
+- add justfile recipe wrappers so recipes can be extended ([29303dd](https://github.com/adamhl8/configs/commit/29303dd842f6be28e97a19b724bdb0e499b75ecc) by @adamhl8)
 
 ## [0.28.1](https://github.com/adamhl8/configs/compare/v0.28.0..v0.28.1) - 2026-07-04
 
 ### 🐛 Bug Fixes
 
-- _(knip)_ removed unecessary ignored deps by @adamhl8 ([c2628ff](https://github.com/adamhl8/configs/commit/c2628ffe9ba9256fc789d9df6d8bb6dc7c75b78a))
+- _(knip)_ removed unecessary ignored deps ([c2628ff](https://github.com/adamhl8/configs/commit/c2628ffe9ba9256fc789d9df6d8bb6dc7c75b78a) by @adamhl8)
 
 ## [0.28.0](https://github.com/adamhl8/configs/compare/v0.27.3..v0.28.0) - 2026-07-04
 
 ### 🚀 Features
 
-- add justfile by @adamhl8 ([e323fe4](https://github.com/adamhl8/configs/commit/e323fe4c8f7499c435ff12ca22e112ba2e8173f8))
+- add justfile ([e323fe4](https://github.com/adamhl8/configs/commit/e323fe4c8f7499c435ff12ca22e112ba2e8173f8) by @adamhl8)
 
 ## [0.27.3](https://github.com/adamhl8/configs/compare/v0.27.2..v0.27.3) - 2026-07-04
 
 ### 🐛 Bug Fixes
 
-- non-array values now overwrite arrays in base configs by @adamhl8 ([b1185b9](https://github.com/adamhl8/configs/commit/b1185b922e1f7adc55f7841a6fe456f26f2632f6))
+- non-array values now overwrite arrays in base configs ([b1185b9](https://github.com/adamhl8/configs/commit/b1185b922e1f7adc55f7841a6fe456f26f2632f6) by @adamhl8)
 
 ## [0.27.2](https://github.com/adamhl8/configs/compare/v0.27.1..v0.27.2) - 2026-07-04
 
 ### ◀️ Revert
 
-- _(git-cliff)_ remove no_increment_regex by @adamhl8 ([8cb9c1f](https://github.com/adamhl8/configs/commit/8cb9c1f2a5c79cab99d66e17cb8a3a6c3e5a7c4f))
+- _(git-cliff)_ remove no_increment_regex ([8cb9c1f](https://github.com/adamhl8/configs/commit/8cb9c1f2a5c79cab99d66e17cb8a3a6c3e5a7c4f) by @adamhl8)
 
 ## [0.27.1](https://github.com/adamhl8/configs/compare/v0.27.0..v0.27.1) - 2026-07-04
 
 ### 🐛 Bug Fixes
 
-- _(knip)_ readd default entry by @adamhl8 ([100a6f7](https://github.com/adamhl8/configs/commit/100a6f71c1f8c3b47fbca655e595f12f089045ab))
+- _(knip)_ readd default entry ([100a6f7](https://github.com/adamhl8/configs/commit/100a6f71c1f8c3b47fbca655e595f12f089045ab) by @adamhl8)
 
 ### ⚙️ Miscellaneous Tasks
 
-- clean up permissions by @adamhl8 ([97fd9bd](https://github.com/adamhl8/configs/commit/97fd9bd41ccebcb27301f97433faac4c47ba6fa4))
+- clean up permissions ([97fd9bd](https://github.com/adamhl8/configs/commit/97fd9bd41ccebcb27301f97433faac4c47ba6fa4) by @adamhl8)
 
 ## [0.27.0](https://github.com/adamhl8/configs/compare/v0.26.0..v0.27.0) - 2026-07-04
 
 ### 🚀 Features
 
-- add "improve" commit type by @adamhl8 ([51be146](https://github.com/adamhl8/configs/commit/51be146b129cf463825410a55137f848199941d2))
+- add "improve" commit type ([51be146](https://github.com/adamhl8/configs/commit/51be146b129cf463825410a55137f848199941d2) by @adamhl8)
 
 ### ✨ Improvements
 
-- remove knip wrapper by @adamhl8 ([db8a1f8](https://github.com/adamhl8/configs/commit/db8a1f88da69fb9eda40b0dd09078645c90227fa))
+- remove knip wrapper ([db8a1f8](https://github.com/adamhl8/configs/commit/db8a1f88da69fb9eda40b0dd09078645c90227fa) by @adamhl8)
 
 ### ⚙️ Miscellaneous Tasks
 
-- reorder config keys by @adamhl8 ([d61c16b](https://github.com/adamhl8/configs/commit/d61c16b48bf5102da5dc95b8ef477193517866ff))
+- reorder config keys ([d61c16b](https://github.com/adamhl8/configs/commit/d61c16b48bf5102da5dc95b8ef477193517866ff) by @adamhl8)
 
 ## [0.26.0](https://github.com/adamhl8/configs/compare/v0.25.0..v0.26.0) - 2026-07-04
 
 ### 🚀 Features
 
-- add option to replace arrays in config functions by @adamhl8 ([29f5191](https://github.com/adamhl8/configs/commit/29f519117b80935e9531276c8db67d54e402670c))
+- add option to replace arrays in config functions ([29f5191](https://github.com/adamhl8/configs/commit/29f519117b80935e9531276c8db67d54e402670c) by @adamhl8)
 
 ## [0.25.0](https://github.com/adamhl8/configs/compare/v0.24.13..v0.25.0) - 2026-07-04
 
 ### 🚀 Features
 
-- add env by @adamhl8 ([07651d6](https://github.com/adamhl8/configs/commit/07651d6e1d457ed437912cc7e9dc9d49e2375e86))
+- add env ([07651d6](https://github.com/adamhl8/configs/commit/07651d6e1d457ed437912cc7e9dc9d49e2375e86) by @adamhl8)
 
 ### ⚙️ Miscellaneous Tasks
 
-- _(deps)_ update dependencies by @adamhl8 in [#19](https://github.com/adamhl8/configs/pull/19) ([aa167b6](https://github.com/adamhl8/configs/commit/aa167b6155b11633710aa41042bde1631ddd4d9d))
+- _(deps)_ update dependencies ([aa167b6](https://github.com/adamhl8/configs/commit/aa167b6155b11633710aa41042bde1631ddd4d9d) by @adamhl8 in [#19](https://github.com/adamhl8/configs/pull/19))
 
 ## [0.24.13](https://github.com/adamhl8/configs/compare/v0.24.12..v0.24.13) - 2026-07-02
 
 ### 🐛 Bug Fixes
 
-- _(release-it)_ set addUntrackedFiles to true by @adamhl8 ([7b3ca67](https://github.com/adamhl8/configs/commit/7b3ca674f88086a604e60955c232a13173d18a37))
+- _(release-it)_ set addUntrackedFiles to true ([7b3ca67](https://github.com/adamhl8/configs/commit/7b3ca674f88086a604e60955c232a13173d18a37) by @adamhl8)
 
 ## [0.24.12](https://github.com/adamhl8/configs/compare/v0.24.11..v0.24.12) - 2026-07-02
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ ignore default exports in prisma config by @adamhl8 ([5946cb0](https://github.com/adamhl8/configs/commit/5946cb03774fb3dbc7dc0ce73d2e8efad4838ed4))
+- _(oxlint)_ ignore default exports in prisma config ([5946cb0](https://github.com/adamhl8/configs/commit/5946cb03774fb3dbc7dc0ce73d2e8efad4838ed4) by @adamhl8)
 
 ## [0.24.11](https://github.com/adamhl8/configs/compare/v0.24.10..v0.24.11) - 2026-07-02
 
 ### ⚙️ Miscellaneous Tasks
 
-- remove patch-knip.ts by @adamhl8 ([00badab](https://github.com/adamhl8/configs/commit/00badab7a2da2f6892b586b90b6887fa5b154dc1))
+- remove patch-knip.ts ([00badab](https://github.com/adamhl8/configs/commit/00badab7a2da2f6892b586b90b6887fa5b154dc1) by @adamhl8)
 
 ## [0.24.10](https://github.com/adamhl8/configs/compare/v0.24.9..v0.24.10) - 2026-07-02
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ turn off unicorn/number-literal-case by @adamhl8 ([ac3e100](https://github.com/adamhl8/configs/commit/ac3e1004e620f7cc6a5ef86ed28e74ef66fa73cd))
+- _(oxlint)_ turn off unicorn/number-literal-case ([ac3e100](https://github.com/adamhl8/configs/commit/ac3e1004e620f7cc6a5ef86ed28e74ef66fa73cd) by @adamhl8)
 
 ### ⚙️ Miscellaneous Tasks
 
-- use github.token by @adamhl8 ([1ad5822](https://github.com/adamhl8/configs/commit/1ad5822b34640d76ad3aed7d230a96abfef9be2d))
+- use github.token ([1ad5822](https://github.com/adamhl8/configs/commit/1ad5822b34640d76ad3aed7d230a96abfef9be2d) by @adamhl8)
 
 ## [0.24.9](https://github.com/adamhl8/configs/compare/v0.24.8..v0.24.9) - 2026-07-02
 
 ### 🐛 Bug Fixes
 
-- fix types by @adamhl8 ([d032313](https://github.com/adamhl8/configs/commit/d032313812251acba05880f7b35c7e27ffc96121))
+- fix types ([d032313](https://github.com/adamhl8/configs/commit/d032313812251acba05880f7b35c7e27ffc96121) by @adamhl8)
 
 ### ⚙️ Miscellaneous Tasks
 
-- add all peer dependencies by @adamhl8 ([7f4ab15](https://github.com/adamhl8/configs/commit/7f4ab158a43928f590a9287a94547b5d07a61efb))
+- add all peer dependencies ([7f4ab15](https://github.com/adamhl8/configs/commit/7f4ab158a43928f590a9287a94547b5d07a61efb) by @adamhl8)
 
 ## [0.24.8](https://github.com/adamhl8/configs/compare/v0.24.7..v0.24.8) - 2026-06-30
 
 ### ⚙️ Miscellaneous Tasks
 
-- _(deps)_ update deps by @adamhl8 ([6386e4c](https://github.com/adamhl8/configs/commit/6386e4c8b6344ae00e73bf25154123033b7882a7))
+- _(deps)_ update deps ([6386e4c](https://github.com/adamhl8/configs/commit/6386e4c8b6344ae00e73bf25154123033b7882a7) by @adamhl8)
 
 ## [0.24.7](https://github.com/adamhl8/configs/compare/v0.24.6..v0.24.7) - 2026-06-30
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ turn off require-await by @adamhl8 ([85ad35a](https://github.com/adamhl8/configs/commit/85ad35a949fc35a4ed5878f1d2cfeb5933f3b2bb))
+- _(oxlint)_ turn off require-await ([85ad35a](https://github.com/adamhl8/configs/commit/85ad35a949fc35a4ed5878f1d2cfeb5933f3b2bb) by @adamhl8)
 
 ## [0.24.6](https://github.com/adamhl8/configs/compare/v0.24.5..v0.24.6) - 2026-06-30
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ turn off no-void by @adamhl8 ([cf580b7](https://github.com/adamhl8/configs/commit/cf580b7cd5a48516dfde37c4d36449fa01bc943c))
+- _(oxlint)_ turn off no-void ([cf580b7](https://github.com/adamhl8/configs/commit/cf580b7cd5a48516dfde37c4d36449fa01bc943c) by @adamhl8)
 
 ## [0.24.5](https://github.com/adamhl8/configs/compare/v0.24.4..v0.24.5) - 2026-06-30
 
 ### ⚙️ Miscellaneous Tasks
 
-- add release workflow by @adamhl8 ([12b50db](https://github.com/adamhl8/configs/commit/12b50db8934b72d3f76f9821b9a2d20b4586efe2))
+- add release workflow ([12b50db](https://github.com/adamhl8/configs/commit/12b50db8934b72d3f76f9821b9a2d20b4586efe2) by @adamhl8)
 
 ## [0.24.4](https://github.com/adamhl8/configs/compare/v0.24.3..v0.24.4) - 2026-06-30
 
 ### 🐛 Bug Fixes
 
-- _(oxfmt)_ set proseWrap to default by @adamhl8 ([d54c1c7](https://github.com/adamhl8/configs/commit/d54c1c73ad9eaa307275f66f2f967c8012fb2f61))
+- _(oxfmt)_ set proseWrap to default ([d54c1c7](https://github.com/adamhl8/configs/commit/d54c1c73ad9eaa307275f66f2f967c8012fb2f61) by @adamhl8)
 
 ## [0.24.3](https://github.com/adamhl8/configs/compare/v0.24.2..v0.24.3) - 2026-06-30
 
 ### 🐛 Bug Fixes
 
-- _(knip)_ fix preprocessor by @adamhl8 ([80313f0](https://github.com/adamhl8/configs/commit/80313f005a7113fd31780a285aa78694d65eb55d))
+- _(knip)_ fix preprocessor ([80313f0](https://github.com/adamhl8/configs/commit/80313f005a7113fd31780a285aa78694d65eb55d) by @adamhl8)
 
 ## [0.24.2](https://github.com/adamhl8/configs/compare/v0.24.1..v0.24.2) - 2026-06-30
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ fix transitive plugin resolutin by @adamhl8 ([09cea4e](https://github.com/adamhl8/configs/commit/09cea4e88c4b149064e1e8f4009ac6dc0a4c5fd7))
+- _(oxlint)_ fix transitive plugin resolutin ([09cea4e](https://github.com/adamhl8/configs/commit/09cea4e88c4b149064e1e8f4009ac6dc0a4c5fd7) by @adamhl8)
 
 ### ⚙️ Miscellaneous Tasks
 
-- _(update-deps)_ disable lefthook for pull request creation by @adamhl8 ([2aa575e](https://github.com/adamhl8/configs/commit/2aa575e30394be705d0897d8bd62848538e79005))
+- _(update-deps)_ disable lefthook for pull request creation ([2aa575e](https://github.com/adamhl8/configs/commit/2aa575e30394be705d0897d8bd62848538e79005) by @adamhl8)
 
 ## [0.24.1](https://github.com/adamhl8/configs/compare/v0.24.0..v0.24.1) - 2026-06-30
 
 ### ⚙️ Miscellaneous Tasks
 
-- make workflows callable by @adamhl8 ([004cd25](https://github.com/adamhl8/configs/commit/004cd256a06c5638dd27c5944b664b9c7d59e65b))
+- make workflows callable ([004cd25](https://github.com/adamhl8/configs/commit/004cd256a06c5638dd27c5944b664b9c7d59e65b) by @adamhl8)
 
 ## [0.24.0](https://github.com/adamhl8/configs/compare/v0.23.9..v0.24.0) - 2026-06-30
 
 ### 🚀 Features
 
-- _(oxlint)_ add @adamhl8/eslint-plugin-clean-modules by @adamhl8 ([e99a266](https://github.com/adamhl8/configs/commit/e99a26600fd0a0e103e05d2424815985cd7daed8))
+- _(oxlint)_ add @adamhl8/eslint-plugin-clean-modules ([e99a266](https://github.com/adamhl8/configs/commit/e99a26600fd0a0e103e05d2424815985cd7daed8) by @adamhl8)
 
 ### ⚙️ Miscellaneous Tasks
 
-- _(deps)_ update dependencies by @adamhl8 in [#18](https://github.com/adamhl8/configs/pull/18) ([412e649](https://github.com/adamhl8/configs/commit/412e6495c7dc8af5d6dac84f72cd66605c8fc7ad))
+- _(deps)_ update dependencies ([412e649](https://github.com/adamhl8/configs/commit/412e6495c7dc8af5d6dac84f72cd66605c8fc7ad) by @adamhl8 in [#18](https://github.com/adamhl8/configs/pull/18))
 
-- fix update-deps workflow by @adamhl8 ([9feb013](https://github.com/adamhl8/configs/commit/9feb0134ffa98deac07e73ba17591ab4099157aa))
+- fix update-deps workflow ([9feb013](https://github.com/adamhl8/configs/commit/9feb0134ffa98deac07e73ba17591ab4099157aa) by @adamhl8)
 
-- fix lefthook install by @adamhl8 ([b286e45](https://github.com/adamhl8/configs/commit/b286e458f605f39ee3fb9c231274d1e9301872ad))
+- fix lefthook install ([b286e45](https://github.com/adamhl8/configs/commit/b286e458f605f39ee3fb9c231274d1e9301872ad) by @adamhl8)
 
-- add workflows by @adamhl8 ([6870ac6](https://github.com/adamhl8/configs/commit/6870ac6419f0e2acb1aca568289a3a75201a72e3))
+- add workflows ([6870ac6](https://github.com/adamhl8/configs/commit/6870ac6419f0e2acb1aca568289a3a75201a72e3) by @adamhl8)
 
 ## [0.23.9](https://github.com/adamhl8/configs/compare/v0.23.8..v0.23.9) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ turn off node/no-sync by @adamhl8 ([93477cd](https://github.com/adamhl8/configs/commit/93477cdf0ff167419d4c37d9c4faf576cb459029))
+- _(oxlint)_ turn off node/no-sync ([93477cd](https://github.com/adamhl8/configs/commit/93477cdf0ff167419d4c37d9c4faf576cb459029) by @adamhl8)
 
 ## [0.23.8](https://github.com/adamhl8/configs/compare/v0.23.7..v0.23.8) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ turn off oxc/no-async-await by @adamhl8 ([c10f58c](https://github.com/adamhl8/configs/commit/c10f58c6d9781cdcb6a38ff973d4dc1527527a03))
+- _(oxlint)_ turn off oxc/no-async-await ([c10f58c](https://github.com/adamhl8/configs/commit/c10f58c6d9781cdcb6a38ff973d4dc1527527a03) by @adamhl8)
 
 ## [0.23.7](https://github.com/adamhl8/configs/compare/v0.23.6..v0.23.7) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(oxling)_ turn off vitest/no-hooks by @adamhl8 ([847dac1](https://github.com/adamhl8/configs/commit/847dac114b8992492389d9bbfe9959b78d0cff30))
+- _(oxling)_ turn off vitest/no-hooks ([847dac1](https://github.com/adamhl8/configs/commit/847dac114b8992492389d9bbfe9959b78d0cff30) by @adamhl8)
 
 ## [0.23.6](https://github.com/adamhl8/configs/compare/v0.23.5..v0.23.6) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ exclude execFileSync from no-sync by @adamhl8 ([ea41632](https://github.com/adamhl8/configs/commit/ea41632a52f47acbfdc912a3acc3ce0a76eb1842))
+- _(oxlint)_ exclude execFileSync from no-sync ([ea41632](https://github.com/adamhl8/configs/commit/ea41632a52f47acbfdc912a3acc3ce0a76eb1842) by @adamhl8)
 
 ## [0.23.5](https://github.com/adamhl8/configs/compare/v0.23.4..v0.23.5) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(vitest)_ don't set setupFiles by default by @adamhl8 ([92c2b6e](https://github.com/adamhl8/configs/commit/92c2b6eb50e3dec198c0d7ead8b33d8292611815))
+- _(vitest)_ don't set setupFiles by default ([92c2b6e](https://github.com/adamhl8/configs/commit/92c2b6eb50e3dec198c0d7ead8b33d8292611815) by @adamhl8)
 
 ## [0.23.4](https://github.com/adamhl8/configs/compare/v0.23.3..v0.23.4) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(knip)_ ignore config hint for @commitlint/config-conventional by @adamhl8 ([1027690](https://github.com/adamhl8/configs/commit/1027690551a5d4852da161d02afab4e645164685))
+- _(knip)_ ignore config hint for @commitlint/config-conventional ([1027690](https://github.com/adamhl8/configs/commit/1027690551a5d4852da161d02afab4e645164685) by @adamhl8)
 
 ## [0.23.3](https://github.com/adamhl8/configs/compare/v0.23.2..v0.23.3) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- _(oxlint)_ turn off vitest/prefer-describe-function-title by @adamhl8 ([02f9ca4](https://github.com/adamhl8/configs/commit/02f9ca426916cb40d986d53fce6b54f547eca8c4))
+- _(oxlint)_ turn off vitest/prefer-describe-function-title ([02f9ca4](https://github.com/adamhl8/configs/commit/02f9ca426916cb40d986d53fce6b54f547eca8c4) by @adamhl8)
 
 ## [0.23.2](https://github.com/adamhl8/configs/compare/v0.23.1..v0.23.2) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- copy cliff.base.toml to build output by @adamhl8 ([258079f](https://github.com/adamhl8/configs/commit/258079fdaaf3c4a43bd5b2c26e5e8293ec785fce))
+- copy cliff.base.toml to build output ([258079f](https://github.com/adamhl8/configs/commit/258079fdaaf3c4a43bd5b2c26e5e8293ec785fce) by @adamhl8)
 
 ## [0.23.1](https://github.com/adamhl8/configs/compare/v0.23.0..v0.23.1) - 2026-06-29
 
 ### 🐛 Bug Fixes
 
-- move commitlint packages to deps by @adamhl8 ([1c0a1d6](https://github.com/adamhl8/configs/commit/1c0a1d6dd9ea6fb75c9eb2012b366624b85170d4))
+- move commitlint packages to deps ([1c0a1d6](https://github.com/adamhl8/configs/commit/1c0a1d6dd9ea6fb75c9eb2012b366624b85170d4) by @adamhl8)
 
 ### ⚙️ Miscellaneous Tasks
 
-- improve bump-deps script by @adamhl8 ([cd6f47e](https://github.com/adamhl8/configs/commit/cd6f47ed7d1d61d5c3cf1bde3bb46ceca790eadc))
+- improve bump-deps script ([cd6f47e](https://github.com/adamhl8/configs/commit/cd6f47ed7d1d61d5c3cf1bde3bb46ceca790eadc) by @adamhl8)
 
 ## [0.23.0](https://github.com/adamhl8/configs/compare/v0.22.2..v0.23.0) - 2026-06-29
 
 ### 🚀 Features
 
-- add cliff wrapper by @adamhl8 ([27920f7](https://github.com/adamhl8/configs/commit/27920f71054f45547af699dd208d8a08e6094b4e))
+- add cliff wrapper ([27920f7](https://github.com/adamhl8/configs/commit/27920f71054f45547af699dd208d8a08e6094b4e) by @adamhl8)
 
-- add commitlint config by @adamhl8 ([e1d49ca](https://github.com/adamhl8/configs/commit/e1d49ca00cae61a03fae7da3e42c03af82467c3a))
+- add commitlint config ([e1d49ca](https://github.com/adamhl8/configs/commit/e1d49ca00cae61a03fae7da3e42c03af82467c3a) by @adamhl8)
 
-- add lefthook base config by @adamhl8 ([bd40634](https://github.com/adamhl8/configs/commit/bd40634630748741768d91acbfaaee2ab71aa8f1))
+- add lefthook base config ([bd40634](https://github.com/adamhl8/configs/commit/bd40634630748741768d91acbfaaee2ab71aa8f1) by @adamhl8)
 
 ### 🐛 Bug Fixes
 
-- script calls by @adamhl8 ([9e39a34](https://github.com/adamhl8/configs/commit/9e39a34943912460482690c8a681af2f5ec3f67a))
+- script calls ([9e39a34](https://github.com/adamhl8/configs/commit/9e39a34943912460482690c8a681af2f5ec3f67a) by @adamhl8)
 
 ## [0.22.2](https://github.com/adamhl8/configs/compare/v0.22.1..v0.22.2) - 2026-06-29
 
 ### ⚙️ Miscellaneous Tasks
 
-- use full "v" version in release by @adamhl8 ([3907a6f](https://github.com/adamhl8/configs/commit/3907a6f4a722fcd9bd8fc9ba07f56f00aed03831))
+- use full "v" version in release ([3907a6f](https://github.com/adamhl8/configs/commit/3907a6f4a722fcd9bd8fc9ba07f56f00aed03831) by @adamhl8)
 
 ## [0.22.1](https://github.com/adamhl8/configs/compare/v0.22.0..v0.22.1) - 2026-06-29
 
 ### ⚙️ Miscellaneous Tasks
 
-- set up release-it by @adamhl8 ([30a37c1](https://github.com/adamhl8/configs/commit/30a37c1242edc364e071da9a9d62a1f3ad1208f0))
+- set up release-it ([30a37c1](https://github.com/adamhl8/configs/commit/30a37c1242edc364e071da9a9d62a1f3ad1208f0) by @adamhl8)
 
-- _(git-cliff)_ set filter_commits to true by @adamhl8 ([cd9c7f2](https://github.com/adamhl8/configs/commit/cd9c7f2178c1ec77859bc1a9596184c9eda5f462))
+- _(git-cliff)_ set filter_commits to true ([cd9c7f2](https://github.com/adamhl8/configs/commit/cd9c7f2178c1ec77859bc1a9596184c9eda5f462) by @adamhl8)
 
 ## [0.22.0] - 2026-06-29
 
 ### 🚀 Features
 
-- add git-cliff by @adamhl8 ([ae811f9](https://github.com/adamhl8/configs/commit/ae811f94198947727e79fbe1e7bff645a20f90f0))
+- add git-cliff ([ae811f9](https://github.com/adamhl8/configs/commit/ae811f94198947727e79fbe1e7bff645a20f90f0) by @adamhl8)
