@@ -1,3 +1,9 @@
+## [0.26.0](https://github.com/adamhl8/configs/compare/v0.25.0..v0.26.0) - 2026-07-04
+
+### 🚀 Features
+
+- add option to replace arrays in config functions by @adamhl8 ([29f5191](https://github.com/adamhl8/configs/commit/29f519117b80935e9531276c8db67d54e402670c))
+
 ## [0.25.0](https://github.com/adamhl8/configs/compare/v0.24.13..v0.25.0) - 2026-07-04
 
 ### 🚀 Features
