@@ -9,9 +9,6 @@ on:
       CI_TOKEN:
         required: true
 
-permissions:
-  contents: read
-
 jobs:
   update-deps:
     runs-on: ubuntu-latest
