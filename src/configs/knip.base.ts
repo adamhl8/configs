@@ -13,6 +13,7 @@ const UNLISTED_DEPENDENCIES = ["@adamhl8/eslint-plugin-clean-modules"] as const 
 
 const baseConfig = {
   project: ["**/*"],
+  entry: ["./src/index.ts"],
   ignoreBinaries: IGNORE_BINARIES,
   ignoreDependencies: UNLISTED_DEPENDENCIES,
 } as const satisfies KnipConfig
