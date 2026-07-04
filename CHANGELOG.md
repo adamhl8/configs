@@ -1,3 +1,13 @@
+## [0.27.1](https://github.com/adamhl8/configs/compare/v0.27.0..v0.27.1) - 2026-07-04
+
+### 🐛 Bug Fixes
+
+- _(knip)_ readd default entry by @adamhl8 ([100a6f7](https://github.com/adamhl8/configs/commit/100a6f71c1f8c3b47fbca655e595f12f089045ab))
+
+### ⚙️ Miscellaneous Tasks
+
+- clean up permissions by @adamhl8 ([97fd9bd](https://github.com/adamhl8/configs/commit/97fd9bd41ccebcb27301f97433faac4c47ba6fa4))
+
 ## [0.27.0](https://github.com/adamhl8/configs/compare/v0.26.0..v0.27.0) - 2026-07-04
 
 ### 🚀 Features
