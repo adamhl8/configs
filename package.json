@@ -16,8 +16,7 @@
     "url": "git+https://github.com/adamhl8/configs.git"
   },
   "bin": {
-    "adamhl8-cliff": "./dist/adamhl8-cliff/index",
-    "adamhl8-knip": "./dist/adamhl8-knip/index"
+    "adamhl8-cliff": "./dist/adamhl8-cliff/index"
   },
   "files": [
     "./dist/"
@@ -41,7 +40,7 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && adamhl8-knip",
+    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && knip",
     "bump-deps": "nub update -L && rm -f lock.yaml && nub i --no-frozen-lockfile && oxfmt lock.yaml",
     "bundle": "nub run lint && tsdown",
     "release": "gh workflow run release.yml",

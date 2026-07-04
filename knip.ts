@@ -1,13 +1,11 @@
-import { knipConfig } from "#/configs/knip.base.ts"
+import { knipConfig, IGNORE_BINARIES } from "#/configs/knip.base.ts"
 
-const config = knipConfig({
-  entry: [
-    "./src/adamhl8-knip/index.ts",
-    "./src/adamhl8-knip/knip-preprocessor.ts",
-    "./src/adamhl8-cliff/index.ts",
-    "./src/env/index.ts",
-  ],
-  ignoreBinaries: ["adamhl8-knip", "adamhl8-cliff", "git-cliff"],
-})
+const config = knipConfig(
+  {
+    ignoreBinaries: [...IGNORE_BINARIES, "adamhl8-cliff", "git-cliff"],
+    ignoreDependencies: [],
+  },
+  { arrays: "replace" },
+)
 
 export default config

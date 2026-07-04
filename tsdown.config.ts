@@ -39,20 +39,9 @@ const env = tsdownConfig(
   { arrays: "replace" },
 )
 
-const adamhl8Knip = tsdownBinConfig({
-  entry: ["./src/adamhl8-knip/index.ts"],
-  outDir: "./dist/adamhl8-knip/",
-})
-
-const knipPreprocessor = tsdownBinConfig({
-  entry: ["./src/adamhl8-knip/knip-preprocessor.ts"],
-  outDir: "./dist/adamhl8-knip/",
-  outExtensions: () => ({}),
-})
-
 const adamhl8Cliff = tsdownBinConfig({
   entry: ["./src/adamhl8-cliff/index.ts"],
   outDir: "./dist/adamhl8-cliff/",
 })
 
-export default defineConfig([config, env, adamhl8Knip, knipPreprocessor, adamhl8Cliff])
+export default defineConfig([config, env, adamhl8Cliff])
