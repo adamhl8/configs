@@ -26,22 +26,32 @@ const config = tsdownConfig({
     neverBundle: (id) => !path.isAbsolute(id) && !id.startsWith(".") && !id.startsWith("#"),
   },
   platform: "neutral",
-} as const)
+  attw: false,
+  publint: false,
+})
+
+const env = {
+  ...tsdownConfig({
+    platform: "node",
+    outDir: "./dist/env/",
+  }),
+  entry: ["./src/env/index.ts"],
+}
 
 const adamhl8Knip = tsdownBinConfig({
   entry: ["./src/adamhl8-knip/index.ts"],
   outDir: "./dist/adamhl8-knip/",
-} as const)
+})
 
 const knipPreprocessor = tsdownBinConfig({
   entry: ["./src/adamhl8-knip/knip-preprocessor.ts"],
   outDir: "./dist/adamhl8-knip/",
   outExtensions: () => ({}),
-} as const)
+})
 
 const adamhl8Cliff = tsdownBinConfig({
   entry: ["./src/adamhl8-cliff/index.ts"],
   outDir: "./dist/adamhl8-cliff/",
-} as const)
+})
 
-export default defineConfig([config, adamhl8Knip, knipPreprocessor, adamhl8Cliff])
+export default defineConfig([config, env, adamhl8Knip, knipPreprocessor, adamhl8Cliff])
