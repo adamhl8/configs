@@ -1,3 +1,9 @@
+## [0.27.2](https://github.com/adamhl8/configs/compare/v0.27.1..v0.27.2) - 2026-07-04
+
+### ◀️ Revert
+
+- _(git-cliff)_ remove no_increment_regex by @adamhl8 ([8cb9c1f](https://github.com/adamhl8/configs/commit/8cb9c1f2a5c79cab99d66e17cb8a3a6c3e5a7c4f))
+
 ## [0.27.1](https://github.com/adamhl8/configs/compare/v0.27.0..v0.27.1) - 2026-07-04
 
 ### 🐛 Bug Fixes
