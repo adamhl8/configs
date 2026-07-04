@@ -16,6 +16,17 @@ import "node_modules/@adamhl8/configs/dist/configs/justfile.base.just"
 
 It provides `lint`, `build`, `test`, `bump-deps`, `release`, `release-run`, and `prepare`. Run `just` to list them. `build` only runs `tsdown` if the project has a `tsdown.config.ts`, so projects without a build step can use it as-is.
 
+To customize a recipe, redefine it in your `justfile`. Each public recipe is a thin wrapper over a private `_recipe` that holds the actual body, so an override can still run the original instead of copying it:
+
+```just
+# add steps after the original: dependencies run first, then the body
+prepare: _prepare
+    tsdown
+
+# add steps before and after: deps before `&&` run first, deps after run last
+bump-deps: my-setup _bump-deps && my-cleanup
+```
+
 The only script left in `package.json` is `prepare`, which hands off to just:
 
 ```json

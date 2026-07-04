@@ -2,41 +2,48 @@
 set unstable
 set default-list
 set allow-duplicate-recipes
-set lazy
 
 export PATH := justfile_directory() + "/node_modules/.bin:" + env("PATH")
 
 # runs cmd if the [ ] condition holds, echoing cmd only when it runs
 run-when(cmd, condition) := f"if [ {{condition}} ]; then echo {{style("command", cmd)}}; {{cmd}}; fi"
 
-current_repo := `basename -s .git $(git remote get-url origin)`
+# public recipes are thin wrappers over private _recipes so an override can still call the original
+# e.g. `prepare: _prepare` + extra lines
 
-prepare:
+prepare: _prepare
+_prepare:
     lefthook install
-    @{{ run-when("tsdown", f"{{current_repo}} = configs") }}
 
-bump-deps:
+bump-deps: _bump-deps
+_bump-deps:
     nub update -L
     rm -f lock.yaml
     nub i --no-frozen-lockfile
     oxfmt lock.yaml
 
-lint:
+lint: _lint
+_lint:
     markdown-toc -i --bullets '-' --maxdepth 3 ./README.md
     oxlint --fix --fix-suggestions --fix-dangerously
     oxfmt
     knip
     @{{ run-when("just test", "-f vitest.config.ts") }}
 
-build: lint
+build: _build
+_build: lint
     @{{ run-when("tsdown", "-f tsdown.config.ts") }}
 
-test:
+test: _test
+_test:
     vitest run
 
-release:
+release: _release
+_release:
     gh workflow run release.yml
 
 [private]
-release-run:
+release-run: _release-run
+
+_release-run:
     release-it --ci -i "$(adamhl8-cliff --bumped-version)"
