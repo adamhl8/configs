@@ -1,3 +1,9 @@
+## [0.29.0](https://github.com/adamhl8/configs/compare/v0.28.1..v0.29.0) - 2026-07-04
+
+### 🚀 Features
+
+- add justfile recipe wrappers so recipes can be extended by @adamhl8 ([29303dd](https://github.com/adamhl8/configs/commit/29303dd842f6be28e97a19b724bdb0e499b75ecc))
+
 ## [0.28.1](https://github.com/adamhl8/configs/compare/v0.28.0..v0.28.1) - 2026-07-04
 
 ### 🐛 Bug Fixes
