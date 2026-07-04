@@ -3,11 +3,11 @@ body = """
 {% macro print_commit(commit) -%}
   - {% if commit.scope %}*({{ commit.scope }})* {% endif %}\
     {% if commit.breaking %}[**breaking**] {% endif %}\
-    {{ commit.message | trim }}\
+    {{ commit.message | trim }} \
+    ([{{ commit.id | truncate(length=7, end="") }}]({{ self::remote_url() }}/commit/{{ commit.id }})\
     {% if commit.remote.username %} by @{{ commit.remote.username }}{%- endif -%}\
     {% if commit.remote.pr_number %} in \
-    [#{{ commit.remote.pr_number }}]({{ self::remote_url() }}/pull/{{ commit.remote.pr_number }}){%- endif %} \
-    ([{{ commit.id | truncate(length=7, end="") }}]({{ self::remote_url() }}/commit/{{ commit.id }}))\
+    [#{{ commit.remote.pr_number }}]({{ self::remote_url() }}/pull/{{ commit.remote.pr_number }}){%- endif %})\
 {% endmacro -%}
 
 {%- macro remote_url() -%}
