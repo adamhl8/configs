@@ -5,7 +5,7 @@ import { createMergeConfigFn } from "#/utils.ts"
 
 const baseConfig = {
   hooks: {
-    "before:init": "nub run bundle",
+    "before:init": "just build",
     "after:bump": ["adamhl8-cliff --tag ${version} -o", "nubx oxfmt CHANGELOG.md"],
   },
   git: {

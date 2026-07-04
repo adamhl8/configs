@@ -40,12 +40,7 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && knip",
-    "bump-deps": "nub update -L && rm -f lock.yaml && nub i --no-frozen-lockfile && oxfmt lock.yaml",
-    "bundle": "nub run lint && tsdown",
-    "release": "gh workflow run release.yml",
-    "release:run": "release-it --ci -i \"$(adamhl8-cliff --bumped-version)\"",
-    "prepare": "lefthook install && tsdown"
+    "prepare": "just prepare"
   },
   "dependencies": {
     "@adamhl8/eslint-plugin-clean-modules": "^0.1.3",
@@ -77,6 +72,7 @@
     "@commitlint/cli": ">=21",
     "@commitlint/config-conventional": ">=21",
     "knip": ">=6",
+    "markdown-toc": ">=1",
     "oxfmt": ">=0.50",
     "oxlint": ">=1",
     "oxlint-tsgolint": ">=0.24",
@@ -97,6 +93,9 @@
       "optional": true
     },
     "knip": {
+      "optional": true
+    },
+    "markdown-toc": {
       "optional": true
     },
     "oxfmt": {

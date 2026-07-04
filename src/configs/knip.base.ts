@@ -2,20 +2,26 @@ import type { KnipConfig } from "knip"
 
 import { createMergeConfigFn } from "#/utils.ts"
 
-export const IGNORE_BINARIES = ["lefthook", "gh"] as const satisfies string[]
+/** Knip sees `just` in the `prepare` script and the release-it hooks, but it isn't a package.json dependency */
+export const IGNORE_BINARIES = ["just"] as const satisfies string[]
 
 /**
- * Consuming projects show these transitive dependencies as unlisted. e.g. knip resolves
- * `@adamhl8/eslint-plugin-clean-modules` via the oxlint config, but we don't need to install it directly in the
- * consuming project.
+ * - Knip resolves `@adamhl8/eslint-plugin-clean-modules` via the oxlint config, but we don't need to install it directly
+ *   in the consuming project, so it shows as unlisted
+ * - `release-it` and `markdown-toc` are only referenced from the base justfile, which knip doesn't parse, so they show as
+ *   unused
  */
-const UNLISTED_DEPENDENCIES = ["@adamhl8/eslint-plugin-clean-modules"] as const satisfies string[]
+const IGNORE_DEPENDENCIES = [
+  "@adamhl8/eslint-plugin-clean-modules",
+  "release-it",
+  "markdown-toc",
+] as const satisfies string[]
 
 const baseConfig = {
   project: ["**/*"],
   entry: ["./src/index.ts"],
   ignoreBinaries: IGNORE_BINARIES,
-  ignoreDependencies: UNLISTED_DEPENDENCIES,
+  ignoreDependencies: IGNORE_DEPENDENCIES,
 } as const satisfies KnipConfig
 
 export const knipConfig = createMergeConfigFn<KnipConfig, typeof baseConfig>(baseConfig)

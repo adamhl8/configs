@@ -6,6 +6,26 @@ Configs (`tsconfig`, `oxfmt`, `oxlint`, etc.) I use across my projects.
 nub add -D @adamhl8/configs
 ```
 
+### just
+
+Scripts live in a shared [`just`](https://github.com/casey/just) base justfile instead of being copied into every project's `package.json`. Your `justfile`:
+
+```just
+import "node_modules/@adamhl8/configs/dist/configs/justfile.base.just"
+```
+
+It provides `lint`, `build`, `test`, `bump-deps`, `release`, `release-run`, and `prepare`. Run `just` to list them. `build` only runs `tsdown` if the project has a `tsdown.config.ts`, so projects without a build step can use it as-is.
+
+The only script left in `package.json` is `prepare`, which hands off to just:
+
+```json
+"scripts": {
+  "prepare": "just prepare"
+}
+```
+
+The base justfile puts `node_modules/.bin` on `PATH`, so recipes can call package bins directly, just like `package.json` scripts.
+
 ### tsconfig
 
 ```json
@@ -98,7 +118,7 @@ adamhl8-cliff --bumped-version
 
 ### lefthook
 
-`lefthook.base.yaml` runs `lint` on pre-commit and `commitlint` on commit-msg. Extend it from your `lefthook.yaml`:
+`lefthook.base.yaml` runs `just lint` on pre-commit and `commitlint` on commit-msg. Extend it from your `lefthook.yaml`:
 
 ```yaml
 # lefthook.yaml
@@ -106,13 +126,13 @@ extends:
   - node_modules/@adamhl8/configs/dist/configs/lefthook.base.yaml
 ```
 
-`lefthook install` (run it from `prepare`) sets up the hooks.
+`lefthook install` (the base justfile's `prepare` recipe runs it) sets up the hooks.
 
 ## GitHub Actions
 
-This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `nub` and define `lint` / `bundle` / `bump-deps` / `release:run` scripts and a commitlint config (e.g. via these configs).
+This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `nub`, have a `justfile` that imports the base justfile (see [just](#just)), and have a commitlint config (e.g. via these configs). The workflows install just themselves.
 
-- `ci.yml`: runs `bundle` (build + lint) on pushes/PRs and lints commit messages with commitlint
+- `ci.yml`: runs `build` (build + lint) on pushes/PRs and lints commit messages with commitlint
 - `update-deps.yml`: weekly `bump-deps` run that opens a dependency-update PR
 - `release.yml`: manually dispatched release where git-cliff sets the version, then publishes to npm and cuts a GitHub release (commit and tag signed)
 
@@ -151,9 +171,9 @@ jobs:
 
 ### Release
 
-Manually dispatched. git-cliff computes the next version from the commits, then `release-it` bumps `package.json`, regenerates the changelog, commits and tags (both SSH-signed), publishes to npm, and cuts a GitHub release. There is no automatic trigger, so run it when a release is ready (the `release` script just does `gh workflow run release.yml`). A dispatch with no releasable commits fails fast at release-it's `Version not changed`.
+Manually dispatched. git-cliff computes the next version from the commits, then `release-it` bumps `package.json`, regenerates the changelog, commits and tags (both SSH-signed), publishes to npm, and cuts a GitHub release. There is no automatic trigger, so run it when a release is ready (the `release` recipe just does `gh workflow run release.yml`). A dispatch with no releasable commits fails fast at release-it's `Version not changed`.
 
-Needs the `NPM_CI_TOKEN` and `CI_SIGNING_KEY` secrets (see [Secrets](#secrets)). The calling project must define `release` and `release:run` scripts, where `release:run` is `release-it --ci -i "$(adamhl8-cliff --bumped-version)"`.
+Needs the `NPM_CI_TOKEN` and `CI_SIGNING_KEY` secrets (see [Secrets](#secrets)). The workflow runs the base justfile's `release-run` recipe: `release-it --ci -i "$(adamhl8-cliff --bumped-version)"`.
 
 ```yaml
 # .github/workflows/release.yml
@@ -182,6 +202,6 @@ Configure these on each repo that uses the workflows (Settings -> Secrets and va
 
 ## Notes
 
-The `prepare` script looks like: `"prepare": "lefthook install && tsdown"`
+The `prepare` script is `"prepare": "just prepare"`, which runs the base justfile's `prepare` recipe (`lefthook install`).
 
-nub installs `package.json` bin executables into the local `node_modules/.bin`. This means that we can run something like `adamhl8-knip` directly instead of doing `src/adamhl8-knip/index.tx`. That's why we have `tsdown` in the prepare script. Those executables need to be available.
+nub installs `package.json` bin executables into the local `node_modules/.bin`. This means that we can run something like `adamhl8-cliff` directly instead of doing `src/adamhl8-cliff/index.ts`. That's why this repo overrides the `prepare` recipe to also run `tsdown`. Those executables need to be available.

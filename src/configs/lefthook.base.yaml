@@ -1,7 +1,7 @@
 pre-commit:
   commands:
     lint:
-      run: nub run lint
+      run: just lint
 
 commit-msg:
   commands:

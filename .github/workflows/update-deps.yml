@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: "26"
 
+      - name: Install just
+        uses: taiki-e/install-action@just
+
       - name: Install lefthook
         run: |
           nub add -g lefthook
@@ -30,7 +33,7 @@ jobs:
         run: nub i
 
       - name: Update dependencies
-        run: nub run bump-deps
+        run: just bump-deps
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
