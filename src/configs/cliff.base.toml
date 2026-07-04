@@ -52,5 +52,4 @@ filter_commits = true
 sort_commits = "newest"
 
 [bump]
-no_increment_regex = "^chore|^ci|^docs"
 custom_minor_increment_regex = "^improve"
