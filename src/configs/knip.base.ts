@@ -8,14 +8,8 @@ export const IGNORE_BINARIES = ["just"] as const satisfies string[]
 /**
  * - Knip resolves `@adamhl8/eslint-plugin-clean-modules` via the oxlint config, but we don't need to install it directly
  *   in the consuming project, so it shows as unlisted
- * - `release-it` and `markdown-toc` are only referenced from the base justfile, which knip doesn't parse, so they show as
- *   unused
  */
-const IGNORE_DEPENDENCIES = [
-  "@adamhl8/eslint-plugin-clean-modules",
-  "release-it",
-  "markdown-toc",
-] as const satisfies string[]
+const IGNORE_DEPENDENCIES = ["@adamhl8/eslint-plugin-clean-modules"] as const satisfies string[]
 
 const baseConfig = {
   project: ["**/*"],
