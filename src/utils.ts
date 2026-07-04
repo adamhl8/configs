@@ -13,8 +13,10 @@ type ArrayMergeMode = "merge" | "replace"
 const merge = <T extends AnyObj, S extends AnyObj>(target: T, source: S, arrays: ArrayMergeMode): T & S =>
   mergeWith(target, source, (objValue: unknown, srcValue: unknown) => {
     if (!Array.isArray(objValue)) return
-    // oxlint-disable-next-line unicorn/prefer-spread
-    return arrays === "merge" ? objValue.concat(srcValue) : srcValue
+    if (!Array.isArray(srcValue)) return srcValue
+    const baseArray: unknown[] = objValue
+    const userArray: unknown[] = srcValue
+    return arrays === "merge" ? [...baseArray, ...userArray] : userArray
   })
 
 /**
