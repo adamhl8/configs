@@ -8,7 +8,7 @@ const [_severity, _condition, conventionalTypes] = conventional.rules["type-enum
 
 const EXCLUDED_TYPES = new Set(["test", "style", "build"])
 const filteredTypes = conventionalTypes.filter((type) => !EXCLUDED_TYPES.has(type))
-const commitTypes = [...filteredTypes, "release"]
+const commitTypes = [...filteredTypes, "improve", "release"]
 
 const baseConfig = {
   extends: ["@commitlint/config-conventional"],

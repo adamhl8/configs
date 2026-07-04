@@ -36,12 +36,13 @@ body = """
 [git]
 commit_parsers = [
   { message = "^feat", group = "<!-- 0 -->🚀 Features" },
-  { message = "^fix", group = "<!-- 1 -->🐛 Bug Fixes" },
+  { message = "^improve", group = "<!-- 1 -->✨ Improvements" },
   { message = "^perf", group = "<!-- 2 -->⚡ Performance" },
-  { message = "^refactor", group = "<!-- 3 -->🚜 Refactor" },
-  { message = "^chore|^ci", group = "<!-- 4 -->⚙️ Miscellaneous Tasks" },
-  { message = "^doc", group = "<!-- 5 -->📚 Documentation" },
-  { message = "^revert", group = "<!-- 6 -->◀️ Revert" },
+  { message = "^fix", group = "<!-- 3 -->🐛 Bug Fixes" },
+  { message = "^refactor", group = "<!-- 4 -->🚜 Refactor" },
+  { message = "^chore|^ci", group = "<!-- 5 -->⚙️ Miscellaneous Tasks" },
+  { message = "^docs", group = "<!-- 6 -->📚 Documentation" },
+  { message = "^revert", group = "<!-- 7 -->◀️ Revert" },
   { message = "^release", skip = true },
 ]
 
@@ -49,3 +50,7 @@ commit_preprocessors = [{ pattern = '\((\w+\s)?#([0-9]+)\)', replace = "" }]
 
 filter_commits = true
 sort_commits = "newest"
+
+[bump]
+no_increment_regex = "^chore|^ci|^docs"
+custom_minor_increment_regex = "^improve"
