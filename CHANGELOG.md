@@ -1,3 +1,9 @@
+## [0.27.3](https://github.com/adamhl8/configs/compare/v0.27.2..v0.27.3) - 2026-07-04
+
+### 🐛 Bug Fixes
+
+- non-array values now overwrite arrays in base configs by @adamhl8 ([b1185b9](https://github.com/adamhl8/configs/commit/b1185b922e1f7adc55f7841a6fe456f26f2632f6))
+
 ## [0.27.2](https://github.com/adamhl8/configs/compare/v0.27.1..v0.27.2) - 2026-07-04
 
 ### ◀️ Revert
