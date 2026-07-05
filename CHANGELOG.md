@@ -1,3 +1,9 @@
+## [0.31.0](https://github.com/adamhl8/configs/compare/v0.30.0..v0.31.0) - 2026-07-05
+
+### 🚀 Features
+
+- _(oxlint)_ adjust react/jsx rules ([46952b9](https://github.com/adamhl8/configs/commit/46952b946af1e25cad0217bddb9c2410de66549b) by @adamhl8)
+
 ## [0.30.0](https://github.com/adamhl8/configs/compare/v0.29.0..v0.30.0) - 2026-07-04
 
 ### ✨ Improvements
