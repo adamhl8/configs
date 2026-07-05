@@ -81,6 +81,7 @@ const baseConfig = {
     "import/max-dependencies": "off",
     "import/no-named-export": "off",
     "import/no-nodejs-modules": "off",
+    "import/no-unassigned-import": "off",
     "import/prefer-default-export": "off",
     "init-declarations": "off",
     "jsdoc/require-param": "off",
