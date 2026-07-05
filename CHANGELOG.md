@@ -1,3 +1,9 @@
+## [0.32.0](https://github.com/adamhl8/configs/compare/v0.31.1..v0.32.0) - 2026-07-05
+
+### 🚀 Features
+
+- turn off import/no-default-export for astro configs ([29ece51](https://github.com/adamhl8/configs/commit/29ece512977db74e6b7d1c7478c350e66d4c1f28) by @adamhl8)
+
 ## [0.31.1](https://github.com/adamhl8/configs/compare/v0.31.0..v0.31.1) - 2026-07-05
 
 ### 🐛 Bug Fixes
