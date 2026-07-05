@@ -43,6 +43,7 @@ const baseConfig = {
     {
       files: [
         ".release-it.ts",
+        "astro.config.ts",
         "commitlint.config.ts",
         "knip.ts",
         "oxfmt.config.ts",
