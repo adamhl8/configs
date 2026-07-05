@@ -64,7 +64,14 @@ const baseConfig = {
 
     curly: ["error", "multi-or-nest"],
     "func-style": ["error", "expression"],
+    "react/jsx-curly-brace-presence": ["error", { children: "never", propElementValues: "always", props: "never" }],
     "require-unicode-regexp": ["error", { requireFlag: "v" }],
+    "unicorn/filename-case": [
+      "error",
+      {
+        cases: { kebabCase: true, pascalCase: true },
+      },
+    ],
     "unicorn/no-useless-undefined": ["error", { checkArguments: false }],
 
     "capitalized-comments": "off",
@@ -98,6 +105,11 @@ const baseConfig = {
     "oxc/no-async-await": "off",
     "oxc/no-optional-chaining": "off",
     "oxc/no-rest-spread-properties": "off",
+    "react/forbid-component-props": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-max-depth": "off",
+    "react/jsx-no-literals": "off",
+    "react/react-in-jsx-scope": "off",
     "require-await": "off",
     "sort-imports": "off",
     "sort-keys": "off",
