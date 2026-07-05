@@ -1,3 +1,9 @@
+## [0.31.1](https://github.com/adamhl8/configs/compare/v0.31.0..v0.31.1) - 2026-07-05
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ turn off import/no-unassigned-import ([117c416](https://github.com/adamhl8/configs/commit/117c416a148fccaf7ad66cce1fc5ec313c5f4710) by @adamhl8)
+
 ## [0.31.0](https://github.com/adamhl8/configs/compare/v0.30.0..v0.31.0) - 2026-07-05
 
 ### 🚀 Features
