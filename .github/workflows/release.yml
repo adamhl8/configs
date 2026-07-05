@@ -5,7 +5,7 @@ on:
   workflow_call:
     secrets:
       NPM_CI_TOKEN:
-        required: true
+        required: false
       CI_SIGNING_KEY:
         required: true
 
