@@ -22,6 +22,10 @@ _bump-deps:
     nub i --no-frozen-lockfile
     oxfmt lock.yaml
 
+tofu-check: _tofu-check
+_tofu-check:
+    tofu plan -detailed-exitcode -concise -compact-warnings
+
 lint: _lint
 _lint:
     markdown-toc -i --bullets '-' --maxdepth 3 ./README.md
@@ -31,7 +35,7 @@ _lint:
     @{{ run-when("just test", "-f vitest.config.ts") }}
 
 build: _build
-_build: lint
+_build: tofu-check lint
     @{{ run-when("tsdown", "-f tsdown.config.ts") }}
 
 test: _test
