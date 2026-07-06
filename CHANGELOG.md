@@ -1,3 +1,17 @@
+## [0.33.0](https://github.com/adamhl8/configs/compare/v0.32.0..v0.33.0) - 2026-07-06
+
+### 🚀 Features
+
+- add opentofu module ([611035e](https://github.com/adamhl8/configs/commit/611035e8c987913362152c45da10d28c8854c97c) by @adamhl8)
+
+### 🐛 Bug Fixes
+
+- disable tofu in CI ([491a1f2](https://github.com/adamhl8/configs/commit/491a1f2ea262280bea5983c2f77b84468dea80f4) by @adamhl8)
+
+### ⚙️ Miscellaneous Tasks
+
+- don't require NPM_CI_TOKEN ([f744092](https://github.com/adamhl8/configs/commit/f7440926933fe755bf07ce728996fc18aa56f4f4) by @adamhl8)
+
 ## [0.32.0](https://github.com/adamhl8/configs/compare/v0.31.1..v0.32.0) - 2026-07-05
 
 ### 🚀 Features
