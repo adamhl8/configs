@@ -1,3 +1,9 @@
+## [0.33.1](https://github.com/adamhl8/configs/compare/v0.33.0..v0.33.1) - 2026-07-06
+
+### 🚜 Refactor
+
+- move tofu modules to dedicated directory ([61fbd16](https://github.com/adamhl8/configs/commit/61fbd167467c3bd19db49ede5a6b84721c765a4c) by @adamhl8)
+
 ## [0.33.0](https://github.com/adamhl8/configs/compare/v0.32.0..v0.33.0) - 2026-07-06
 
 ### 🚀 Features
