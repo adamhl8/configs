@@ -1,3 +1,9 @@
+## [0.34.0](https://github.com/adamhl8/configs/compare/v0.33.2..v0.34.0) - 2026-07-06
+
+### ✨ Improvements
+
+- _(justfile)_ run tofu-check after build ([a703fae](https://github.com/adamhl8/configs/commit/a703fae176d9be694dddfb9cb7ae4a02c2437746) by @adamhl8)
+
 ## [0.33.2](https://github.com/adamhl8/configs/compare/v0.33.1..v0.33.2) - 2026-07-06
 
 ### 🐛 Bug Fixes
