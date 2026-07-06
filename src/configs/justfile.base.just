@@ -35,7 +35,7 @@ _lint:
     @{{ run-when("just test", "-f vitest.config.ts") }}
 
 build: _build
-_build: tofu-check lint
+_build: lint && tofu-check
     @{{ run-when("tsdown", "-f tsdown.config.ts") }}
 
 test: _test
