@@ -1,7 +1,7 @@
 pre-commit:
   commands:
-    lint:
-      run: just lint
+    build:
+      run: just build
 
 commit-msg:
   commands:

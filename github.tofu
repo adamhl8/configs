@@ -8,7 +8,7 @@ terraform {
 }
 
 module "github" {
-  source    = "./src/configs/github"
+  source    = "./src/tofu/github"
   repo_name = "configs"
   actions_secrets = {
     NPM_CI_TOKEN = true
