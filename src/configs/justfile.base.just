@@ -5,8 +5,8 @@ set allow-duplicate-recipes
 
 export PATH := justfile_directory() + "/node_modules/.bin:" + env("PATH")
 
-# runs cmd if the [ ] condition holds, echoing cmd only when it runs
-run-when(cmd, condition) := f"if [ {{condition}} ]; then echo {{style("command", cmd)}}; {{cmd}}; fi"
+# runs cmd if the condition command succeeds, echoing cmd only when it runs
+run-when(cmd, condition) := f"if {{condition}}; then echo {{style("command", cmd)}}; {{cmd}}; fi"
 
 # public recipes are thin wrappers over private _recipes so an override can still call the original
 # e.g. `prepare: _prepare` + extra lines
@@ -24,7 +24,8 @@ _bump-deps:
 
 tofu-check: _tofu-check
 _tofu-check:
-    @{{ run-when("tofu plan -detailed-exitcode -concise -compact-warnings", '-z "${CI:-}"') }}
+    @# run if not in CI, the repo has a root module, and the aws profile exists on this machine
+    @{{ run-when("tofu plan -detailed-exitcode -concise -compact-warnings", '[ -z "${CI:-}" ] && ls *.tofu >/dev/null 2>&1 && aws configure list-profiles 2>/dev/null | grep -qx adamhl8') }}
 
 lint: _lint
 _lint:
@@ -32,11 +33,11 @@ _lint:
     oxlint --fix --fix-suggestions --fix-dangerously
     oxfmt
     knip
-    @{{ run-when("just test", "-f vitest.config.ts") }}
+    @{{ run-when("just test", "[ -f vitest.config.ts ]") }}
 
 build: _build
 _build: lint && tofu-check
-    @{{ run-when("tsdown", "-f tsdown.config.ts") }}
+    @{{ run-when("tsdown", "[ -f tsdown.config.ts ]") }}
 
 test: _test
 _test:
