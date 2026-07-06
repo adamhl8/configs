@@ -22,6 +22,10 @@ const config = tsdownConfig({
       from: "./src/configs/justfile.base.just",
       to: "./dist/configs/",
     },
+    {
+      from: "./src/tofu/",
+      to: "./dist/",
+    },
   ],
   deps: {
     // tsdown (correctly) bundles dev dependencies, but we don't want to bundle anything from them. Consuming projects are assumed to have the needed dependencies installed.
