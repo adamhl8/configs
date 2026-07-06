@@ -1,3 +1,9 @@
+## [0.36.0](https://github.com/adamhl8/configs/compare/v0.35.0..v0.36.0) - 2026-07-06
+
+### 🚀 Features
+
+- add adamhl8-gitignore ([5a7d13f](https://github.com/adamhl8/configs/commit/5a7d13fa5380010c88be3c32b6ed091c0ecddb4b) by @adamhl8)
+
 ## [0.35.0](https://github.com/adamhl8/configs/compare/v0.34.0..v0.35.0) - 2026-07-06
 
 ### ✨ Improvements
