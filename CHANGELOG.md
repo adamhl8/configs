@@ -1,3 +1,9 @@
+## [0.35.0](https://github.com/adamhl8/configs/compare/v0.34.0..v0.35.0) - 2026-07-06
+
+### ✨ Improvements
+
+- gate tofu so other users running build don't get blocked ([3bb1e2d](https://github.com/adamhl8/configs/commit/3bb1e2d3f5b80eaeed414f600aa64d5cdb4855b8) by @adamhl8)
+
 ## [0.34.0](https://github.com/adamhl8/configs/compare/v0.33.2..v0.34.0) - 2026-07-06
 
 ### ✨ Improvements
