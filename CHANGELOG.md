@@ -1,3 +1,9 @@
+## [0.33.2](https://github.com/adamhl8/configs/compare/v0.33.1..v0.33.2) - 2026-07-06
+
+### 🐛 Bug Fixes
+
+- copy tofu modules to build output ([e60f14b](https://github.com/adamhl8/configs/commit/e60f14b1762facd3624a384045f6590f71d60991) by @adamhl8)
+
 ## [0.33.1](https://github.com/adamhl8/configs/compare/v0.33.0..v0.33.1) - 2026-07-06
 
 ### 🚜 Refactor
