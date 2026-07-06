@@ -24,7 +24,7 @@ _bump-deps:
 
 tofu-check: _tofu-check
 _tofu-check:
-    tofu plan -detailed-exitcode -concise -compact-warnings
+    @{{ run-when("tofu plan -detailed-exitcode -concise -compact-warnings", '-z "${CI:-}"') }}
 
 lint: _lint
 _lint:
