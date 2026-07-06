@@ -1,4 +1,6 @@
 import "src/configs/justfile.base.just"
 
-prepare: _prepare
+tsdown:
     tsdown
+
+prepare: tsdown _prepare

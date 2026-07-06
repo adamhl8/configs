@@ -17,7 +17,8 @@
     "url": "git+https://github.com/adamhl8/configs.git"
   },
   "bin": {
-    "adamhl8-cliff": "./dist/adamhl8-cliff/index"
+    "adamhl8-cliff": "./dist/adamhl8-cliff/index",
+    "adamhl8-gitignore": "./dist/adamhl8-gitignore/index"
   },
   "files": [
     "./dist/"

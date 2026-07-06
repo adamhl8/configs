@@ -23,6 +23,10 @@ const config = tsdownConfig({
       to: "./dist/configs/",
     },
     {
+      from: "./src/configs/gitignore.base",
+      to: "./dist/configs/",
+    },
+    {
       from: "./src/tofu/",
       to: "./dist/",
     },
@@ -52,4 +56,9 @@ const adamhl8Cliff = tsdownBinConfig({
   outDir: "./dist/adamhl8-cliff/",
 })
 
-export default defineConfig([config, env, adamhl8Cliff])
+const adamhl8Gitignore = tsdownBinConfig({
+  entry: ["./src/adamhl8-gitignore/index.ts"],
+  outDir: "./dist/adamhl8-gitignore/",
+})
+
+export default defineConfig([config, env, adamhl8Cliff, adamhl8Gitignore])

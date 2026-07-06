@@ -139,6 +139,21 @@ extends:
 
 `lefthook install` (the base justfile's `prepare` recipe runs it) sets up the hooks.
 
+### gitignore
+
+git has no include mechanism for `.gitignore`, so shared entries are synced into the project's `.gitignore`. The base justfile's `prepare` recipe runs the `adamhl8-gitignore` bin, which keeps the shared list at the top of the file above a marker line: the first run prepends it, later runs replace everything above the marker with the current shared list, so changes propagate on package updates:
+
+```gitignore
+node_modules/
+dist/
+# The above patterns are managed by @adamhl8/configs. Anything manually added above this line will be replaced.
+
+# project-specific entries go below the marker
+.env.local
+```
+
+Everything below the marker is left untouched. The sync can also be run manually by running `adamhl8-gitignore`.
+
 ## GitHub Actions
 
 This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `nub`, have a `justfile` that imports the base justfile (see [just](#just)), and have a commitlint config (e.g. via these configs). The workflows install just themselves.
@@ -213,6 +228,6 @@ Configure these on each repo that uses the workflows (Settings -> Secrets and va
 
 ## Notes
 
-The `prepare` script is `"prepare": "just prepare"`, which runs the base justfile's `prepare` recipe (`lefthook install`).
+The `prepare` script is `"prepare": "just prepare"`, which runs the base justfile's `prepare` recipe (`lefthook install` and the `.gitignore` sync).
 
 nub installs `package.json` bin executables into the local `node_modules/.bin`. This means that we can run something like `adamhl8-cliff` directly instead of doing `src/adamhl8-cliff/index.ts`. That's why this repo overrides the `prepare` recipe to also run `tsdown`. Those executables need to be available.

@@ -14,6 +14,7 @@ run-when(cmd, condition) := f"if {{condition}}; then echo {{style("command", cmd
 prepare: _prepare
 _prepare:
     lefthook install
+    adamhl8-gitignore
 
 bump-deps: _bump-deps
 _bump-deps:
