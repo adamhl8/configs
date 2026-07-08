@@ -19,9 +19,8 @@ _prepare:
 bump-deps: _bump-deps
 _bump-deps:
     nub update -L
-    rm -f lock.yaml
+    rm -f nub.lock
     nub i --no-frozen-lockfile
-    oxfmt lock.yaml
 
 tofu-check: _tofu-check
 _tofu-check:
