@@ -18,7 +18,8 @@ const baseConfig = {
   hash: false,
   dts: {
     newContext: true,
-    resolver: "tsc",
+    // remove/change when rolldown-plugin-dts supports TypeScript v7
+    tsgo: { path: "./node_modules/.bin/tsc" },
     sourcemap: true,
   },
   attw: {
