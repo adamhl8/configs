@@ -121,5 +121,12 @@
     "vitest": {
       "optional": true
     }
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "nub",
+      "version": "^0.4.4",
+      "onFail": "warn"
+    }
   }
 }

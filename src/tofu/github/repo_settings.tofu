@@ -2,15 +2,24 @@ data "local_file" "package_json" {
   filename = "${path.root}/package.json"
 }
 
+data "github_user" "current" {
+  username = ""
+}
+
 locals {
   package_json = jsondecode(data.local_file.package_json.content)
+  repo_url     = "github.com/${data.github_user.current.login}/${var.repo_name}"
+  # a homepage pointing at the repo itself is redundant
+  homepage_url = try(strcontains(local.package_json.homepage, local.repo_url) ? null : local.package_json.homepage, null)
 }
+
+
 
 resource "github_repository" "current" {
   name         = var.repo_name
   description  = local.package_json.description
   visibility   = var.repo_settings.visibility
-  homepage_url = var.repo_settings.homepage_url
+  homepage_url = local.homepage_url
   topics       = try(local.package_json.keywords, [])
 
   allow_merge_commit          = false

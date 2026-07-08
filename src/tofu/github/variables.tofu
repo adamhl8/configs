@@ -6,8 +6,7 @@ variable "repo_name" {
 variable "repo_settings" {
   description = "The GitHub repository settings"
   type = object({
-    visibility   = string
-    homepage_url = optional(string, null)
+    visibility = string
   })
 }
 
