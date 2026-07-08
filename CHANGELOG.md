@@ -1,3 +1,15 @@
+## [0.38.0](https://github.com/adamhl8/configs/compare/v0.37.0..v0.38.0) - 2026-07-08
+
+### 🚀 Features
+
+- upgrade to typescript v7 ([7f59d44](https://github.com/adamhl8/configs/commit/7f59d4406c4ece661c64fe7b20d6b529f3c1a51e) by @adamhl8)
+
+### ⚙️ Miscellaneous Tasks
+
+- _(release)_ ignore npmrc changes ([b4e3b1f](https://github.com/adamhl8/configs/commit/b4e3b1fe63bc55ba402a52f0072c19c3163a71e8) by @adamhl8)
+
+- disable nub min release age ([ef51e68](https://github.com/adamhl8/configs/commit/ef51e68e7a6d1c67da5152e0f7538a02c5ada34d) by @adamhl8)
+
 ## [0.37.0](https://github.com/adamhl8/configs/compare/v0.36.0..v0.37.0) - 2026-07-08
 
 ### 🚀 Features
