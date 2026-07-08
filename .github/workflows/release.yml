@@ -58,6 +58,9 @@ jobs:
         env:
           CI_SIGNING_KEY: ${{ secrets.CI_SIGNING_KEY }}
 
+      - name: Discard install-time churn
+        run: git checkout -- .npmrc
+
       - name: Release
         run: just release-run
         env:
