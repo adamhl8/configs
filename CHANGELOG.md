@@ -1,3 +1,13 @@
+## [0.37.0](https://github.com/adamhl8/configs/compare/v0.36.0..v0.37.0) - 2026-07-08
+
+### 🚀 Features
+
+- _(tofu:github)_ set homepage based on package.json ([9e28eac](https://github.com/adamhl8/configs/commit/9e28eacd9b34cdff4a432d2296061158987529fe) by @adamhl8)
+
+### 🐛 Bug Fixes
+
+- _(justfile:bump-deps)_ we don't need to format the lockfile anymore ([c1203e1](https://github.com/adamhl8/configs/commit/c1203e1931e2be657027b8366d3ef9bcc58956d2) by @adamhl8)
+
 ## [0.36.0](https://github.com/adamhl8/configs/compare/v0.35.0..v0.36.0) - 2026-07-06
 
 ### 🚀 Features
