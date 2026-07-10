@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/adamhl8/configs/compare/v1.1.1..v1.2.0) - 2026-07-10
+
+### 🚀 Features
+
+- _(oxlint)_ turn off vitest/prefer-importing-vitest-globals ([40731c9](https://github.com/adamhl8/configs/commit/40731c9e4d0ebf42862e6a6c038287e009b09243) by @adamhl8)
+
 ## [1.1.1](https://github.com/adamhl8/configs/compare/v1.1.0..v1.1.1) - 2026-07-10
 
 ### 🐛 Bug Fixes
