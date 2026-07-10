@@ -1,5 +1,4 @@
 import conventional from "@commitlint/config-conventional"
-import { RuleConfigSeverity } from "@commitlint/types"
 import type { UserConfig } from "@commitlint/types"
 
 import { createMergeConfigFn } from "#utils.ts"
@@ -13,7 +12,7 @@ const commitTypes = [...filteredTypes, "improve", "release"]
 const baseConfig = {
   extends: ["@commitlint/config-conventional"],
   rules: {
-    "type-enum": [RuleConfigSeverity.Error, "always", commitTypes],
+    "type-enum": [2, "always", commitTypes],
   },
 } as const satisfies UserConfig
 
