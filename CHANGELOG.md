@@ -1,3 +1,13 @@
+## [1.1.0](https://github.com/adamhl8/configs/compare/v1.0.0..v1.1.0) - 2026-07-10
+
+### 🚀 Features
+
+- _(knip)_ adjust default entries ([735edeb](https://github.com/adamhl8/configs/commit/735edeb929425d5d93781938969588e59d0de39a) by @adamhl8)
+
+### ⚙️ Miscellaneous Tasks
+
+- _(release-it)_ verbose output ([318933f](https://github.com/adamhl8/configs/commit/318933ff06928f1b6b39dcff9686e29395dd5ef8) by @adamhl8)
+
 ## [1.0.0](https://github.com/adamhl8/configs/compare/v0.38.0..v1.0.0) - 2026-07-10
 
 ### 🚀 Features
