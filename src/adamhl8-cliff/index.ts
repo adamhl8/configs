@@ -1,13 +1,13 @@
-#!/usr/bin/env nub
+#!/usr/bin/env bun
 
-import { spawnSync } from "node:child_process"
 import path from "node:path"
-import process from "node:process"
 
-const CLIFF_CONFIG_PATH = path.resolve(import.meta.dirname, "../configs/cliff.base.toml")
+import { spawnSync } from "bun"
 
-const result = spawnSync("git-cliff", ["--config", CLIFF_CONFIG_PATH, ...process.argv.slice(2)], {
-  stdio: "inherit",
+const CLIFF_CONFIG_PATH = path.resolve(import.meta.dir, "../configs/cliff.base.toml")
+
+const result = spawnSync(["git-cliff", "--config", CLIFF_CONFIG_PATH, ...process.argv.slice(2)], {
+  stdio: ["inherit", "inherit", "inherit"],
 })
 
-process.exitCode = result.status
+process.exitCode = result.exitCode

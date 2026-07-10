@@ -2,16 +2,12 @@ import path from "node:path"
 
 import { defineConfig } from "tsdown"
 
-import { tsdownBinConfig, tsdownConfig } from "#/configs/tsdown.base.ts"
+import { tsdownBinConfig, tsdownConfig } from "#configs/tsdown.base.ts"
 
 const config = tsdownConfig({
   copy: [
     {
-      from: "./src/configs/tsconfig.base.json",
-      to: "./dist/configs/",
-    },
-    {
-      from: "./src/configs/lefthook.base.yaml",
+      from: "./src/configs/bunfig.base.toml",
       to: "./dist/configs/",
     },
     {
@@ -19,11 +15,19 @@ const config = tsdownConfig({
       to: "./dist/configs/",
     },
     {
+      from: "./src/configs/gitignore.base",
+      to: "./dist/configs/",
+    },
+    {
       from: "./src/configs/justfile.base.just",
       to: "./dist/configs/",
     },
     {
-      from: "./src/configs/gitignore.base",
+      from: "./src/configs/lefthook.base.yaml",
+      to: "./dist/configs/",
+    },
+    {
+      from: "./src/configs/tsconfig.base.json",
       to: "./dist/configs/",
     },
     {
@@ -51,6 +55,11 @@ const env = tsdownConfig(
   { arrays: "replace" },
 )
 
+const adamhl8Bunfig = tsdownBinConfig({
+  entry: ["./src/adamhl8-bunfig/index.ts"],
+  outDir: "./dist/adamhl8-bunfig/",
+})
+
 const adamhl8Cliff = tsdownBinConfig({
   entry: ["./src/adamhl8-cliff/index.ts"],
   outDir: "./dist/adamhl8-cliff/",
@@ -61,4 +70,4 @@ const adamhl8Gitignore = tsdownBinConfig({
   outDir: "./dist/adamhl8-gitignore/",
 })
 
-export default defineConfig([config, env, adamhl8Cliff, adamhl8Gitignore])
+export default defineConfig([config, env, adamhl8Bunfig, adamhl8Cliff, adamhl8Gitignore])

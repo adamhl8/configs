@@ -1,6 +1,6 @@
 import { defineConfig } from "oxlint"
 
-import { oxlintConfig } from "#/index.ts"
+import { oxlintConfig } from "#index.ts"
 
 const config = oxlintConfig({
   overrides: [

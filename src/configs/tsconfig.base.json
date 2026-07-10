@@ -3,7 +3,7 @@
   "include": ["${configDir}/**/*", "${configDir}/**/.*/**/*"],
   "exclude": ["${configDir}/dist/"],
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["bun"],
     "lib": ["ESNext"],
     "target": "ESNext",
     "jsx": "react-jsx",

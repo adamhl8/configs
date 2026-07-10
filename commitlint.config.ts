@@ -1,4 +1,4 @@
-import { commitlintConfig } from "#/configs/commitlint.base.ts"
+import { commitlintConfig } from "#configs/commitlint.base.ts"
 
 const config = commitlintConfig()
 

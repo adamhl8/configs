@@ -14,4 +14,4 @@ export const parseEnv = ((...args: Parameters<ArkEnv>) => {
   return env
 }) as ArkEnv
 
-export { requireWhen } from "#/env/utils.ts"
+export { requireWhen } from "#env/utils.ts"

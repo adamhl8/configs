@@ -3,7 +3,7 @@
 Configs (`tsconfig`, `oxfmt`, `oxlint`, etc.) I use across my projects.
 
 ```sh
-nub add -D @adamhl8/configs
+bun add -D @adamhl8/configs
 ```
 
 ### just
@@ -14,7 +14,7 @@ Scripts live in a shared [`just`](https://github.com/casey/just) base justfile i
 import "node_modules/@adamhl8/configs/dist/configs/justfile.base.just"
 ```
 
-It provides `lint`, `build`, `test`, `bump-deps`, `release`, `release-run`, and `prepare`. Run `just` to list them. `build` only runs `tsdown` if the project has a `tsdown.config.ts`, so projects without a build step can use it as-is.
+It provides `lint`, `build`, `test`, `bump-deps`, `release`, `release-run`, and `prepare`. Run `just` to list them. `build` only runs `tsdown` if the project has a `tsdown.config.ts`, and `test` (`bun test`) passes when there are no tests, so projects without a build step or tests can use them as-is.
 
 To customize a recipe, redefine it in your `justfile`. Each public recipe is a thin wrapper over a private `_recipe` that holds the actual body, so an override can still run the original instead of copying it:
 
@@ -44,6 +44,8 @@ The base justfile puts `node_modules/.bin` on `PATH`, so recipes can call packag
   "extends": "@adamhl8/configs/tsconfig"
 }
 ```
+
+The base tsconfig sets `types: ["bun"]`, so the project needs `@types/bun` installed.
 
 ### oxfmt
 
@@ -88,17 +90,6 @@ export default defineConfig(config)
 
 `tsdownBinConfig` is also exported for building `package.json` bin executables: a bundled, single-file, extensionless build with no type declarations.
 
-### vitest
-
-```ts
-import { vitestConfig } from "@adamhl8/configs"
-import { defineConfig } from "vitest/config"
-
-const config = vitestConfig({ ... })
-
-export default defineConfig(config)
-```
-
 ### commitlint
 
 ```ts
@@ -115,7 +106,7 @@ import { releaseItConfig } from "@adamhl8/configs"
 export default releaseItConfig({ ... })
 ```
 
-The release config wires up its hooks to use `adamhl8-cliff` for the changelog and release notes, so the two are meant to be used together.
+The release config wires up its hooks to use `adamhl8-cliff` for the changelog and release notes, so the two are meant to be used together. It publishes with `bun publish`.
 
 ### git-cliff
 
@@ -139,6 +130,14 @@ extends:
 
 `lefthook install` (the base justfile's `prepare` recipe runs it) sets up the hooks.
 
+### bunfig
+
+bun has no extends mechanism for `bunfig.toml`, so shared settings are synced into the project's `bunfig.toml`. The base justfile's `prepare` recipe runs the `adamhl8-bunfig` bin, which merges the shared base config (`bunfig.base.toml`) with the project's `bunfig.toml` and writes the result back. The project's values win over the base's, and a project without a `bunfig.toml` gets the base config as-is.
+
+The base config turns on coverage for `bun test` (showing only failures), runs `**/*.test.ts` files concurrently, ignores `fixtures/` directories, uses the isolated install linker, and makes `bun run` run scripts with bun instead of node.
+
+Since the file is regenerated from the merged config, comments in `bunfig.toml` don't survive the sync. The sync can also be run manually by running `adamhl8-bunfig`.
+
 ### gitignore
 
 git has no include mechanism for `.gitignore`, so shared entries are synced into the project's `.gitignore`. The base justfile's `prepare` recipe runs the `adamhl8-gitignore` bin, which keeps the shared list at the top of the file above a marker line: the first run prepends it, later runs replace everything above the marker with the current shared list, so changes propagate on package updates:
@@ -156,7 +155,7 @@ Everything below the marker is left untouched. The sync can also be run manually
 
 ## GitHub Actions
 
-This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `nub`, have a `justfile` that imports the base justfile (see [just](#just)), and have a commitlint config (e.g. via these configs). The workflows install just themselves.
+This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `bun`, have a `justfile` that imports the base justfile (see [just](#just)), and have a commitlint config (e.g. via these configs). The workflows set up bun and install just and lefthook themselves.
 
 - `ci.yml`: runs `build` (build + lint) on pushes/PRs and lints commit messages with commitlint
 - `update-deps.yml`: weekly `bump-deps` run that opens a dependency-update PR
@@ -228,6 +227,6 @@ Configure these on each repo that uses the workflows (Settings -> Secrets and va
 
 ## Notes
 
-The `prepare` script is `"prepare": "just prepare"`, which runs the base justfile's `prepare` recipe (`lefthook install` and the `.gitignore` sync).
+The `prepare` script is `"prepare": "just prepare"`, which runs the base justfile's `prepare` recipe (`lefthook install`, the `.gitignore` sync, and the `bunfig.toml` sync).
 
-nub installs `package.json` bin executables into the local `node_modules/.bin`. This means that we can run something like `adamhl8-cliff` directly instead of doing `src/adamhl8-cliff/index.ts`. That's why this repo overrides the `prepare` recipe to also run `tsdown`. Those executables need to be available.
+bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-cliff` instead of `src/adamhl8-cliff/index.ts`. That's also why this repo overrides the `prepare` recipe to first run `tsdown`: the bins point at `dist/`, so those builds need to be available.

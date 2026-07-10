@@ -1,12 +1,12 @@
 // oxlint-disable no-template-curly-in-string
 import type { Config } from "release-it"
 
-import { createMergeConfigFn } from "#/utils.ts"
+import { createMergeConfigFn } from "#utils.ts"
 
 const baseConfig = {
   hooks: {
     "before:init": "just build",
-    "after:bump": ["adamhl8-cliff --tag ${version} -o", "nubx oxfmt CHANGELOG.md"],
+    "after:bump": ["adamhl8-cliff --tag ${version} -o", "bun oxfmt CHANGELOG.md"],
   },
   git: {
     commitMessage: "release: ${version}",
@@ -20,10 +20,9 @@ const baseConfig = {
     releaseNotes: "adamhl8-cliff --unreleased --tag ${version}",
   },
   npm: {
-    // oxlint-disable-next-line typescript/no-unsafe-type-assertion - release-it doesn't support nub directly yet
-    publishPackageManager: "nub" as "bun",
+    publishPackageManager: "bun",
     publishPath: "",
-    publishArgs: ["--no-git-checks"],
+    publishArgs: ["--ignore-scripts"],
   },
 } as const satisfies Config
 

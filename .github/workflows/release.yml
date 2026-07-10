@@ -20,10 +20,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up nub
-        uses: nubjs/setup-nub@v0
+      - name: Set up bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: "26"
+          bun-version: canary
 
       - name: Install just
         uses: taiki-e/install-action@just
@@ -33,12 +33,13 @@ jobs:
 
       - name: Install lefthook
         run: |
-          nub add -g lefthook
-          nub bin -g >> "$GITHUB_PATH"
+          bun add -g lefthook
+          bun pm bin -g >> "$GITHUB_PATH"
 
       - name: Install
-        run: nub i
+        run: bun i
 
+      # release-it's preflight checks (npm ping/whoami) use the npm CLI, which reads ~/.npmrc
       - name: Configure npm auth
         run: echo "//registry.npmjs.org/:_authToken=${NPM_CI_TOKEN}" > ~/.npmrc
         env:
@@ -58,11 +59,10 @@ jobs:
         env:
           CI_SIGNING_KEY: ${{ secrets.CI_SIGNING_KEY }}
 
-      - name: Discard install-time churn
-        run: git checkout -- .npmrc
-
       - name: Release
         run: just release-run
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          # bun publish doesn't read ~/.npmrc, it takes the token from NPM_CONFIG_TOKEN
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_CI_TOKEN }}
           LEFTHOOK: "0"

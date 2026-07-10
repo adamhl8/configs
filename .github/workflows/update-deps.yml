@@ -16,21 +16,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Set up nub
-        uses: nubjs/setup-nub@v0
+      - name: Set up bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: "26"
+          bun-version: canary
 
       - name: Install just
         uses: taiki-e/install-action@just
 
       - name: Install lefthook
         run: |
-          nub add -g lefthook
-          nub bin -g >> "$GITHUB_PATH"
+          bun add -g lefthook
+          bun pm bin -g >> "$GITHUB_PATH"
 
       - name: Install
-        run: nub i
+        run: bun i
 
       - name: Update dependencies
         run: just bump-deps

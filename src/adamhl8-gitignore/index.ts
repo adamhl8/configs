@@ -1,9 +1,10 @@
-#!/usr/bin/env nub
+#!/usr/bin/env bun
 
-import fs from "node:fs"
 import path from "node:path"
 
-const GITIGNORE_BASE_PATH = path.resolve(import.meta.dirname, "../configs/gitignore.base")
+import bun from "bun"
+
+const GITIGNORE_BASE_PATH = path.resolve(import.meta.dir, "../configs/gitignore.base")
 const END_MARKER =
   "# The above patterns are managed by @adamhl8/configs. Anything manually added above this line will be replaced."
 
@@ -15,8 +16,9 @@ const mergeGitignore = (currentContent: string, blockBody: string): string => {
 }
 
 const gitignorePath = ".gitignore"
-const blockBody = fs.readFileSync(GITIGNORE_BASE_PATH, "utf8").trim()
-const currentContent = fs.existsSync(gitignorePath) ? fs.readFileSync(gitignorePath, "utf8") : ""
+const blockBody = (await bun.file(GITIGNORE_BASE_PATH).text()).trim()
+const currentContentFile = bun.file(gitignorePath)
+const currentContent = (await currentContentFile.exists()) ? await currentContentFile.text() : ""
 
 const merged = mergeGitignore(currentContent, blockBody)
-if (merged !== currentContent) fs.writeFileSync(gitignorePath, merged)
+if (merged !== currentContent) await bun.write(gitignorePath, merged)

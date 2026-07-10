@@ -1,6 +1,6 @@
 import { defineConfig } from "oxfmt"
 
-import { oxfmtConfig } from "#/index.ts"
+import { oxfmtConfig } from "#index.ts"
 
 const config = oxfmtConfig()
 

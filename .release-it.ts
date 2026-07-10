@@ -1,4 +1,4 @@
-import { releaseItConfig } from "#/index.ts"
+import { releaseItConfig } from "#index.ts"
 
 const config = releaseItConfig()
 

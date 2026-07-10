@@ -15,12 +15,15 @@ prepare: _prepare
 _prepare:
     lefthook install
     adamhl8-gitignore
+    adamhl8-bunfig
+    oxfmt bunfig.toml
 
 bump-deps: _bump-deps
 _bump-deps:
-    nub update -L
-    rm -f nub.lock
-    nub i --no-frozen-lockfile
+    bunx npm-check-updates --upgrade --format group
+    rm -f bun.lock
+    rm -rf node_modules/
+    bun i --ignore-scripts --no-summary
 
 tofu-check: _tofu-check
 _tofu-check:
@@ -33,7 +36,7 @@ _lint:
     oxlint --fix --fix-suggestions --fix-dangerously
     oxfmt
     knip
-    @{{ run-when("just test", "[ -f vitest.config.ts ]") }}
+    @just test
 
 build: _build
 _build: lint && tofu-check
@@ -41,7 +44,7 @@ _build: lint && tofu-check
 
 test: _test
 _test:
-    vitest run
+    @bun test --pass-with-no-tests
 
 release: _release
 _release:

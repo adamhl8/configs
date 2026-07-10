@@ -1,8 +1,8 @@
 import type { UserConfig } from "tsdown"
 import type { SetRequired } from "type-fest"
 
-import type { MergeConfigFn } from "#/utils.ts"
-import { createMergeConfigFn } from "#/utils.ts"
+import type { MergeConfigFn } from "#utils.ts"
+import { createMergeConfigFn } from "#utils.ts"
 
 // Force projects to specify platform
 type StrictUserConfig = SetRequired<UserConfig, "platform">
@@ -18,9 +18,12 @@ const baseConfig = {
   hash: false,
   dts: {
     newContext: true,
-    // remove/change when rolldown-plugin-dts supports TypeScript v7
+    // remove/change when tsdown released new version
     tsgo: { path: "./node_modules/.bin/tsc" },
     sourcemap: true,
+  },
+  deps: {
+    neverBundle: ["bun"],
   },
   attw: {
     level: "error",

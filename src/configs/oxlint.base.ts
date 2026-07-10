@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url"
 
 import type { OxlintConfig } from "oxlint"
 
-import { createMergeConfigFn } from "#/utils.ts"
+import { createMergeConfigFn } from "#utils.ts"
 
 const baseConfig = {
   options: {
@@ -50,7 +50,6 @@ const baseConfig = {
         "oxlint.config.ts",
         "prisma.config.ts",
         "tsdown.config.ts",
-        "vitest.config.ts",
       ],
       rules: {
         "import/no-default-export": "off",
@@ -122,6 +121,7 @@ const baseConfig = {
     "typescript/strict-boolean-expressions": "off",
     "unicorn/no-array-callback-reference": "off",
     "unicorn/no-array-method-this-argument": "off",
+    "unicorn/no-await-expression-member": "off",
     "unicorn/no-process-exit": "off",
     "unicorn/number-literal-case": "off",
     "unicorn/switch-case-braces": "off",
