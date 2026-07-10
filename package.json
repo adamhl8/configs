@@ -84,7 +84,7 @@
     "publint": ">=0.3",
     "release-it": ">=19",
     "tsdown": ">=0.20",
-    "typescript": "^6.0.0"
+    "typescript": "^7.0.0"
   },
   "peerDependenciesMeta": {
     "@arethetypeswrong/core": {

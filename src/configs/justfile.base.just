@@ -35,7 +35,7 @@ _lint:
     markdown-toc -i --bullets '-' --maxdepth 3 ./README.md
     oxlint --fix --fix-suggestions --fix-dangerously
     oxfmt
-    knip
+    knip-bun
     @just test
 
 build: _build

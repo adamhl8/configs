@@ -8,15 +8,17 @@ const IGNORE_BINARIES = ["just"] as const satisfies string[]
 /**
  * - Knip resolves `@adamhl8/eslint-plugin-clean-modules` via the oxlint config, but we don't need to install it directly
  *   in the consuming project, so it shows as unlisted
- * - `npm-check-updates` is used via the `ncu` alias.
  */
-const IGNORE_DEPENDENCIES = ["@adamhl8/eslint-plugin-clean-modules", "npm-check-updates"] as const satisfies string[]
+const IGNORE_DEPENDENCIES = ["@adamhl8/eslint-plugin-clean-modules"] as const satisfies string[]
 
 const baseConfig = {
   project: ["**/*"],
-  entry: ["./src/index.ts"],
+  // entry: ["**/*.test.ts"],
   ignoreBinaries: IGNORE_BINARIES,
   ignoreDependencies: IGNORE_DEPENDENCIES,
+  bun: {
+    entry: ["**/*.test.ts"],
+  },
 } as const satisfies KnipConfig
 
 export const knipConfig = createMergeConfigFn<KnipConfig, typeof baseConfig>(baseConfig)
