@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/adamhl8/configs/compare/v1.1.0..v1.1.1) - 2026-07-10
+
+### 🐛 Bug Fixes
+
+- fix leaky enum in commitlint base config ([a320c5e](https://github.com/adamhl8/configs/commit/a320c5e9bd222d5eae795b51313e6d75d936e546) by @adamhl8)
+
 ## [1.1.0](https://github.com/adamhl8/configs/compare/v1.0.0..v1.1.0) - 2026-07-10
 
 ### 🚀 Features
