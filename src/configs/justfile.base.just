@@ -54,4 +54,4 @@ _release:
 release-run: _release-run
 
 _release-run:
-    release-it --ci -i "$(adamhl8-cliff --bumped-version)"
+    release-it -VV --ci -i "$(adamhl8-cliff --bumped-version)"
