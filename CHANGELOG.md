@@ -1,3 +1,9 @@
+## [1.0.0](https://github.com/adamhl8/configs/compare/v0.38.0..v1.0.0) - 2026-07-10
+
+### 🚀 Features
+
+- [**breaking**] use bun ([35c5a52](https://github.com/adamhl8/configs/commit/35c5a526d4d865bfba6a39717a2a92e12716c878) by @adamhl8)
+
 ## [0.38.0](https://github.com/adamhl8/configs/compare/v0.37.0..v0.38.0) - 2026-07-08
 
 ### 🚀 Features
