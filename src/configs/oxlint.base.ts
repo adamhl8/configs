@@ -129,6 +129,7 @@ const baseConfig = {
     "vitest/no-importing-vitest-globals": "off",
     "vitest/prefer-describe-function-title": "off",
     "vitest/prefer-expect-assertions": "off",
+    "vitest/prefer-importing-vitest-globals": "off",
     "vitest/prefer-lowercase-title": "off",
     "vitest/prefer-to-be-falsy": "off",
     "vitest/prefer-to-be-truthy": "off",
