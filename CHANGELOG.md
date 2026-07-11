@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/adamhl8/configs/compare/v1.2.0..v1.2.1) - 2026-07-11
+
+### ⚙️ Miscellaneous Tasks
+
+- _(deps)_ update dependencies ([4d346d7](https://github.com/adamhl8/configs/commit/4d346d7fcddc40f682ba61b3fda724e440adeb55) by @adamhl8)
+
+- provide GITHUB_TOKEN during build ([cd1f934](https://github.com/adamhl8/configs/commit/cd1f934e00faa81c6d6cab9ac7f823b5aacb3a31) by @adamhl8)
+
 ## [1.2.0](https://github.com/adamhl8/configs/compare/v1.1.1..v1.2.0) - 2026-07-10
 
 ### 🚀 Features
