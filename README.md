@@ -6,6 +6,21 @@ Configs (`tsconfig`, `oxfmt`, `oxlint`, etc.) I use across my projects.
 bun add -D @adamhl8/configs
 ```
 
+### Config merging
+
+Each `fooConfig({ ... })` function deep merges your config into the base config. Arrays are appended to the base array by default. To control this per key, any array-typed key can instead take `{ value: [...], mode: "merge" | "replace" }`:
+
+```ts
+const config = oxlintConfig({
+  // appended to the base plugins (same as passing a plain array)
+  plugins: { value: ["my-plugin"], mode: "merge" },
+  // used as-is, the base overrides are dropped
+  overrides: { value: [], mode: "replace" },
+})
+```
+
+The wrapper works at any depth and never appears in the merged result, in the types or at runtime.
+
 ### just
 
 Scripts live in a shared [`just`](https://github.com/casey/just) base justfile instead of being copied into every project's `package.json`. Your `justfile`:

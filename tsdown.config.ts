@@ -46,27 +46,24 @@ const config = tsdownConfig({
   publint: false,
 })
 
-const env = tsdownConfig(
-  {
-    entry: ["./src/env/index.ts"],
-    platform: "node",
-    outDir: "./dist/env/",
-  },
-  { arrays: "replace" },
-)
+const env = tsdownConfig({
+  entry: "./src/env/index.ts",
+  platform: "node",
+  outDir: "./dist/env/",
+})
 
 const adamhl8Bunfig = tsdownBinConfig({
-  entry: ["./src/adamhl8-bunfig/index.ts"],
+  entry: "./src/adamhl8-bunfig/index.ts",
   outDir: "./dist/adamhl8-bunfig/",
 })
 
 const adamhl8Cliff = tsdownBinConfig({
-  entry: ["./src/adamhl8-cliff/index.ts"],
+  entry: "./src/adamhl8-cliff/index.ts",
   outDir: "./dist/adamhl8-cliff/",
 })
 
 const adamhl8Gitignore = tsdownBinConfig({
-  entry: ["./src/adamhl8-gitignore/index.ts"],
+  entry: "./src/adamhl8-gitignore/index.ts",
   outDir: "./dist/adamhl8-gitignore/",
 })
 

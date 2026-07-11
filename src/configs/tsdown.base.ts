@@ -5,7 +5,7 @@ import type { MergeConfigFn } from "#utils.ts"
 import { createMergeConfigFn } from "#utils.ts"
 
 // Force projects to specify platform
-type StrictUserConfig = SetRequired<UserConfig, "platform">
+type StrictConfig = SetRequired<UserConfig, "platform">
 
 const baseConfig = {
   entry: ["./src/index.ts"],
@@ -30,11 +30,15 @@ const baseConfig = {
   },
   publint: true,
   failOnWarn: true,
-} as const satisfies StrictUserConfig
+} as const satisfies StrictConfig
+
+// Force projects to specify platform and entry
+type StrictBundleConfig = SetRequired<UserConfig, "platform" | "entry">
 
 // Single-file bundle (not a published library): bundle everything, drop types/lint/sourcemap.
 const bundleConfig = {
   ...baseConfig,
+  entry: [],
   unbundle: false,
   sourcemap: false,
   dts: false,
@@ -45,25 +49,29 @@ const bundleConfig = {
       attachDebugInfo: "none", // remove region comments from bundled output
     },
   },
-} as const satisfies StrictUserConfig
+} as const satisfies StrictBundleConfig
+
+// Force projects to specify platform and entry
+type StrictBinConfig = SetRequired<UserConfig, "entry">
 
 // A bin is a node bundle with no output file extension.
 const binConfig = {
   ...bundleConfig,
-  entry: [],
   platform: "node",
   outExtensions: () => ({ js: "" }) as const,
-} as const satisfies UserConfig
+} as const satisfies StrictBinConfig
 
-// Annotated as the non-optional MergeConfigFn so projects must pass a config (platform is required)
-export const tsdownConfig: MergeConfigFn<StrictUserConfig, typeof baseConfig> = createMergeConfigFn<
-  StrictUserConfig,
+export const tsdownConfig: MergeConfigFn<StrictConfig, typeof baseConfig> = createMergeConfigFn<
+  StrictConfig,
   typeof baseConfig
 >(baseConfig)
 
-export const tsdownBundleConfig: MergeConfigFn<StrictUserConfig, typeof bundleConfig> = createMergeConfigFn<
-  StrictUserConfig,
+export const tsdownBundleConfig: MergeConfigFn<StrictBundleConfig, typeof bundleConfig> = createMergeConfigFn<
+  StrictBundleConfig,
   typeof bundleConfig
 >(bundleConfig)
 
-export const tsdownBinConfig = createMergeConfigFn<UserConfig, typeof binConfig>(binConfig)
+export const tsdownBinConfig: MergeConfigFn<StrictBinConfig, typeof binConfig> = createMergeConfigFn<
+  StrictBinConfig,
+  typeof binConfig
+>(binConfig)

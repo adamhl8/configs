@@ -13,7 +13,6 @@ const IGNORE_DEPENDENCIES = ["@adamhl8/eslint-plugin-clean-modules"] as const sa
 
 const baseConfig = {
   project: ["**/*"],
-  // entry: ["**/*.test.ts"],
   ignoreBinaries: IGNORE_BINARIES,
   ignoreDependencies: IGNORE_DEPENDENCIES,
   bun: {
