@@ -8,6 +8,9 @@ export PATH := justfile_directory() + "/node_modules/.bin:" + env("PATH")
 # runs cmd if the condition command succeeds, echoing cmd only when it runs
 run-when(cmd, condition) := f"if {{condition}}; then echo {{style("command", cmd)}}; {{cmd}}; fi"
 
+# run if not in CI, the repo has a root module, and the aws profile exists on this machine
+tofu-run-condition := '[ -z "${CI:-}" ] && ls *.tofu >/dev/null 2>&1 && aws configure list-profiles 2>/dev/null | grep -qx adamhl8'
+
 # public recipes are thin wrappers over private _recipes so an override can still call the original
 # e.g. `prepare: _prepare` + extra lines
 
@@ -17,6 +20,7 @@ _prepare:
     adamhl8-gitignore
     adamhl8-bunfig
     oxfmt bunfig.toml
+    @{{ run-when("tofu init -upgrade", tofu-run-condition) }}
 
 bump-deps: _bump-deps
 _bump-deps:
@@ -27,8 +31,7 @@ _bump-deps:
 
 tofu-check: _tofu-check
 _tofu-check:
-    @# run if not in CI, the repo has a root module, and the aws profile exists on this machine
-    @{{ run-when("tofu plan -detailed-exitcode -concise -compact-warnings", '[ -z "${CI:-}" ] && ls *.tofu >/dev/null 2>&1 && aws configure list-profiles 2>/dev/null | grep -qx adamhl8') }}
+    @{{ run-when("tofu plan -detailed-exitcode -concise -compact-warnings", tofu-run-condition) }}
 
 lint: _lint
 _lint:
