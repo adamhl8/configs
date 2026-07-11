@@ -1,3 +1,9 @@
+## [1.6.0](https://github.com/adamhl8/configs/compare/v1.5.0..v1.6.0) - 2026-07-11
+
+### 🚀 Features
+
+- _(bunfig)_ add default coveragePathIgnorePatterns ([54271e8](https://github.com/adamhl8/configs/commit/54271e8ab4d1874db45e34ca8dd5d11c820bff68) by @adamhl8)
+
 ## [1.5.0](https://github.com/adamhl8/configs/compare/v1.4.0..v1.5.0) - 2026-07-11
 
 ### 🚀 Features
