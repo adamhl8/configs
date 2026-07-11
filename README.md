@@ -177,6 +177,18 @@ jobs:
     uses: adamhl8/configs/.github/workflows/ci.yml@main
 ```
 
+The `just build` step runs with `GITHUB_TOKEN` set, for builds that call the GitHub API. It comes from the optional `GH_TOKEN` secret (see [Secrets](#secrets)): the names differ because Actions secrets can't be named `GITHUB_*`, so a build reading `GITHUB_TOKEN` can't be fed by a secret of the same name.
+
+When the secret is unset it falls back to the workflow's auto-provisioned token, so fork PRs (which receive no secrets) still build. To supply your own token, pass it. Prefer naming it over `secrets: inherit` here: CI runs on every PR, so it shouldn't be handed the release and deploy secrets it never uses.
+
+```yaml
+jobs:
+  ci:
+    uses: adamhl8/configs/.github/workflows/ci.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+```
+
 ### Update dependencies
 
 Needs the `CI_TOKEN` secret (see [Secrets](#secrets)).
@@ -220,6 +232,7 @@ Configure these on each repo that uses the workflows (Settings -> Secrets and va
 | Secret           | Used by           | What it is                                                                                                                                                                                                                     |
 | ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `CI_TOKEN`       | `update-deps.yml` | PAT with `contents` and `pull-requests` write, so the opened PR triggers CI                                                                                                                                                    |
+| `GH_TOKEN`       | `ci.yml`          | Optional. PAT for a build that calls the GitHub API. Reaches the build as `GITHUB_TOKEN`. Unset, the build falls back to the automatic token.                                                                                  |
 | `NPM_CI_TOKEN`   | `release.yml`     | npm automation token with publish access                                                                                                                                                                                       |
 | `CI_SIGNING_KEY` | `release.yml`     | Private SSH key that signs the release commit and tag. Add the matching public key to your GitHub account as a Signing Key so the signature verifies as you. Use a dedicated, passphrase-less key, not your personal auth key. |
 

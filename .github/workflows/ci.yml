@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
   workflow_call:
+    secrets:
+      GH_TOKEN:
+        required: false
 
 jobs:
   validate:
@@ -33,6 +36,8 @@ jobs:
 
       - name: Build + lint
         run: just build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
 
       - name: Lint last commit message
         if: github.event_name == 'push'
