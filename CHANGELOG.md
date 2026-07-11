@@ -1,3 +1,9 @@
+## [1.5.0](https://github.com/adamhl8/configs/compare/v1.4.0..v1.5.0) - 2026-07-11
+
+### 🚀 Features
+
+- run prepare during bump-deps ([9b0a44f](https://github.com/adamhl8/configs/commit/9b0a44f6fd73a9d9f2d1c0ba34d1b62cc53fd39b) by @adamhl8)
+
 ## [1.4.0](https://github.com/adamhl8/configs/compare/v1.3.0..v1.4.0) - 2026-07-11
 
 ### 🚀 Features
