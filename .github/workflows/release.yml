@@ -37,7 +37,7 @@ jobs:
           bun pm bin -g >> "$GITHUB_PATH"
 
       - name: Install
-        run: bun i
+        run: bun install
 
       # release-it's preflight checks (npm ping/whoami) use the npm CLI, which reads ~/.npmrc
       - name: Configure npm auth

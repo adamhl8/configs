@@ -32,7 +32,7 @@ jobs:
           bun pm bin -g >> "$GITHUB_PATH"
 
       - name: Install
-        run: bun i
+        run: bun install
 
       - name: Build + lint
         run: just build

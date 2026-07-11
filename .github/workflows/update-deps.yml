@@ -30,7 +30,7 @@ jobs:
           bun pm bin -g >> "$GITHUB_PATH"
 
       - name: Install
-        run: bun i
+        run: bun install --ignore-scripts
 
       - name: Update dependencies
         run: just bump-deps

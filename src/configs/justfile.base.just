@@ -27,7 +27,7 @@ _bump-deps:
     bunx npm-check-updates --upgrade --format group
     rm -f bun.lock
     rm -rf node_modules/
-    bun i --ignore-scripts --no-summary
+    bun install --no-summary
 
 tofu-check: _tofu-check
 _tofu-check:
