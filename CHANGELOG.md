@@ -1,3 +1,9 @@
+## [1.3.0](https://github.com/adamhl8/configs/compare/v1.2.1..v1.3.0) - 2026-07-11
+
+### 🚀 Features
+
+- run tofu init on prepare ([3e81e09](https://github.com/adamhl8/configs/commit/3e81e0979ed279cc11edf5853c0565ceeabd683f) by @adamhl8)
+
 ## [1.2.1](https://github.com/adamhl8/configs/compare/v1.2.0..v1.2.1) - 2026-07-11
 
 ### ⚙️ Miscellaneous Tasks
