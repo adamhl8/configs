@@ -18,8 +18,7 @@ const baseConfig = {
   hash: false,
   dts: {
     newContext: true,
-    // remove/change when tsdown released new version
-    tsgo: { path: "./node_modules/.bin/tsc" },
+    tsgo: true,
     sourcemap: true,
   },
   deps: {
