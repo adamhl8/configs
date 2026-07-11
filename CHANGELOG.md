@@ -1,3 +1,9 @@
+## [1.4.0](https://github.com/adamhl8/configs/compare/v1.3.0..v1.4.0) - 2026-07-11
+
+### 🚀 Features
+
+- _(tsdown)_ add tsdownBundleConfig ([21fef45](https://github.com/adamhl8/configs/commit/21fef45856e6737577be62ee3d2414e8e98dcf42) by @adamhl8)
+
 ## [1.3.0](https://github.com/adamhl8/configs/compare/v1.2.1..v1.3.0) - 2026-07-11
 
 ### 🚀 Features
