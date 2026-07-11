@@ -32,15 +32,27 @@ const baseConfig = {
   failOnWarn: true,
 } as const satisfies StrictUserConfig
 
-const binConfig = {
+// Single-file bundle (not a published library): bundle everything, drop types/lint/sourcemap.
+const bundleConfig = {
   ...baseConfig,
-  entry: [],
-  platform: "node",
   unbundle: false,
   sourcemap: false,
-  outExtensions: () => ({ js: "" }) as const,
   dts: false,
   attw: false,
+  publint: false,
+  inputOptions: {
+    experimental: {
+      attachDebugInfo: "none", // remove region comments from bundled output
+    },
+  },
+} as const satisfies StrictUserConfig
+
+// A bin is a node bundle with no output file extension.
+const binConfig = {
+  ...bundleConfig,
+  entry: [],
+  platform: "node",
+  outExtensions: () => ({ js: "" }) as const,
 } as const satisfies UserConfig
 
 // Annotated as the non-optional MergeConfigFn so projects must pass a config (platform is required)
@@ -48,4 +60,10 @@ export const tsdownConfig: MergeConfigFn<StrictUserConfig, typeof baseConfig> = 
   StrictUserConfig,
   typeof baseConfig
 >(baseConfig)
+
+export const tsdownBundleConfig: MergeConfigFn<StrictUserConfig, typeof bundleConfig> = createMergeConfigFn<
+  StrictUserConfig,
+  typeof bundleConfig
+>(bundleConfig)
+
 export const tsdownBinConfig = createMergeConfigFn<UserConfig, typeof binConfig>(binConfig)
