@@ -3,8 +3,6 @@ set unstable
 set default-list
 set allow-duplicate-recipes
 
-export PATH := justfile_directory() + "/node_modules/.bin:" + env("PATH")
-
 # runs cmd if the condition command succeeds, echoing cmd only when it runs
 run-when(cmd, condition) := f"if {{condition}}; then echo {{style("command", cmd)}}; {{cmd}}; fi"
 
@@ -17,9 +15,9 @@ tofu-run-condition := '[ -z "${CI:-}" ] && ls *.tofu >/dev/null 2>&1 && aws conf
 prepare: _prepare
 _prepare:
     lefthook install
-    adamhl8-gitignore
-    adamhl8-bunfig
-    oxfmt bunfig.toml
+    bun adamhl8-gitignore
+    bun adamhl8-bunfig
+    bun oxfmt bunfig.toml
     @{{ run-when("tofu init -upgrade", tofu-run-condition) }}
 
 bump-deps: _bump-deps
@@ -35,15 +33,15 @@ _tofu-check:
 
 lint: _lint
 _lint:
-    markdown-toc -i --bullets '-' --maxdepth 3 ./README.md
-    oxlint --fix --fix-suggestions --fix-dangerously
-    oxfmt
-    knip-bun
+    bun markdown-toc -i --bullets '-' --maxdepth 3 ./README.md
+    bun oxlint --fix --fix-suggestions --fix-dangerously
+    bun oxfmt
+    bun knip-bun
     @just test
 
 build: _build
 _build: lint && tofu-check
-    @{{ run-when("tsdown", "[ -f tsdown.config.ts ]") }}
+    @{{ run-when("bun tsdown", "[ -f tsdown.config.ts ]") }}
 
 test: _test
 _test:
@@ -57,4 +55,4 @@ _release:
 release-run: _release-run
 
 _release-run:
-    release-it -VV --ci -i "$(adamhl8-cliff --bumped-version)"
+    bun release-it -VV --ci -i "$(adamhl8-cliff --bumped-version)"

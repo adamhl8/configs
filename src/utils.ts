@@ -69,20 +69,29 @@ type WithArrayOverrides<T> = T extends readonly unknown[]
       ? { [K in keyof T]: WithArrayOverrides<T[K]> }
       : T
 
-/** True if T contains (at any object depth, not inside arrays) a replace-mode wrapper. */
-type HasReplaceWrapper<T> = T extends readonly unknown[]
-  ? false
-  : T extends AnyFunction
+/**
+ * True if T contains (at any object depth, not inside arrays) a replace-mode wrapper. Depth is a recursion budget: when
+ * a call fails the generic constraint, this type runs over the full constraint (the whole tool config type), and the
+ * eager `{ ... }[keyof T]` walk would hit TS2615 on circular types in it (e.g. Console) and bury the real error.
+ */
+type HasReplaceWrapper<T, Depth extends readonly unknown[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]> = Depth extends readonly [
+  unknown,
+  ...infer RemainingDepth,
+]
+  ? T extends readonly unknown[]
     ? false
-    : T extends object
-      ? IsArrayOverride<T> extends true
-        ? T extends { readonly mode: "replace" }
-          ? true
-          : false
-        : true extends { [K in keyof T]: HasReplaceWrapper<T[K]> }[keyof T]
-          ? true
-          : false
-      : false
+    : T extends AnyFunction
+      ? false
+      : T extends object
+        ? IsArrayOverride<T> extends true
+          ? T extends { readonly mode: "replace" }
+            ? true
+            : false
+          : true extends { [K in keyof T]: HasReplaceWrapper<T[K], RemainingDepth> }[keyof T]
+            ? true
+            : false
+        : false
+  : false
 
 /** Keep only the key paths whose leaf is a replace-mode wrapper; unwrap those leaves to their `value` type. */
 type DeepPickReplaceWrappers<T> = {
