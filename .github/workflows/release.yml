@@ -5,15 +5,17 @@ on:
   workflow_call:
     inputs:
       setup:
-        description: Shell commands to run before the release, for repos whose build needs system deps
+        description: Shell commands to run before the release
         type: string
         required: false
         default: ""
     secrets:
-      NPM_CI_TOKEN:
-        required: false
       CI_SIGNING_KEY:
         required: true
+      CI_TOKEN:
+        required: false
+      NPM_CI_TOKEN:
+        required: false
 
 jobs:
   release:
@@ -72,7 +74,7 @@ jobs:
       - name: Release
         run: just release-run
         env:
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
-          # bun publish doesn't read ~/.npmrc, it takes the token from NPM_CONFIG_TOKEN
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_CI_TOKEN }}
           LEFTHOOK: "0"
