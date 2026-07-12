@@ -1,3 +1,17 @@
+## [2.0.0](https://github.com/adamhl8/configs/compare/v1.6.0..v2.0.0) - 2026-07-12
+
+### 🚀 Features
+
+- [**breaking**] arrays can be replaced individually ([ff7be56](https://github.com/adamhl8/configs/commit/ff7be565e064ef9668f0bd9d999c4cab7ed2d961) by @adamhl8)
+
+### 🐛 Bug Fixes
+
+- _(justfile)_ call bun directly ([1b1963e](https://github.com/adamhl8/configs/commit/1b1963e770b93b3cf2883ad65130c21cc2f333fe) by @adamhl8)
+
+### ⚙️ Miscellaneous Tasks
+
+- fix release ([71ca9b4](https://github.com/adamhl8/configs/commit/71ca9b434776391c4ddfd69606934eb229fb5bb4) by @adamhl8)
+
 ## [1.6.0](https://github.com/adamhl8/configs/compare/v1.5.0..v1.6.0) - 2026-07-11
 
 ### 🚀 Features
