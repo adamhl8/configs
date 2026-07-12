@@ -6,7 +6,7 @@ import { createMergeConfigFn } from "#utils.ts"
 const baseConfig = {
   hooks: {
     "before:init": "just build",
-    "after:bump": ["adamhl8-cliff --tag ${version} -o", "bun oxfmt CHANGELOG.md"],
+    "after:bump": ["bun adamhl8-cliff --tag ${version} -o", "bun oxfmt CHANGELOG.md"],
   },
   git: {
     commitMessage: "release: ${version}",
@@ -17,7 +17,7 @@ const baseConfig = {
   github: {
     release: true,
     releaseName: "${version}",
-    releaseNotes: "adamhl8-cliff --unreleased --tag ${version}",
+    releaseNotes: "bun adamhl8-cliff --unreleased --tag ${version}",
   },
   npm: {
     publishPackageManager: "bun",
