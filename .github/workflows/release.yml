@@ -3,6 +3,12 @@ name: Release
 on:
   workflow_dispatch: {}
   workflow_call:
+    inputs:
+      setup:
+        description: Shell commands to run before the release, for repos whose build needs system deps
+        type: string
+        required: false
+        default: ""
     secrets:
       NPM_CI_TOKEN:
         required: false
@@ -35,6 +41,10 @@ jobs:
         run: |
           bun add -g lefthook
           bun pm bin -g >> "$GITHUB_PATH"
+
+      - name: Setup
+        if: inputs.setup != ''
+        run: ${{ inputs.setup }}
 
       - name: Install
         run: bun install
