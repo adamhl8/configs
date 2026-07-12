@@ -1,3 +1,13 @@
+## [2.1.0](https://github.com/adamhl8/configs/compare/v2.0.0..v2.1.0) - 2026-07-12
+
+### 🚀 Features
+
+- add setup input to release workflow ([8d1083e](https://github.com/adamhl8/configs/commit/8d1083e87faf8f8765d41cf5516e98f29e0448a3) by @adamhl8)
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ turn off no-template-curly-in-string for release-it config ([e876d63](https://github.com/adamhl8/configs/commit/e876d633ac86db55833acda6add6b21350604fe6) by @adamhl8)
+
 ## [2.0.0](https://github.com/adamhl8/configs/compare/v1.6.0..v2.0.0) - 2026-07-12
 
 ### 🚀 Features
