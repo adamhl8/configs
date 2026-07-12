@@ -55,6 +55,12 @@ const baseConfig = {
         "import/no-default-export": "off",
       },
     },
+    {
+      files: [".release-it.ts"],
+      rules: {
+        "no-template-curly-in-string": "off",
+      },
+    },
   ],
 
   rules: {
