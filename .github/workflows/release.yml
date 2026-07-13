@@ -37,8 +37,6 @@ jobs:
 
       - name: Set up bun
         uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: canary
 
       - name: Install just
         uses: taiki-e/install-action@just
