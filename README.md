@@ -8,18 +8,24 @@ bun add -D @adamhl8/configs
 
 ### Config merging
 
-Each `fooConfig({ ... })` function deep merges your config into the base config. Arrays are appended to the base array by default. To control this per key, any array-typed key can instead take `{ value: [...], mode: "merge" | "replace" }`:
+Each `fooConfig({ ... })` function deep merges your config into the base config. Arrays are appended to the base array by default. To use arrays as-is instead, put them in a second config object, which is merged the same way except its arrays replace the base array:
 
 ```ts
-const config = oxlintConfig({
-  // appended to the base plugins (same as passing a plain array)
-  plugins: { value: ["my-plugin"], mode: "merge" },
-  // used as-is, the base overrides are dropped
-  overrides: { value: [], mode: "replace" },
-})
+import { oxlintConfig } from "@adamhl8/configs"
+
+const config = oxlintConfig(
+  {
+    // appended to the base plugins
+    plugins: ["my-plugin"],
+  },
+  {
+    // used as-is, the base overrides are dropped
+    overrides: [],
+  },
+)
 ```
 
-The wrapper works at any depth and never appears in the merged result, in the types or at runtime.
+The second config works at any depth: only the arrays you provide are replaced, sibling keys still merge normally, and a key in both objects gets the second object's value. Required keys (e.g. `platform` for `tsdownConfig`) must be provided in the first object.
 
 ### just
 
@@ -240,16 +246,38 @@ jobs:
     secrets: inherit
 ```
 
+#### Docker
+
+Pass `docker-image` to build the repo's `Dockerfile` and push it to `ghcr.io/<owner>/<docker-image>:latest` once the release lands. The image name is separate from the repo name, since they often differ. Omit the input and no image is built.
+
+The build checks out the tag the release just created, not `main`, so the image matches the released commit. Callers that use it must also grant `packages: write`, because a called workflow's permissions are capped by what the calling job grants.
+
+The optional `GH_TOKEN` secret is passed to the build as a BuildKit secret named `GH_TOKEN`, for images whose build calls the GitHub API. Mount it in the Dockerfile with `RUN --mount=type=secret,id=GH_TOKEN,env=GITHUB_TOKEN`. A Dockerfile that doesn't mount it is unaffected.
+
+To deploy after the push, add a job that needs the release. A job waiting on a called workflow waits for all of its jobs, so it runs after the image is pushed.
+
+```yaml
+jobs:
+  release:
+    permissions:
+      contents: write
+      packages: write
+    uses: adamhl8/configs/.github/workflows/release.yml@main
+    with:
+      docker-image: actual-budget-venmo-importer
+    secrets: inherit
+```
+
 ### Secrets
 
 Configure these on each repo that uses the workflows (Settings -> Secrets and variables -> Actions):
 
-| Secret           | Used by           | What it is                                                                                                                                                                                                                     |
-| ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `CI_TOKEN`       | `update-deps.yml` | PAT with `contents` and `pull-requests` write, so the opened PR triggers CI                                                                                                                                                    |
-| `GH_TOKEN`       | `ci.yml`          | Optional. PAT for a build that calls the GitHub API. Reaches the build as `GITHUB_TOKEN`. Unset, the build falls back to the automatic token.                                                                                  |
-| `NPM_CI_TOKEN`   | `release.yml`     | npm automation token with publish access                                                                                                                                                                                       |
-| `CI_SIGNING_KEY` | `release.yml`     | Private SSH key that signs the release commit and tag. Add the matching public key to your GitHub account as a Signing Key so the signature verifies as you. Use a dedicated, passphrase-less key, not your personal auth key. |
+| Secret           | Used by                 | What it is                                                                                                                                                                                                                        |
+| ---------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CI_TOKEN`       | `update-deps.yml`       | PAT with `contents` and `pull-requests` write, so the opened PR triggers CI                                                                                                                                                       |
+| `GH_TOKEN`       | `ci.yml`, `release.yml` | Optional. PAT for a build that calls the GitHub API. Reaches a `ci.yml` build as `GITHUB_TOKEN`, and a `release.yml` docker build as the `GH_TOKEN` BuildKit secret. Unset, the `ci.yml` build falls back to the automatic token. |
+| `NPM_CI_TOKEN`   | `release.yml`           | npm automation token with publish access                                                                                                                                                                                          |
+| `CI_SIGNING_KEY` | `release.yml`           | Private SSH key that signs the release commit and tag. Add the matching public key to your GitHub account as a Signing Key so the signature verifies as you. Use a dedicated, passphrase-less key, not your personal auth key.    |
 
 `GITHUB_TOKEN` is provided automatically. The release wrapper grants it `contents: write` to push the release commit and tag and to create the GitHub release.
 

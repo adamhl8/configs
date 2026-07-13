@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url"
 
 import type { OxlintConfig } from "oxlint"
 
-import { createMergeConfigFn } from "#utils.ts"
+import { createMergeConfigFn } from "#merge-config/merge-config.ts"
 
 const baseConfig = {
   options: {

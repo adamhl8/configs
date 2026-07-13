@@ -1,7 +1,7 @@
 // oxlint-disable no-template-curly-in-string
 import type { Config } from "release-it"
 
-import { createMergeConfigFn } from "#utils.ts"
+import { createMergeConfigFn } from "#merge-config/merge-config.ts"
 
 const baseConfig = {
   hooks: {

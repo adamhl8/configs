@@ -1,7 +1,7 @@
 import conventional from "@commitlint/config-conventional"
 import type { UserConfig } from "@commitlint/types"
 
-import { createMergeConfigFn } from "#utils.ts"
+import { createMergeConfigFn } from "#merge-config/merge-config.ts"
 
 const [_severity, _condition, conventionalTypes] = conventional.rules["type-enum"]
 

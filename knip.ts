@@ -1,7 +1,5 @@
 import { knipConfig } from "#configs/knip.base.ts"
 
-const config = knipConfig({
-  ignoreDependencies: { value: [], mode: "replace" },
-})
+const config = knipConfig({}, { ignoreDependencies: [] })
 
 export default config

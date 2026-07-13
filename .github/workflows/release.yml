@@ -9,12 +9,19 @@ on:
         type: string
         required: false
         default: ""
+      docker-image:
+        description: ghcr.io image name to build and push after the release
+        type: string
+        required: false
+        default: ""
     secrets:
       CI_SIGNING_KEY:
         required: true
       CI_TOKEN:
         required: false
       NPM_CI_TOKEN:
+        required: false
+      GH_TOKEN:
         required: false
 
 jobs:
@@ -78,3 +85,40 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_CI_TOKEN }}
           LEFTHOOK: "0"
+
+  docker:
+    needs: release
+    if: inputs.docker-image != ''
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Check out release tag
+        run: git checkout "$(git describe --tags --abbrev=0)"
+
+      - name: Log in to ghcr.io
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          secrets: |
+            GH_TOKEN=${{ secrets.GH_TOKEN }}
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/${{ inputs.docker-image }}:latest

@@ -1,6 +1,6 @@
 import type { OxfmtConfig } from "oxfmt"
 
-import { createMergeConfigFn } from "#utils.ts"
+import { createMergeConfigFn } from "#merge-config/merge-config.ts"
 
 const baseConfig = {
   printWidth: 120,

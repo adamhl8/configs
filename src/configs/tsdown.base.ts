@@ -1,8 +1,8 @@
 import type { UserConfig } from "tsdown"
 import type { SetRequired } from "type-fest"
 
-import type { MergeConfigFn } from "#utils.ts"
-import { createMergeConfigFn } from "#utils.ts"
+import type { MergeConfigFn } from "#merge-config/merge-config.ts"
+import { createMergeConfigFn } from "#merge-config/merge-config.ts"
 
 // Force projects to specify platform
 type StrictConfig = SetRequired<UserConfig, "platform">
@@ -61,6 +61,8 @@ const binConfig = {
   outExtensions: () => ({ js: "" }) as const,
 } as const satisfies StrictBinConfig
 
+// The export annotations forbid the no-arg call (platform/entry must be provided) and are load-bearing for
+// declaration emit: without one, tsgo synthesizes the type and fails with TS2883 on tsdown's non-exported internals.
 export const tsdownConfig: MergeConfigFn<StrictConfig, typeof baseConfig> = createMergeConfigFn<
   StrictConfig,
   typeof baseConfig
