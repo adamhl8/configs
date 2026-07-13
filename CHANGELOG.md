@@ -1,3 +1,13 @@
+## [2.2.0](https://github.com/adamhl8/configs/compare/v2.1.0..v2.2.0) - 2026-07-13
+
+### 🚀 Features
+
+- rework merge config API ([54cc60e](https://github.com/adamhl8/configs/commit/54cc60ebff26faaf9ac706feae7b085d1c28ae7b) by @adamhl8)
+
+### ⚙️ Miscellaneous Tasks
+
+- pass through CI_TOKEN in release step ([3350cd5](https://github.com/adamhl8/configs/commit/3350cd59801b2f96061e9220e0d863c452776325) by @adamhl8)
+
 ## [2.1.0](https://github.com/adamhl8/configs/compare/v2.0.0..v2.1.0) - 2026-07-12
 
 ### 🚀 Features
