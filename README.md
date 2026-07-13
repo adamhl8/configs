@@ -35,7 +35,7 @@ Scripts live in a shared [`just`](https://github.com/casey/just) base justfile i
 import "node_modules/@adamhl8/configs/dist/configs/justfile.base.just"
 ```
 
-It provides `lint`, `build`, `test`, `bump-deps`, `release`, `release-run`, and `prepare`. Run `just` to list them. `build` only runs `tsdown` if the project has a `tsdown.config.ts`, and `test` (`bun test`) passes when there are no tests, so projects without a build step or tests can use them as-is.
+It provides `lint`, `build`, `test`, `bump-deps`, `release`, `release-run`, `tofu-check`, and `prepare`. Run `just` to list them. The recipes degrade gracefully so projects can use them as-is: `build` only runs `tsdown` if the project has a `tsdown.config.ts`, `test` (`bun test`) passes when there are no tests, and `tofu-check` (a `tofu plan` drift check, which `build` also runs) skips itself unless run locally in a project with `.tofu` files.
 
 To customize a recipe, redefine it in your `justfile`. Each public recipe is a thin wrapper over a private `_recipe` that holds the actual body, so an override can still run the original instead of copying it:
 
@@ -109,7 +109,7 @@ const config = tsdownConfig({ ... })
 export default defineConfig(config)
 ```
 
-`tsdownBinConfig` is also exported for building `package.json` bin executables: a bundled, single-file, extensionless build with no type declarations.
+`tsdownBundleConfig` is also exported for single-file bundles that aren't published libraries: everything is bundled, with no type declarations or publish checks. `tsdownBinConfig` builds `package.json` bin executables: the same bundle for node, with an extensionless output file.
 
 ### commitlint
 
@@ -173,6 +173,24 @@ dist/
 ```
 
 Everything below the marker is left untouched. The sync can also be run manually by running `adamhl8-gitignore`.
+
+### env
+
+Utilities for validated environment variables, exported from the `/env` subpath:
+
+```ts
+import { parseEnv, requireWhen } from "@adamhl8/configs/env"
+
+const isProd = process.env["NODE_ENV"] === "production"
+
+export const env = parseEnv({
+  API_URL: "string.url",
+  // required in production, optional otherwise
+  SENTRY_DSN: requireWhen(isProd, "string.url"),
+})
+```
+
+`parseEnv` is `arkenv` with friendlier failures: invalid env prints the validation message and exits instead of throwing. `requireWhen` makes a var required while its condition is true and optional otherwise. An optional third argument supplies a fallback for when the var is unset (the fallback is exempt from validation, a set value never is).
 
 ## GitHub Actions
 
