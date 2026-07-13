@@ -30,6 +30,7 @@ const baseConfig = {
   },
   publint: true,
   failOnWarn: true,
+  suppressWarnings: ["does not yet have a stable API"],
 } as const satisfies StrictConfig
 
 // Force projects to specify platform and entry
