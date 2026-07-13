@@ -1,3 +1,19 @@
+## [2.2.1](https://github.com/adamhl8/configs/compare/v2.2.0..v2.2.1) - 2026-07-13
+
+### 🐛 Bug Fixes
+
+- _(tsdown)_ suppress typescript v7 warning ([e86add5](https://github.com/adamhl8/configs/commit/e86add52c4f644a023ca6bad3b46522848609481) by @adamhl8)
+
+### ⚙️ Miscellaneous Tasks
+
+- use stable bun ([3fcbec2](https://github.com/adamhl8/configs/commit/3fcbec21fc6981bef86199ad91febb72be26bd6b) by @adamhl8)
+
+- _(release)_ don't set explicit permissions on the docker job ([f67e712](https://github.com/adamhl8/configs/commit/f67e7124fb861e8835c70e2eafbaece0b1ba0a37) by @adamhl8)
+
+### 📚 Documentation
+
+- update readme ([7bcf411](https://github.com/adamhl8/configs/commit/7bcf4115fa9da0afb991b188aa6e1bc1afc53524) by @adamhl8)
+
 ## [2.2.0](https://github.com/adamhl8/configs/compare/v2.1.0..v2.2.0) - 2026-07-13
 
 ### 🚀 Features
