@@ -1,5 +1,5 @@
 data "sops_file" "secrets" {
-  source_file = pathexpand("~/secrets.yaml")
+  source_file = pathexpand("~/homelab/secrets/credentials.yaml")
 }
 
 data "github_actions_secrets" "current" {

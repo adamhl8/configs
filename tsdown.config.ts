@@ -1,5 +1,3 @@
-import path from "node:path"
-
 import { defineConfig } from "tsdown"
 
 import { tsdownBinConfig, tsdownConfig } from "#configs/tsdown.base.ts"
@@ -37,9 +35,7 @@ const config = tsdownConfig({
   ],
   deps: {
     // tsdown (correctly) bundles dev dependencies, but we don't want to bundle anything from them. Consuming projects are assumed to have the needed dependencies installed.
-    skipNodeModulesBundle: true,
-    // https://github.com/rolldown/tsdown/issues/993
-    neverBundle: (id) => !path.isAbsolute(id) && !id.startsWith(".") && !id.startsWith("#"),
+    neverBundle: true,
   },
   platform: "neutral",
   attw: false,
