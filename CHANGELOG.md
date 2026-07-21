@@ -1,3 +1,9 @@
+## [2.2.2](https://github.com/adamhl8/configs/compare/v2.2.1..v2.2.2) - 2026-07-21
+
+### 🐛 Bug Fixes
+
+- _(tofu)_ fix credentials path ([8402f5a](https://github.com/adamhl8/configs/commit/8402f5aac4b412830aec61db688c885a166e7cc1) by @adamhl8)
+
 ## [2.2.1](https://github.com/adamhl8/configs/compare/v2.2.0..v2.2.1) - 2026-07-13
 
 ### 🐛 Bug Fixes
