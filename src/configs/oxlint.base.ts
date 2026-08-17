@@ -61,6 +61,12 @@ const baseConfig = {
         "no-template-curly-in-string": "off",
       },
     },
+    {
+      files: ["**/*.tsx"],
+      rules: {
+        "func-style": ["error", "expression", { overrides: { namedExports: "ignore" } }],
+      },
+    },
   ],
 
   rules: {
