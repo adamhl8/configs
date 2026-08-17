@@ -1,3 +1,9 @@
+## [2.3.0](https://github.com/adamhl8/configs/compare/v2.2.2..v2.3.0) - 2026-08-17
+
+### 🚀 Features
+
+- disable some new rules ([ed0003c](https://github.com/adamhl8/configs/commit/ed0003c8f629f47bb28abae93337c9f09764a26a) by @adamhl8)
+
 ## [2.2.2](https://github.com/adamhl8/configs/compare/v2.2.1..v2.2.2) - 2026-07-21
 
 ### 🐛 Bug Fixes
