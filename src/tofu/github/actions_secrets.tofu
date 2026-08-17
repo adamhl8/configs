@@ -3,7 +3,8 @@ data "sops_file" "secrets" {
 }
 
 data "github_actions_secrets" "current" {
-  name = var.repo_name
+  name       = github_repository.current.name
+  depends_on = [github_repository.current]
 }
 
 locals {
@@ -29,7 +30,7 @@ check "no_unmanaged_secrets" {
 
 resource "github_actions_secret" "secrets" {
   for_each    = local.desired_secrets
-  repository  = var.repo_name
+  repository  = github_repository.current.name
   secret_name = each.value
   value       = data.sops_file.secrets.data[lower(each.value)]
 }
