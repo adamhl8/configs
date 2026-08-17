@@ -1,3 +1,9 @@
+## [2.3.1](https://github.com/adamhl8/configs/compare/v2.3.0..v2.3.1) - 2026-08-17
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ fix func-style for tsx ([8489891](https://github.com/adamhl8/configs/commit/848989154acda2e725e68449343e02e9f66c2598) by @adamhl8)
+
 ## [2.3.0](https://github.com/adamhl8/configs/compare/v2.2.2..v2.3.0) - 2026-08-17
 
 ### 🚀 Features
