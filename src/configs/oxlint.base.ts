@@ -109,6 +109,8 @@ const baseConfig = {
     "no-void": "off",
     "node/callback-return": "off",
     "node/no-sync": "off",
+    "node/no-top-level-await": "off",
+    "one-var": "off",
     "oxc/no-async-await": "off",
     "oxc/no-optional-chaining": "off",
     "oxc/no-rest-spread-properties": "off",
