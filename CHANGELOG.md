@@ -1,3 +1,9 @@
+## [2.3.2](https://github.com/adamhl8/configs/compare/v2.3.1..v2.3.2) - 2026-08-17
+
+### 🐛 Bug Fixes
+
+- _(tofu)_ handle when repo doesn't already exist ([7536c65](https://github.com/adamhl8/configs/commit/7536c65bc8a9233734604782c4e81f51f5717321) by @adamhl8)
+
 ## [2.3.1](https://github.com/adamhl8/configs/compare/v2.3.0..v2.3.1) - 2026-08-17
 
 ### 🐛 Bug Fixes
