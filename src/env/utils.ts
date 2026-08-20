@@ -7,15 +7,15 @@ import type { type as arktype } from "arktype"
  * A set value must always satisfy `def`. An unset var takes `fallback` (exempt from `def` validation), or the key is
  * omitted entirely if no fallback is given.
  */
-export function requireWhen<const type>(
+export function requireWhen<const def>(
   when: boolean,
-  type: arktype.validate<type>,
-): ReturnType<arktype.instantiate<type>["optional"]>
-export function requireWhen<const type>(
+  type: arktype.validate<def>,
+): ReturnType<arktype.instantiate<def>["optional"]>
+export function requireWhen<const def>(
   when: boolean,
-  type: arktype.validate<type>,
-  fallback: arktype.infer<type>,
-): arktype.instantiate<type>
+  type: arktype.validate<def>,
+  fallback: arktype.infer<def>,
+): arktype.instantiate<def>
 /* oxlint-disable typescript/no-unsafe-type-assertion */
 export function requireWhen(when: boolean, type: unknown, ...rest: [unknown?]): never {
   const t = arkenvType.raw(type)
