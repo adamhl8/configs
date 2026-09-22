@@ -1,3 +1,9 @@
+## [2.4.1](https://github.com/adamhl8/configs/compare/v2.4.0..v2.4.1) - 2026-09-22
+
+### 🐛 Bug Fixes
+
+- _(bump-deps)_ ignore cache ([df16723](https://github.com/adamhl8/configs/commit/df16723351aa8eb544fc7afa605aab718b7de09f) by @adamhl8)
+
 ## [2.4.0](https://github.com/adamhl8/configs/compare/v2.3.2..v2.4.0) - 2026-09-22
 
 ### 🚀 Features
