@@ -4,7 +4,7 @@ set default-list
 set allow-duplicate-recipes
 
 # runs cmd if the condition command succeeds, echoing cmd only when it runs
-run-when(cmd, condition) := f"if {{condition}}; then echo {{style("command", cmd)}}; {{cmd}}; fi"
+run-when(cmd, condition) := f"if {{ condition }}; then echo {{ style("command", cmd) }}; {{ cmd }}; fi"
 
 # run if not in CI, the repo has a root module, and the aws profile exists on this machine
 tofu-run-condition := '[ -z "${CI:-}" ] && ls *.tofu >/dev/null 2>&1 && aws configure list-profiles 2>/dev/null | grep -qx adamhl8'
@@ -25,7 +25,7 @@ _bump-deps:
     bunx npm-check-updates --upgrade --format group
     rm -f bun.lock
     rm -rf node_modules/
-    bun install --no-summary
+    bun install --no-summary --no-cache
 
 tofu-check: _tofu-check
 _tofu-check:
