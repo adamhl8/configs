@@ -1,3 +1,13 @@
+## [2.4.0](https://github.com/adamhl8/configs/compare/v2.3.2..v2.4.0) - 2026-09-22
+
+### 🚀 Features
+
+- cleanup workflows ([348a9a9](https://github.com/adamhl8/configs/commit/348a9a9481b69b11205c27b548d4debcba463797) by @adamhl8)
+
+### ⚙️ Miscellaneous Tasks
+
+- _(deps)_ update dependencies ([4a41110](https://github.com/adamhl8/configs/commit/4a411100f977f52bb5b7772667a952f68c98c1c6) by @adamhl8)
+
 ## [2.3.2](https://github.com/adamhl8/configs/compare/v2.3.1..v2.3.2) - 2026-08-17
 
 ### 🐛 Bug Fixes
