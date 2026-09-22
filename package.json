@@ -47,29 +47,28 @@
   },
   "dependencies": {
     "@adamhl8/eslint-plugin-clean-modules": "^0.1.5",
-    "@commitlint/config-conventional": "^21.2.2",
-    "@commitlint/types": "^21.2.0",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@commitlint/types": "^21.2.3",
     "arkenv": "^0.12.3",
     "arktype": "^2.2.3",
-    "es-toolkit": "^1.51.0",
-    "smol-toml": "^1.8.0",
+    "es-toolkit": "^1.52.0",
     "ts-explicit-errors": "^4.1.3",
     "ts-extras": "^1.3.0",
-    "type-fest": "^5.8.0"
+    "type-fest": "^5.10.0"
   },
   "devDependencies": {
     "@adamhl8/configs": "file:.",
     "@arethetypeswrong/core": "^0.18.5",
-    "@commitlint/cli": "^21.2.2",
-    "@types/bun": "^1.3.14",
-    "knip": "^6.32.2",
+    "@commitlint/cli": "^21.2.3",
+    "@types/bun": "^1.4.2",
+    "knip": "^6.37.0",
     "markdown-toc": "^1.2.0",
-    "oxfmt": "^0.64.0",
-    "oxlint": "^1.79.0",
-    "oxlint-tsgolint": "^7.0.2001",
+    "oxfmt": "^0.70.0",
+    "oxlint": "^1.85.0",
+    "oxlint-tsgolint": "^7.0.2002",
     "publint": "^0.3.24",
-    "release-it": "^21.0.2",
-    "tsdown": "^0.22.14",
+    "release-it": "^21.1.0",
+    "tsdown": "^0.23.0",
     "typescript": "^7.0.2"
   },
   "peerDependencies": {
@@ -87,30 +86,6 @@
     "typescript": "^7.0.0"
   },
   "peerDependenciesMeta": {
-    "@arethetypeswrong/core": {
-      "optional": true
-    },
-    "@commitlint/cli": {
-      "optional": true
-    },
-    "@commitlint/config-conventional": {
-      "optional": true
-    },
-    "knip": {
-      "optional": true
-    },
-    "markdown-toc": {
-      "optional": true
-    },
-    "oxfmt": {
-      "optional": true
-    },
-    "oxlint-tsgolint": {
-      "optional": true
-    },
-    "oxlint": {
-      "optional": true
-    },
     "publint": {
       "optional": true
     },

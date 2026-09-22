@@ -1,33 +1,17 @@
+import { Glob } from "bun"
 import { defineConfig } from "tsdown"
 
 import { tsdownBinConfig, tsdownConfig } from "#configs/tsdown.base.ts"
 
+const CONFIGS_DIR = "./src/configs"
+// We need to copy all non-typescript files.
+const configFileGlob = new Glob("!*.ts")
+const configFiles = await Array.fromAsync(configFileGlob.scan({ cwd: CONFIGS_DIR }))
+const copyEntries = configFiles.map((file) => ({ from: `${CONFIGS_DIR}/${file}`, to: "./dist/configs/" }))
+
 const config = tsdownConfig({
   copy: [
-    {
-      from: "./src/configs/bunfig.base.toml",
-      to: "./dist/configs/",
-    },
-    {
-      from: "./src/configs/cliff.base.toml",
-      to: "./dist/configs/",
-    },
-    {
-      from: "./src/configs/gitignore.base",
-      to: "./dist/configs/",
-    },
-    {
-      from: "./src/configs/justfile.base.just",
-      to: "./dist/configs/",
-    },
-    {
-      from: "./src/configs/lefthook.base.yaml",
-      to: "./dist/configs/",
-    },
-    {
-      from: "./src/configs/tsconfig.base.json",
-      to: "./dist/configs/",
-    },
+    ...copyEntries,
     {
       from: "./src/tofu/",
       to: "./dist/",

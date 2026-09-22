@@ -17,8 +17,8 @@ const baseConfig = {
   fixedExtension: false,
   hash: false,
   dts: {
+    generator: "tsgo",
     newContext: true,
-    tsgo: true,
     sourcemap: true,
   },
   deps: {

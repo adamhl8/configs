@@ -4,7 +4,6 @@ import path from "node:path"
 
 import bun from "bun"
 import { merge, isPlainObject } from "es-toolkit"
-import { stringify } from "smol-toml"
 import { objectHasOwn } from "ts-extras"
 
 const BUNFIG_BASE_PATH = path.resolve(import.meta.dir, "../configs/bunfig.base.toml")
@@ -22,6 +21,6 @@ const baseBunfig = isTomlImport(baseBunfigImport) ? baseBunfigImport.default : {
 const projectBunfig = isTomlImport(projectBunfigImport) ? projectBunfigImport.default : {}
 
 const mergedConfig = merge(baseBunfig, projectBunfig)
-const mergedConfigToml = stringify(mergedConfig)
+const mergedConfigToml = bun.TOML.stringify(mergedConfig) ?? ""
 
 await bun.write(BUNFIG_PROJECT_PATH, mergedConfigToml)

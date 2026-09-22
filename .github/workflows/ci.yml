@@ -13,28 +13,13 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-
-      - name: Set up bun
-        uses: oven-sh/setup-bun@v2
-
-      - name: Install just
-        uses: taiki-e/install-action@just
-
-      - name: Install lefthook
-        run: |
-          bun add -g lefthook
-          bun pm bin -g >> "$GITHUB_PATH"
-
-      - name: Install
-        run: bun install
+      - name: Setup
+        uses: adamhl8/configs/.github/actions/setup@main
 
       - name: Build + lint
         run: just build
         env:
+          # some projects require a github token with more permissions than the default repo scoped one
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
 
       - name: Lint last commit message

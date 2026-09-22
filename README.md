@@ -119,6 +119,15 @@ import { commitlintConfig } from "@adamhl8/configs"
 export default commitlintConfig({ ... })
 ```
 
+#### Notes
+
+`@commitlint/config-conventional` is both a dependency and a peer dependency:
+
+- Dependency: `commitlint.base.ts` imports it to read the conventional commit types.
+- Peer dependency: `commitlint.base.ts` also sets `extends: ["@commitlint/config-conventional"]`. commitlint resolves that string from the consumer's project root, not from `@adamhl8/configs`.
+
+With bun's `isolated` linker, our copy lives only in `@adamhl8/configs`'s own `node_modules` and is never hoisted to the consumer's root. So commitlint can't find it unless the consumer installs it directly, which the peer dependency asks them to do.
+
 ### release-it
 
 ```ts
@@ -141,7 +150,7 @@ adamhl8-cliff --bumped-version
 
 ### lefthook
 
-`lefthook.base.yaml` runs `just lint` on pre-commit and `commitlint` on commit-msg. Extend it from your `lefthook.yaml`:
+`lefthook.base.yaml` runs `just build` on pre-commit and `commitlint` on commit-msg. Extend it from your `lefthook.yaml`:
 
 ```yaml
 # lefthook.yaml
@@ -149,7 +158,7 @@ extends:
   - node_modules/@adamhl8/configs/dist/configs/lefthook.base.yaml
 ```
 
-`lefthook install` (the base justfile's `prepare` recipe runs it) sets up the hooks.
+`lefthook install` (the base justfile's `prepare` recipe runs it) sets up the hooks. `prepare` skips it in CI (when `CI` is set), so commits made by the workflows don't run the hooks.
 
 ### bunfig
 
@@ -194,7 +203,7 @@ export const env = parseEnv({
 
 ## GitHub Actions
 
-This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `bun`, have a `justfile` that imports the base justfile (see [just](#just)), and have a commitlint config (e.g. via these configs). The workflows set up bun and install just and lefthook themselves.
+This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `bun`, have a `justfile` that imports the base justfile (see [just](#just)), and have a commitlint config (e.g. via these configs). The workflows set up bun and install just themselves.
 
 - `ci.yml`: runs `build` (build + lint) on pushes/PRs and lints commit messages with commitlint
 - `update-deps.yml`: weekly `bump-deps` run that opens a dependency-update PR
@@ -301,6 +310,6 @@ Configure these on each repo that uses the workflows (Settings -> Secrets and va
 
 ## Notes
 
-The `prepare` script is `"prepare": "just prepare"`, which runs the base justfile's `prepare` recipe (`lefthook install`, the `.gitignore` sync, and the `bunfig.toml` sync).
+The `prepare` script is `"prepare": "just prepare"`, which runs the base justfile's `prepare` recipe (`lefthook install` outside CI, the `.gitignore` sync, and the `bunfig.toml` sync).
 
 bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-cliff` instead of `src/adamhl8-cliff/index.ts`. That's also why this repo overrides the `prepare` recipe to first run `tsdown`: the bins point at `dist/`, so those builds need to be available.

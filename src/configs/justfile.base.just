@@ -14,7 +14,7 @@ tofu-run-condition := '[ -z "${CI:-}" ] && ls *.tofu >/dev/null 2>&1 && aws conf
 
 prepare: _prepare
 _prepare:
-    lefthook install
+    @{{ run-when("lefthook install", '[ -z "${CI:-}" ]') }}
     bun adamhl8-gitignore
     bun adamhl8-bunfig
     bun oxfmt bunfig.toml
