@@ -39,6 +39,7 @@ _lint:
     bun oxlint --fix --fix-suggestions --fix-dangerously
     bun oxfmt
     bun knip-bun
+    @{{ run-when("actionlint", "[ -d .github/workflows ]") }}
     @just test
 
 build: _build

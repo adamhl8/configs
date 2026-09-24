@@ -52,7 +52,7 @@ jobs:
           printf '%s\n' "$CI_SIGNING_KEY" > ~/.ssh/signing_key
           chmod 600 ~/.ssh/signing_key
           git config gpg.format ssh
-          git config user.signingkey '~/.ssh/signing_key'
+          git config user.signingkey "$HOME/.ssh/signing_key"
           git config commit.gpgsign true
           git config tag.gpgsign true
         env:

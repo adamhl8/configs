@@ -21,6 +21,13 @@ runs:
     - name: Install just
       uses: taiki-e/install-action@just
 
+    - name: Install actionlint
+      shell: bash
+      run: |
+        mkdir -p "$RUNNER_TEMP/bin"
+        bash <(curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) latest "$RUNNER_TEMP/bin"
+        echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
     - name: Install
       shell: bash
       run: bun install ${{ inputs.install-args }}
