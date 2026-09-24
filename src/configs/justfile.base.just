@@ -1,6 +1,5 @@
 # user-defined functions are unstable as of just 1.52
 set unstable
-set default-list
 set allow-duplicate-recipes
 
 # runs cmd if the condition command succeeds, echoing cmd only when it runs
@@ -56,3 +55,13 @@ release-run: _release-run
 
 _release-run:
     bun release-it -VV --ci
+
+commit-types: _commit-types
+_commit-types:
+    @bun commitlint --print-config json | bun -e 'console.log("Commit types:\n    " + (await Bun.stdin.json()).rules["type-enum"][2].join("\n    "))'
+
+[default]
+_default:
+    @{{ just_executable() }} --list
+    @echo
+    @{{ just_executable() }} commit-types
