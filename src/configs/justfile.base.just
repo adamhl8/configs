@@ -2,8 +2,9 @@
 set unstable
 set allow-duplicate-recipes
 
+print-command(cmd) := f"echo {{ quote(style("command", cmd)) }}"
 # runs cmd if the condition command succeeds, echoing cmd only when it runs
-run-when(cmd, condition) := f"if {{ condition }}; then echo {{ quote(style("command", cmd)) }}; {{ cmd }}; fi"
+run-when(cmd, condition) := f"if {{ condition }}; then {{ print-command(cmd) }}; {{ cmd }}; fi"
 
 in-ci := '[ -n "${CI:-}" ]'
 not-in-ci := '[ -z "${CI:-}" ]'
@@ -41,10 +42,15 @@ _lint:
     bun markdown-toc -i --bullets '-' --maxdepth 3 ./README.md
     bun oxlint --fix --fix-suggestions --fix-dangerously
     bun oxfmt
+
     @# format all justfiles, excluding ones that are gitignored
-    {{ ls-files }} ':(glob)**/[Jj]ustfile' ':(glob)**/.justfile' ':(glob)**/*.just' | xargs -0 -r -n1 just --fmt --justfile
+    @{{ ls-files }} ':(glob)**/[Jj]ustfile' ':(glob)**/.justfile' ':(glob)**/*.just' | xargs -0 -r -n1 just --fmt --justfile
+    @{{ print-command("just --fmt") }}
+
     @# format all tofu files, excluding ones that are gitignored
-    {{ ls-files }} ':(glob)**/*.tf' ':(glob)**/*.tofu' ':(glob)**/*.tfvars' ':(glob)**/*.tftest.hcl' ':(glob)**/*.tofutest.hcl' | xargs -0 -r tofu fmt
+    @{{ ls-files }} ':(glob)**/*.tf' ':(glob)**/*.tofu' ':(glob)**/*.tfvars' ':(glob)**/*.tftest.hcl' ':(glob)**/*.tofutest.hcl' | xargs -0 -r tofu fmt
+    @{{ print-command("tofu fmt") }}
+
     bun knip-bun
     @{{ run-when("actionlint", "[ -d .github/workflows ]") }}
     @just test

@@ -19,14 +19,14 @@ const config = tsdownConfig({
     neverBundle: true,
   },
   platform: "neutral",
-  attw: false,
-  publint: false,
 })
 
 const env = tsdownConfig({
   entry: "./src/env/index.ts",
   platform: "node",
   outDir: "./dist/env/",
+  attw: false,
+  publint: false,
 })
 
 const adamhl8Bunfig = tsdownBinConfig({
