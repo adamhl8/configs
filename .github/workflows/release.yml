@@ -4,8 +4,8 @@ on:
   workflow_dispatch: {}
   workflow_call:
     inputs:
-      setup:
-        description: Shell commands to run before checkout and install
+      before-release:
+        description: Shell commands to run after install, just before the release
         type: string
         required: false
         default: ""
@@ -32,10 +32,6 @@ jobs:
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
     steps:
-      - name: Custom setup
-        if: inputs.setup != ''
-        run: ${{ inputs.setup }}
-
       - name: Setup
         uses: adamhl8/configs/.github/actions/setup@main
 
@@ -61,6 +57,10 @@ jobs:
           git config tag.gpgsign true
         env:
           CI_SIGNING_KEY: ${{ secrets.CI_SIGNING_KEY }}
+
+      - name: Before release
+        if: inputs.before-release != ''
+        run: ${{ inputs.before-release }}
 
       - name: Release
         run: just release-run
