@@ -38,6 +38,8 @@ _lint:
     bun markdown-toc -i --bullets '-' --maxdepth 3 ./README.md
     bun oxlint --fix --fix-suggestions --fix-dangerously
     bun oxfmt
+    @# format all justfiles, excluding ones that are gitignored
+    git ls-files -z --cached --others --exclude-standard ':(glob)**/[Jj]ustfile' ':(glob)**/.justfile' ':(glob)**/*.just' | xargs -0 -r -n1 just --fmt --justfile
     bun knip-bun
     @{{ run-when("actionlint", "[ -d .github/workflows ]") }}
     @just test
