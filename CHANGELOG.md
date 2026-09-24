@@ -1,3 +1,9 @@
+## [2.7.0](https://github.com/adamhl8/configs/compare/v2.6.0..v2.7.0) - 2026-09-24
+
+### 🚀 Features
+
+- add commit types to default just recipe ([e553d1d](https://github.com/adamhl8/configs/commit/e553d1d7bc768795845b0c81ca6672d94604215d) by @adamhl8)
+
 ## [2.6.0](https://github.com/adamhl8/configs/compare/v2.5.0..v2.6.0) - 2026-09-24
 
 ### 🚀 Features
