@@ -3,17 +3,20 @@ set unstable
 set allow-duplicate-recipes
 
 # runs cmd if the condition command succeeds, echoing cmd only when it runs
-run-when(cmd, condition) := f"if {{ condition }}; then echo {{ style("command", cmd) }}; {{ cmd }}; fi"
+run-when(cmd, condition) := f"if {{ condition }}; then echo {{ quote(style("command", cmd)) }}; {{ cmd }}; fi"
+
+in-ci := '[ -n "${CI:-}" ]'
+not-in-ci := '[ -z "${CI:-}" ]'
 
 # run if not in CI, the repo has a root module, and the aws profile exists on this machine
-tofu-run-condition := '[ -z "${CI:-}" ] && ls *.tofu >/dev/null 2>&1 && aws configure list-profiles 2>/dev/null | grep -qx adamhl8'
+tofu-run-condition := not-in-ci + ' && ls *.tofu >/dev/null 2>&1 && aws configure list-profiles 2>/dev/null | grep -qx adamhl8'
 
 # public recipes are thin wrappers over private _recipes so an override can still call the original
 # e.g. `prepare: _prepare` + extra lines
 
 prepare: _prepare
 _prepare:
-    @{{ run-when("lefthook install", '[ -z "${CI:-}" ]') }}
+    @{{ run-when("lefthook install", not-in-ci) }}
     bun adamhl8-gitignore
     bun adamhl8-bunfig
     bun oxfmt bunfig.toml
@@ -39,8 +42,11 @@ _lint:
     @just test
 
 build: _build
+# lint fixes and formatting are applied in place, so in CI fail if the build changed or created any files
+# --intent-to-add makes untracked files show up in the diff
 _build: lint && tofu-check
     @{{ run-when("bun tsdown", "[ -f tsdown.config.ts ]") }}
+    @{{ run-when("git add --intent-to-add --all && git diff --exit-code", in-ci) }}
 
 test: _test
 _test:
