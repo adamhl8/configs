@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, edited, synchronize, reopened]
   workflow_call:
     secrets:
       GH_TOKEN:
@@ -11,6 +12,8 @@ on:
 
 jobs:
   validate:
+    # an edit only changes the title or body, so there's nothing new to build
+    if: github.event.action != 'edited'
     runs-on: ubuntu-latest
     steps:
       - name: Setup
@@ -26,6 +29,19 @@ jobs:
         if: github.event_name == 'push'
         run: bun commitlint --last --verbose
 
-      - name: Lint PR commit messages
-        if: github.event_name == 'pull_request'
-        run: bun commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+  # lint only the PR title because squash merges (the only merge type allowed) use it as the commit message
+  # the PR's own commits never reach main
+  pr-title:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: adamhl8/configs/.github/actions/setup@main
+        with:
+          # commitlint only needs the installed packages, not a build
+          install-args: --ignore-scripts
+
+      - name: Lint PR title
+        run: printf '%s\n' "$PR_TITLE" | bun commitlint --verbose
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
