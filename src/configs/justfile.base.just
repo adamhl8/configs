@@ -8,6 +8,9 @@ run-when(cmd, condition) := f"if {{ condition }}; then echo {{ quote(style("comm
 in-ci := '[ -n "${CI:-}" ]'
 not-in-ci := '[ -z "${CI:-}" ]'
 
+# lists tracked and untracked files as NUL-separated paths, skipping gitignored ones
+ls-files := 'git ls-files -z --cached --others --exclude-standard'
+
 # run if not in CI, the repo has a root module, and the aws profile exists on this machine
 tofu-run-condition := not-in-ci + ' && ls *.tofu >/dev/null 2>&1 && aws configure list-profiles 2>/dev/null | grep -qx adamhl8'
 
@@ -39,7 +42,9 @@ _lint:
     bun oxlint --fix --fix-suggestions --fix-dangerously
     bun oxfmt
     @# format all justfiles, excluding ones that are gitignored
-    git ls-files -z --cached --others --exclude-standard ':(glob)**/[Jj]ustfile' ':(glob)**/.justfile' ':(glob)**/*.just' | xargs -0 -r -n1 just --fmt --justfile
+    {{ ls-files }} ':(glob)**/[Jj]ustfile' ':(glob)**/.justfile' ':(glob)**/*.just' | xargs -0 -r -n1 just --fmt --justfile
+    @# format all tofu files, excluding ones that are gitignored
+    {{ ls-files }} ':(glob)**/*.tf' ':(glob)**/*.tofu' ':(glob)**/*.tfvars' ':(glob)**/*.tftest.hcl' ':(glob)**/*.tofutest.hcl' | xargs -0 -r tofu fmt
     bun knip-bun
     @{{ run-when("actionlint", "[ -d .github/workflows ]") }}
     @just test

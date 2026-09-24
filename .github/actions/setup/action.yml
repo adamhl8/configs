@@ -1,5 +1,5 @@
 name: Setup
-description: Checkout, set up bun, install just, and run bun install
+description: Checkout, set up tools, and run bun install
 
 inputs:
   install-args:
@@ -27,6 +27,11 @@ runs:
         mkdir -p "$RUNNER_TEMP/bin"
         bash <(curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) latest "$RUNNER_TEMP/bin"
         echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+    - name: Set up OpenTofu
+      uses: opentofu/setup-opentofu@v2
+      with:
+        tofu_wrapper: false
 
     - name: Install
       shell: bash
