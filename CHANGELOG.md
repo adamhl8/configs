@@ -1,3 +1,25 @@
+## [2.8.0](https://github.com/adamhl8/configs/compare/v2.7.0..v2.8.0) - 2026-09-24
+
+### 🚀 Features
+
+- format tofu files ([bd16e20](https://github.com/adamhl8/configs/commit/bd16e208efae35a0bdbe3c3c388c2ec196d26ac1) by @adamhl8)
+
+- format justfiles ([f891107](https://github.com/adamhl8/configs/commit/f8911079ae8cc47c3a337ca8348f3955ff111d8e) by @adamhl8)
+
+- add actionlint ([9bbe92b](https://github.com/adamhl8/configs/commit/9bbe92b0c96b55c49e322c66662fc6b9a7dfbac1) by @adamhl8)
+
+- _(lefthook)_ fail on changes ([833940a](https://github.com/adamhl8/configs/commit/833940a41831e3da85fe0fc506d8d4cf01c0a897) by @adamhl8)
+
+- check for added or changed files in CI ([be9653d](https://github.com/adamhl8/configs/commit/be9653df7e8399d2f03107b938ad5271e955662b) by @adamhl8)
+
+### ⚙️ Miscellaneous Tasks
+
+- cleanup ([a5bb7d4](https://github.com/adamhl8/configs/commit/a5bb7d42c67e4e72426d0ceb1aad199c761745cc) by @adamhl8)
+
+- lint the PR title instead of all commits ([de0a349](https://github.com/adamhl8/configs/commit/de0a3490eea710b05195ec8fa1c0ab3cf00d52c1) by @adamhl8)
+
+- _(release)_ add a "Before release" step ([c1f6fc2](https://github.com/adamhl8/configs/commit/c1f6fc25537c14c89d3e65241812dc60a69734cb) by @adamhl8)
+
 ## [2.7.0](https://github.com/adamhl8/configs/compare/v2.6.0..v2.7.0) - 2026-09-24
 
 ### 🚀 Features
