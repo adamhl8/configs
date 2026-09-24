@@ -1,3 +1,9 @@
+## [2.6.0](https://github.com/adamhl8/configs/compare/v2.5.0..v2.6.0) - 2026-09-24
+
+### 🚀 Features
+
+- use release-it-git-cliff ([5914d24](https://github.com/adamhl8/configs/commit/5914d24b576e0571c5fba5c0ca6d74e6a1834883) by @adamhl8)
+
 ## [2.5.0](https://github.com/adamhl8/configs/compare/v2.4.1..v2.5.0) - 2026-09-23
 
 ### ✨ Improvements
