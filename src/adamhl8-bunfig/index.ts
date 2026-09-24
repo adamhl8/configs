@@ -1,25 +1,23 @@
 #!/usr/bin/env bun
 
-import path from "node:path"
-
 import bun from "bun"
 import { merge, isPlainObject } from "es-toolkit"
-import { objectHasOwn } from "ts-extras"
 
-const BUNFIG_BASE_PATH = path.resolve(import.meta.dir, "../configs/bunfig.base.toml")
-const BUNFIG_PROJECT_PATH = path.resolve("./bunfig.toml")
+import { configFilePath } from "#utils.ts"
 
-const baseBunfigImport = (await import(BUNFIG_BASE_PATH, { with: { type: "toml" } })) as unknown
-const projectBunfigImport = (await bun.file(BUNFIG_PROJECT_PATH).exists())
-  ? ((await import(BUNFIG_PROJECT_PATH, { with: { type: "toml" } })) as unknown)
-  : undefined
+const BUNFIG_BASE_PATH = configFilePath("bunfig.base.toml")
+const BUNFIG_PROJECT_PATH = "bunfig.toml"
 
-const isTomlImport = (tomlImport: unknown): tomlImport is { default: Record<string, unknown> } =>
-  typeof tomlImport === "object" && objectHasOwn(tomlImport, "default") && isPlainObject(tomlImport.default)
+/** Parses a TOML file, returning an empty table when the file is missing or isn't a table. */
+const readToml = async (filePath: string): Promise<Record<string, unknown>> => {
+  const file = bun.file(filePath)
+  if (!(await file.exists())) return {}
+  const parsed = bun.TOML.parse(await file.text())
+  return isPlainObject(parsed) ? parsed : {}
+}
 
-const baseBunfig = isTomlImport(baseBunfigImport) ? baseBunfigImport.default : {}
-const projectBunfig = isTomlImport(projectBunfigImport) ? projectBunfigImport.default : {}
-
+const baseBunfig = await readToml(BUNFIG_BASE_PATH)
+const projectBunfig = await readToml(BUNFIG_PROJECT_PATH)
 const mergedConfig = merge(baseBunfig, projectBunfig)
 const mergedConfigToml = bun.TOML.stringify(mergedConfig) ?? ""
 

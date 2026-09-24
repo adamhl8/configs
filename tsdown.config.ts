@@ -1,17 +1,14 @@
-import { Glob } from "bun"
 import { defineConfig } from "tsdown"
 
 import { tsdownBinConfig, tsdownConfig } from "#configs/tsdown.base.ts"
 
-const CONFIGS_DIR = "./src/configs"
-// We need to copy all non-typescript files.
-const configFileGlob = new Glob("!*.ts")
-const configFiles = await Array.fromAsync(configFileGlob.scan({ cwd: CONFIGS_DIR }))
-const copyEntries = configFiles.map((file) => ({ from: `${CONFIGS_DIR}/${file}`, to: "./dist/configs/" }))
-
 const config = tsdownConfig({
   copy: [
-    ...copyEntries,
+    // Copy the non-TS config files because consumers and the helpers in `utils.ts` reference them by path.
+    {
+      from: ["./src/configs/*", "!./src/configs/*.ts"],
+      to: "./dist/configs/",
+    },
     {
       from: "./src/tofu/",
       to: "./dist/",
@@ -37,14 +34,9 @@ const adamhl8Bunfig = tsdownBinConfig({
   outDir: "./dist/adamhl8-bunfig/",
 })
 
-const adamhl8Cliff = tsdownBinConfig({
-  entry: "./src/adamhl8-cliff/index.ts",
-  outDir: "./dist/adamhl8-cliff/",
-})
-
 const adamhl8Gitignore = tsdownBinConfig({
   entry: "./src/adamhl8-gitignore/index.ts",
   outDir: "./dist/adamhl8-gitignore/",
 })
 
-export default defineConfig([config, env, adamhl8Bunfig, adamhl8Cliff, adamhl8Gitignore])
+export default defineConfig([config, env, adamhl8Bunfig, adamhl8Gitignore])

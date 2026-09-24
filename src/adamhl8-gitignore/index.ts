@@ -1,10 +1,10 @@
 #!/usr/bin/env bun
 
-import path from "node:path"
-
 import bun from "bun"
 
-const GITIGNORE_BASE_PATH = path.resolve(import.meta.dir, "../configs/gitignore.base")
+import { configFilePath } from "#utils.ts"
+
+const GITIGNORE_BASE_PATH = configFilePath("gitignore.base")
 const END_MARKER =
   "# The above patterns are managed by @adamhl8/configs. Anything manually added above this line will be replaced."
 

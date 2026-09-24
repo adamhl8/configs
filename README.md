@@ -136,17 +136,19 @@ import { releaseItConfig } from "@adamhl8/configs"
 export default releaseItConfig({ ... })
 ```
 
-The release config wires up its hooks to use `adamhl8-cliff` for the changelog and release notes, so the two are meant to be used together. It publishes with `bun publish`.
+The release config registers the [`release-it-git-cliff`](https://github.com/adamhl8/release-it-git-cliff) plugin with the bundled git-cliff config (`cliff.base.toml`), so there is no per-project `cliff.toml` to write. git-cliff picks the next version from the commits, and the plugin writes `CHANGELOG.md` (formatted with `oxfmt`) and sets the release notes. Tags are named `v${version}`. It publishes with `bun publish`.
 
-### git-cliff
-
-There is no per-project file to write. The `adamhl8-cliff` bin wraps `git-cliff` with the bundled config (`cliff.base.toml`), so run it in place of `git-cliff`:
+git-cliff must be on `PATH`, and the project needs `release-it-git-cliff` installed directly:
 
 ```sh
-adamhl8-cliff --bumped-version
+bun add -D release-it release-it-git-cliff
 ```
 
-`releaseItConfig` already calls it to build the changelog and release notes.
+#### Notes
+
+`release-it-git-cliff` is an optional peer dependency. release-it resolves plugins from its own location or the working directory, so with bun's `isolated` linker it can't find a plugin that's only a dependency of `@adamhl8/configs`.
+
+Preview the next version or the unreleased changelog section with `release-it --release-version` or `release-it --changelog`.
 
 ### lefthook
 
@@ -256,9 +258,9 @@ jobs:
 
 ### Release
 
-Manually dispatched. git-cliff computes the next version from the commits, then `release-it` bumps `package.json`, regenerates the changelog, commits and tags (both SSH-signed), publishes to npm, and cuts a GitHub release. There is no automatic trigger, so run it when a release is ready (the `release` recipe just does `gh workflow run release.yml`). A dispatch with no releasable commits fails fast at release-it's `Version not changed`.
+Manually dispatched. `release-it` uses git-cliff (via `release-it-git-cliff`, see [release-it](#release-it)) to compute the next version from the commits, then bumps `package.json`, regenerates the changelog, commits and tags (both SSH-signed), publishes to npm, and cuts a GitHub release. There is no automatic trigger, so run it when a release is ready (the `release` recipe just does `gh workflow run release.yml`). A dispatch with no releasable commits fails fast because the plugin finds nothing to release.
 
-Needs the `NPM_CI_TOKEN` and `CI_SIGNING_KEY` secrets (see [Secrets](#secrets)). The workflow runs the base justfile's `release-run` recipe: `release-it --ci -i "$(adamhl8-cliff --bumped-version)"`.
+Needs the `NPM_CI_TOKEN` and `CI_SIGNING_KEY` secrets (see [Secrets](#secrets)). The workflow installs git-cliff and runs the base justfile's `release-run` recipe: `release-it --ci`.
 
 ```yaml
 # .github/workflows/release.yml
@@ -312,4 +314,4 @@ Configure these on each repo that uses the workflows (Settings -> Secrets and va
 
 The `prepare` script is `"prepare": "just prepare"`, which runs the base justfile's `prepare` recipe (`lefthook install` outside CI, the `.gitignore` sync, and the `bunfig.toml` sync).
 
-bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-cliff` instead of `src/adamhl8-cliff/index.ts`. That's also why this repo overrides the `prepare` recipe to first run `tsdown`: the bins point at `dist/`, so those builds need to be available.
+bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-bunfig` instead of `src/adamhl8-bunfig/index.ts`. That's also why this repo overrides the `prepare` recipe to first run `tsdown`: the bins point at `dist/`, so those builds need to be available.

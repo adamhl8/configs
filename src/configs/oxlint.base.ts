@@ -1,8 +1,7 @@
-import { fileURLToPath } from "node:url"
-
 import type { OxlintConfig } from "oxlint"
 
 import { createMergeConfigFn } from "#merge-config/merge-config.ts"
+import { resolvePackagePath } from "#utils.ts"
 
 const baseConfig = {
   options: {
@@ -37,7 +36,7 @@ const baseConfig = {
   ],
 
   // Resolve to an absolute path so consumers load it from this package's own deps.
-  jsPlugins: [fileURLToPath(import.meta.resolve("@adamhl8/eslint-plugin-clean-modules"))],
+  jsPlugins: [resolvePackagePath("@adamhl8/eslint-plugin-clean-modules")],
 
   overrides: [
     {
