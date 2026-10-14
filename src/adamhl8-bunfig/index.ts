@@ -19,6 +19,6 @@ const readToml = async (filePath: string): Promise<Record<string, unknown>> => {
 const baseBunfig = await readToml(BUNFIG_BASE_PATH)
 const projectBunfig = await readToml(BUNFIG_PROJECT_PATH)
 const mergedConfig = merge(baseBunfig, projectBunfig)
-const mergedConfigToml = bun.TOML.stringify(mergedConfig) ?? ""
+const mergedConfigToml = bun.TOML.stringify(mergedConfig)
 
 await bun.write(BUNFIG_PROJECT_PATH, mergedConfigToml)
