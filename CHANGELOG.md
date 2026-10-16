@@ -1,3 +1,9 @@
+## [3.0.0](https://github.com/adamhl8/configs/compare/v2.8.2..v3.0.0) - 2026-10-16
+
+### 🚀 Features
+
+- [**breaking**] use bask ([2e0d4b8](https://github.com/adamhl8/configs/commit/2e0d4b851cae139ab001e3df0919c055457485df) by @adamhl8)
+
 ## [2.8.2](https://github.com/adamhl8/configs/compare/v2.8.1..v2.8.2) - 2026-10-14
 
 ### ⚙️ Miscellaneous Tasks
