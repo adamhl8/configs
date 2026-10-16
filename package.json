@@ -59,7 +59,7 @@
     "type-fest": "^5.10.0"
   },
   "devDependencies": {
-    "@adamhl8/bask": "^0.1.0",
+    "@adamhl8/bask": "^0.2.0",
     "@adamhl8/configs": "file:.",
     "@arethetypeswrong/core": "^0.18.5",
     "@commitlint/cli": "^21.2.3",

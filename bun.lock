@@ -15,7 +15,7 @@
         "type-fest": "^5.10.0",
       },
       "devDependencies": {
-        "@adamhl8/bask": "^0.1.0",
+        "@adamhl8/bask": "^0.2.0",
         "@adamhl8/configs": "file:.",
         "@arethetypeswrong/core": "^0.18.5",
         "@commitlint/cli": "^21.2.3",
@@ -57,7 +57,7 @@
     },
   },
   "packages": {
-    "@adamhl8/bask": ["@adamhl8/bask@0.1.0", "", { "bin": { "bask": "dist/cli.js" } }, "sha512-6fjqA36cnoSryRmkE0J/24eWtvfFlNneKEFlEp2Ht3YmmXEWsJje3rahdGYa8RTzvtmM5vYWt9kCMBwMK6AchQ=="],
+    "@adamhl8/bask": ["@adamhl8/bask@0.2.0", "", { "bin": { "bask": "dist/cli.js" } }, "sha512-XDvn4w4G0B7Z9oMwRalZEKk99sS/4fSQLvMKbR+1hbs1h5LDnyI5eosr96M3StXe/+OGHGm2EA9/IUelb7rlwQ=="],
 
     "@adamhl8/configs": ["@adamhl8/configs@root:", { "bin": { "adamhl8-bunfig": "./dist/adamhl8-bunfig/index", "adamhl8-gitignore": "./dist/adamhl8-gitignore/index" } }],
 
