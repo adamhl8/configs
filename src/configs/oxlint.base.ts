@@ -58,6 +58,7 @@ const baseConfig = {
       files: ["bask.ts"],
       rules: {
         "clean-modules/require-direct-exports": "off",
+        "import/export": "off",
       },
     },
     {
