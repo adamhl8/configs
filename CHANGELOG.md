@@ -1,3 +1,9 @@
+## [3.0.1](https://github.com/adamhl8/configs/compare/v3.0.0..v3.0.1) - 2026-10-16
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ disable import/export for bask ([5521a66](https://github.com/adamhl8/configs/commit/5521a66c488444b441cfc897f69f656ed1874ac0) by @adamhl8)
+
 ## [3.0.0](https://github.com/adamhl8/configs/compare/v2.8.2..v3.0.0) - 2026-10-16
 
 ### 🚀 Features
