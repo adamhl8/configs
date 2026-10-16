@@ -55,6 +55,12 @@ const baseConfig = {
       },
     },
     {
+      files: ["bask.ts"],
+      rules: {
+        "clean-modules/require-direct-exports": "off",
+      },
+    },
+    {
       files: [".release-it.ts"],
       rules: {
         "no-template-curly-in-string": "off",

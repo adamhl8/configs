@@ -36,13 +36,17 @@
     "./env": {
       "types": "./dist/env/index.d.ts",
       "import": "./dist/env/index.js"
+    },
+    "./bask": {
+      "types": "./dist/configs/bask.base.d.ts",
+      "import": "./dist/configs/bask.base.js"
     }
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "prepare": "just prepare"
+    "prepare": "bunx bask prepare"
   },
   "dependencies": {
     "@adamhl8/eslint-plugin-clean-modules": "^0.1.5",
@@ -55,6 +59,7 @@
     "type-fest": "^5.10.0"
   },
   "devDependencies": {
+    "@adamhl8/bask": "^0.1.0",
     "@adamhl8/configs": "file:.",
     "@arethetypeswrong/core": "^0.18.5",
     "@commitlint/cli": "^21.2.3",
@@ -71,6 +76,7 @@
     "typescript": "^7.0.2"
   },
   "peerDependencies": {
+    "@adamhl8/bask": ">=0.1",
     "@arethetypeswrong/core": ">=0.18",
     "@commitlint/cli": ">=21",
     "@commitlint/config-conventional": ">=21",

@@ -20,7 +20,7 @@ jobs:
         uses: adamhl8/configs/.github/actions/setup@main
 
       - name: Build + lint
-        run: just build
+        run: bunx bask build
         env:
           # some projects require a github token with more permissions than the default repo scoped one
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN || github.token }}

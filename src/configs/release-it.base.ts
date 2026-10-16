@@ -10,7 +10,7 @@ type ReleaseItConfig = Config & { hooks?: PluginHooks }
 
 const baseConfig = {
   hooks: {
-    "before:init": "just build",
+    "before:init": "bunx bask build",
     "after:release-it-git-cliff:beforeRelease": "bun oxfmt CHANGELOG.md",
   },
   plugins: {

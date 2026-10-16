@@ -20,7 +20,7 @@ jobs:
           install-args: --ignore-scripts
 
       - name: Update dependencies
-        run: just bump-deps
+        run: bunx bask bump-deps
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8

@@ -2,7 +2,7 @@ pre-commit:
   fail_on_changes: always
   commands:
     build:
-      run: just build
+      run: bunx bask build
 
 commit-msg:
   commands:

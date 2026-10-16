@@ -2,14 +2,12 @@ import type { KnipConfig } from "knip"
 
 import { createMergeConfigFn } from "#merge-config/merge-config.ts"
 
-/** Knip sees `just` in the `prepare` script and the release-it hooks, but it isn't a package.json dependency */
-const IGNORE_BINARIES = ["just"] as const satisfies string[]
-
 const baseConfig = {
   project: ["**/*"],
-  ignoreBinaries: IGNORE_BINARIES,
   bun: {
-    entry: ["**/*.test.ts"],
+    // List `bask.ts` because bask loads it by path and nothing imports it.
+    // Add it here because a top-level `entry` replaces knip's default entries.
+    entry: ["**/*.test.ts", "bask.ts"],
   },
 } as const satisfies KnipConfig
 

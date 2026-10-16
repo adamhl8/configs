@@ -27,36 +27,43 @@ const config = oxlintConfig(
 
 The second config works at any depth: only the arrays you provide are replaced, sibling keys still merge normally, and a key in both objects gets the second object's value. Required keys (e.g. `platform` for `tsdownConfig`) must be provided in the first object.
 
-### just
+### bask
 
-Scripts live in a shared [`just`](https://github.com/casey/just) base justfile instead of being copied into every project's `package.json`. Your `justfile`:
+Tasks live in a shared [bask](https://github.com/adamhl8/bask) tasks module instead of being copied into every project's `package.json`. Install `@adamhl8/bask` as a dev dependency, then re-export the tasks from your `bask.ts`:
 
-```just
-import "node_modules/@adamhl8/configs/dist/configs/justfile.base.just"
+```ts
+export * from "@adamhl8/configs/bask"
 ```
 
-It provides `lint`, `build`, `test`, `bump-deps`, `release`, `release-run`, `tofu-check`, and `prepare`. Run `just` to list them. The recipes degrade gracefully so projects can use them as-is: `build` only runs `tsdown` if the project has a `tsdown.config.ts`, `test` (`bun test`) passes when there are no tests, and `tofu-check` (a `tofu plan` drift check, which `build` also runs) skips itself unless run locally in a project with `.tofu` files.
+It provides `lint`, `build`, `test`, `bump-deps`, `release`, `release-run` (hidden, run by the release workflow), `tofu-check`, `commit-types`, and `prepare`. Run `bunx bask` to list them along with the allowed commit types. The tasks degrade gracefully so projects can use them as-is: `build` only runs `tsdown` if the project has a `tsdown.config.ts`, `test` (`bun test`) passes when there are no tests, and `tofu-check` (a `tofu plan` drift check, which `build` also runs) skips itself unless run locally in a project with `.tofu` files.
 
-To customize a recipe, redefine it in your `justfile`. Each public recipe is a thin wrapper over a private `_recipe` that holds the actual body, so an override can still run the original instead of copying it:
+To customize a task, add hooks to it from your `bask.ts`. A hook also runs when another base task calls that task, so extending `lint` extends `build` too:
 
-```just
-# add steps after the original: dependencies run first, then the body
-prepare: _prepare
-    tsdown
+```ts
+import { task } from "@adamhl8/bask"
+import { bumpDeps, lint } from "@adamhl8/configs/bask"
 
-# add steps before and after: deps before `&&` run first, deps after run last
-bump-deps: my-setup _bump-deps && my-cleanup
+export * from "@adamhl8/configs/bask"
+
+export const astroSync = task(async ({ sh }) => {
+  await sh`bun astro sync`
+})
+
+lint.before(astroSync)
+bumpDeps.after(async ({ sh }) => {
+  await sh`bun prisma generate`
+})
 ```
 
-The only script left in `package.json` is `prepare`, which hands off to just:
+The only script left in `package.json` is `prepare`, which hands off to bask:
 
 ```json
 "scripts": {
-  "prepare": "just prepare"
+  "prepare": "bunx bask prepare"
 }
 ```
 
-The base justfile puts `node_modules/.bin` on `PATH`, so recipes can call package bins directly, just like `package.json` scripts.
+Scripts, git hooks, and the workflows run `bunx bask` rather than `bun bask`, because `bun bask` runs `bask.ts` instead of the bask bin.
 
 ### tsconfig
 
@@ -152,7 +159,7 @@ Preview the next version or the unreleased changelog section with `release-it --
 
 ### lefthook
 
-`lefthook.base.yaml` runs `just build` on pre-commit and `commitlint` on commit-msg. Extend it from your `lefthook.yaml`:
+`lefthook.base.yaml` runs `bunx bask build` on pre-commit and `commitlint` on commit-msg. Extend it from your `lefthook.yaml`:
 
 ```yaml
 # lefthook.yaml
@@ -160,11 +167,11 @@ extends:
   - node_modules/@adamhl8/configs/dist/configs/lefthook.base.yaml
 ```
 
-`lefthook install` (the base justfile's `prepare` recipe runs it) sets up the hooks. `prepare` skips it in CI (when `CI` is set), so commits made by the workflows don't run the hooks.
+`lefthook install` (the base `prepare` task runs it) sets up the hooks. `prepare` skips it in CI (when `CI` is set), so commits made by the workflows don't run the hooks.
 
 ### bunfig
 
-bun has no extends mechanism for `bunfig.toml`, so shared settings are synced into the project's `bunfig.toml`. The base justfile's `prepare` recipe runs the `adamhl8-bunfig` bin, which merges the shared base config (`bunfig.base.toml`) with the project's `bunfig.toml` and writes the result back. The project's values win over the base's, and a project without a `bunfig.toml` gets the base config as-is.
+bun has no extends mechanism for `bunfig.toml`, so shared settings are synced into the project's `bunfig.toml`. The base `prepare` task runs the `adamhl8-bunfig` bin, which merges the shared base config (`bunfig.base.toml`) with the project's `bunfig.toml` and writes the result back. The project's values win over the base's, and a project without a `bunfig.toml` gets the base config as-is.
 
 The base config turns on coverage for `bun test` (showing only failures), runs `**/*.test.ts` files concurrently, ignores `fixtures/` directories, uses the isolated install linker, and makes `bun run` run scripts with bun instead of node.
 
@@ -172,7 +179,7 @@ Since the file is regenerated from the merged config, comments in `bunfig.toml` 
 
 ### gitignore
 
-git has no include mechanism for `.gitignore`, so shared entries are synced into the project's `.gitignore`. The base justfile's `prepare` recipe runs the `adamhl8-gitignore` bin, which keeps the shared list at the top of the file above a marker line: the first run prepends it, later runs replace everything above the marker with the current shared list, so changes propagate on package updates:
+git has no include mechanism for `.gitignore`, so shared entries are synced into the project's `.gitignore`. The base `prepare` task runs the `adamhl8-gitignore` bin, which keeps the shared list at the top of the file above a marker line: the first run prepends it, later runs replace everything above the marker with the current shared list, so changes propagate on package updates:
 
 ```gitignore
 node_modules/
@@ -205,7 +212,7 @@ export const env = parseEnv({
 
 ## GitHub Actions
 
-This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `bun`, have a `justfile` that imports the base justfile (see [just](#just)), and have a commitlint config (e.g. via these configs). The workflows set up bun and install just themselves.
+This repo hosts three reusable workflows you can call from other projects instead of copy/pasting them. The calling project must use `bun`, have a `bask.ts` that re-exports the base tasks (see [bask](#bask)), and have a commitlint config (e.g. via these configs). The workflows set up bun themselves.
 
 - `ci.yml`: runs `build` (build + lint) on pushes/PRs and lints commit messages with commitlint
 - `update-deps.yml`: weekly `bump-deps` run that opens a dependency-update PR
@@ -227,7 +234,7 @@ jobs:
     uses: adamhl8/configs/.github/workflows/ci.yml@main
 ```
 
-The `just build` step runs with `GITHUB_TOKEN` set, for builds that call the GitHub API. It comes from the optional `GH_TOKEN` secret (see [Secrets](#secrets)): the names differ because Actions secrets can't be named `GITHUB_*`, so a build reading `GITHUB_TOKEN` can't be fed by a secret of the same name.
+The `bunx bask build` step runs with `GITHUB_TOKEN` set, for builds that call the GitHub API. It comes from the optional `GH_TOKEN` secret (see [Secrets](#secrets)): the names differ because Actions secrets can't be named `GITHUB_*`, so a build reading `GITHUB_TOKEN` can't be fed by a secret of the same name.
 
 When the secret is unset it falls back to the workflow's auto-provisioned token, so fork PRs (which receive no secrets) still build. To supply your own token, pass it. Prefer naming it over `secrets: inherit` here: CI runs on every PR, so it shouldn't be handed the release and deploy secrets it never uses.
 
@@ -258,9 +265,9 @@ jobs:
 
 ### Release
 
-Manually dispatched. `release-it` uses git-cliff (via `release-it-git-cliff`, see [release-it](#release-it)) to compute the next version from the commits, then bumps `package.json`, regenerates the changelog, commits and tags (both SSH-signed), publishes to npm, and cuts a GitHub release. There is no automatic trigger, so run it when a release is ready (the `release` recipe just does `gh workflow run release.yml`). A dispatch with no releasable commits fails fast because the plugin finds nothing to release.
+Manually dispatched. `release-it` uses git-cliff (via `release-it-git-cliff`, see [release-it](#release-it)) to compute the next version from the commits, then bumps `package.json`, regenerates the changelog, commits and tags (both SSH-signed), publishes to npm, and cuts a GitHub release. There is no automatic trigger, so run it when a release is ready (the `release` task just does `gh workflow run release.yml`). A dispatch with no releasable commits fails fast because the plugin finds nothing to release.
 
-Needs the `NPM_CI_TOKEN` and `CI_SIGNING_KEY` secrets (see [Secrets](#secrets)). The workflow installs git-cliff and runs the base justfile's `release-run` recipe: `release-it --ci`.
+Needs the `NPM_CI_TOKEN` and `CI_SIGNING_KEY` secrets (see [Secrets](#secrets)). The workflow installs git-cliff and runs the base `release-run` task: `release-it --ci`.
 
 ```yaml
 # .github/workflows/release.yml
@@ -312,6 +319,6 @@ Configure these on each repo that uses the workflows (Settings -> Secrets and va
 
 ## Notes
 
-The `prepare` script is `"prepare": "just prepare"`, which runs the base justfile's `prepare` recipe (`lefthook install` outside CI, the `.gitignore` sync, and the `bunfig.toml` sync).
+The `prepare` script is `"prepare": "bunx bask prepare"`, which runs the base `prepare` task (`lefthook install` outside CI, the `.gitignore` sync, and the `bunfig.toml` sync).
 
-bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-bunfig` instead of `src/adamhl8-bunfig/index.ts`. That's also why this repo overrides the `prepare` recipe to first run `tsdown`: the bins point at `dist/`, so those builds need to be available.
+bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-bunfig` instead of `src/adamhl8-bunfig/index.ts`. That's also why this repo's `bask.ts` runs `tsdown` before the `prepare` task: the bins point at `dist/`, so those builds need to be available.

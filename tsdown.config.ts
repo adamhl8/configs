@@ -3,6 +3,7 @@ import { defineConfig } from "tsdown"
 import { tsdownBinConfig, tsdownConfig } from "#configs/tsdown.base.ts"
 
 const config = tsdownConfig({
+  entry: ["./src/configs/bask.base.ts"],
   copy: [
     // Copy the non-TS config files because consumers and the helpers in `utils.ts` reference them by path.
     {
