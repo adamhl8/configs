@@ -1,3 +1,9 @@
+## [3.0.3](https://github.com/adamhl8/configs/compare/v3.0.2..v3.0.3) - 2026-10-18
+
+### ⚙️ Miscellaneous Tasks
+
+- _(deps)_ update dependencies ([986f4e6](https://github.com/adamhl8/configs/commit/986f4e60bbfa3be403ad2f914e278ab24139d44a) by @adamhl8)
+
 ## [3.0.2](https://github.com/adamhl8/configs/compare/v3.0.1..v3.0.2) - 2026-10-16
 
 ### ⚙️ Miscellaneous Tasks
