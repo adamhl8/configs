@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@adamhl8/eslint-plugin-clean-modules": "^0.1.5",
-    "@commitlint/config-conventional": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.4",
     "@commitlint/types": "^21.2.3",
     "arkenv": "^0.12.3",
     "arktype": "^2.2.8",
@@ -59,12 +59,12 @@
     "type-fest": "^5.10.0"
   },
   "devDependencies": {
-    "@adamhl8/bask": "^0.2.0",
+    "@adamhl8/bask": "^0.3.0",
     "@adamhl8/configs": "file:.",
     "@arethetypeswrong/core": "^0.18.5",
-    "@commitlint/cli": "^21.2.3",
+    "@commitlint/cli": "^21.2.4",
     "@types/bun": "^1.4.3",
-    "knip": "^6.41.0",
+    "knip": "^6.42.0",
     "markdown-toc": "^1.2.0",
     "oxfmt": "^0.73.0",
     "oxlint": "^1.88.0",

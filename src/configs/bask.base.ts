@@ -41,8 +41,8 @@ export const bumpDeps = task(async ({ sh }) => {
   await sh`bun install --no-summary --no-cache`
 })
 
-export const test = task(async () => {
-  await $`bun test --pass-with-no-tests`
+export const test = task(async ({ sh }) => {
+  await sh`bun test --pass-with-no-tests`.echo(false)
 })
 
 export const lint = task(async ({ sh }) => {
@@ -84,9 +84,9 @@ export const releaseRun = task({ hidden: true }, async ({ sh }) => {
   await sh`bun release-it -VV --ci`
 })
 
-export const commitTypes = task(async () => {
+export const commitTypes = task(async ({ sh }) => {
   // oxlint-disable-next-line typescript/no-unsafe-type-assertion
-  const config = (await $`bun commitlint --print-config json`.quiet().json()) as {
+  const config = (await sh`bun commitlint --print-config json`.echo(false).json()) as {
     rules: { "type-enum": [number, string, string[]] }
   }
   const { 2: types } = config.rules["type-enum"]
