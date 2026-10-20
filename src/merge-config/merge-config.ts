@@ -32,8 +32,8 @@ const merge = (target: object, source: object, mode: Mode): object =>
  */
 export type MergeConfigFn<UserConfig, BaseConfig> = (<const UserConfigToMerge extends ReadonlyDeep<UserConfig>>(
   userConfig: UserConfigToMerge,
-) => MergedConfig<BaseConfig, UserConfigToMerge>) &
-  (<
+) => MergedConfig<BaseConfig, UserConfigToMerge>)
+  & (<
     const UserConfigToMerge extends ReadonlyDeep<UserConfig>,
     const ReplaceConfigToMerge extends ReadonlyDeep<Partial<UserConfig>>,
   >(
@@ -42,8 +42,8 @@ export type MergeConfigFn<UserConfig, BaseConfig> = (<const UserConfigToMerge ex
   ) => MergedConfig<MergedConfig<BaseConfig, UserConfigToMerge>, ReplaceConfigToMerge, "replace">)
 
 /** A MergeConfigFn that can also be called with no arguments, returning a writable clone of the base config. */
-export type OptionalMergeConfigFn<UserConfig, BaseConfig> = MergeConfigFn<UserConfig, BaseConfig> &
-  (() => Clean<BaseConfig>)
+export type OptionalMergeConfigFn<UserConfig, BaseConfig> = MergeConfigFn<UserConfig, BaseConfig>
+  & (() => Clean<BaseConfig>)
 
 /**
  * Creates a config merge function with proper types for merging with a base config. `UserConfig` is not inferrable, so

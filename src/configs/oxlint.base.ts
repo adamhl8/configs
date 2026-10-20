@@ -70,7 +70,7 @@ const baseConfig = {
     {
       files: ["**/*.tsx"],
       rules: {
-        "func-style": ["error", "expression", { overrides: { namedExports: "ignore" } }],
+        "func-style": ["error", "declaration", { allowArrowFunctions: true }],
       },
     },
   ],
@@ -82,6 +82,10 @@ const baseConfig = {
 
     curly: ["error", "multi-or-nest"],
     "func-style": ["error", "expression"],
+    "react/function-component-definition": [
+      "error",
+      { namedComponents: "function-declaration", unnamedComponents: "arrow-function" },
+    ],
     "react/jsx-curly-brace-presence": ["error", { children: "never", propElementValues: "always", props: "never" }],
     "require-unicode-regexp": ["error", { requireFlag: "v" }],
     "unicorn/filename-case": [
@@ -126,11 +130,18 @@ const baseConfig = {
     "oxc/no-async-await": "off",
     "oxc/no-optional-chaining": "off",
     "oxc/no-rest-spread-properties": "off",
+    "react/exhaustive-effect-dependencies": "off", // `react/exhaustive-deps` covers this
     "react/forbid-component-props": "off",
+    "react/hooks": "off", // `react/rules-of-hooks` covers this
+    "react/invariant": "off",
     "react/jsx-filename-extension": "off",
     "react/jsx-max-depth": "off",
     "react/jsx-no-literals": "off",
+    "react/memo-dependencies": "off", // `react/exhaustive-deps` covers this
+    "react/no-deriving-state-in-effects": "off", // `react/set-state-in-effect` covers this
     "react/react-in-jsx-scope": "off",
+    "react/rule-suppression": "off",
+    "react/todo": "off",
     "require-await": "off",
     "sort-imports": "off",
     "sort-keys": "off",

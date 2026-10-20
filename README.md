@@ -86,6 +86,8 @@ const config = oxfmtConfig({ ... })
 export default defineConfig(config)
 ```
 
+Tailwind classes are sorted against `src/global.css` when the project has one, so classes from plugins and `@theme` sort correctly. oxfmt has to run from the project root for this to find the file. Projects that keep their stylesheet elsewhere set `sortTailwindcss: { stylesheet: "path/to/global.css" }`.
+
 ### oxlint
 
 ```ts
