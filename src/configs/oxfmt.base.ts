@@ -1,10 +1,9 @@
-import { existsSync } from "node:fs"
-
 import type { OxfmtConfig } from "oxfmt"
 
 import { createMergeConfigFn } from "#merge-config/merge-config.ts"
+import { resolveProjectTailwind } from "#utils.ts"
 
-const TAILWIND_STYLESHEET = "src/global.css"
+const tailwindStylesheet = resolveProjectTailwind()
 
 const baseConfig = {
   printWidth: 120,
@@ -24,8 +23,7 @@ const baseConfig = {
   },
   sortPackageJson: { sortScripts: true },
   // Sort against the project's stylesheet so classes from plugins and `@theme` are known.
-  // Check the file first because oxfmt fails on every file with class attributes when the stylesheet is missing.
-  sortTailwindcss: existsSync(TAILWIND_STYLESHEET) ? { stylesheet: TAILWIND_STYLESHEET } : true,
+  sortTailwindcss: tailwindStylesheet ? { stylesheet: tailwindStylesheet } : true,
 } as const satisfies OxfmtConfig
 
 export const oxfmtConfig = createMergeConfigFn<OxfmtConfig, typeof baseConfig>(baseConfig)

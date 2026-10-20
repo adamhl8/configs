@@ -1,16 +1,24 @@
 import cleanModulesPlugin from "@adamhl8/eslint-plugin-clean-modules"
 import { rules as regexpPluginRules } from "eslint-plugin-regexp"
 import type { OxlintConfig } from "oxlint"
+import tailwindcssPlugin from "oxlint-tailwindcss"
 
 import { createMergeConfigFn } from "#merge-config/merge-config.ts"
-import { resolvePackagePath } from "#utils.ts"
+import { resolvePackagePath, resolveProjectTailwind } from "#utils.ts"
 
 /** Sets every rule in a JS plugin to "error", because `categories` doesn't apply to JS plugins. */
 const enableAllPluginRules = (namespace: string, rules: Record<string, unknown>) =>
   Object.fromEntries(Object.keys(rules).map((name) => [`${namespace}/${name}`, "error"] as const))
 
+// Load the Tailwind plugin only in Tailwind projects because it reports every class string when it has no stylesheet.
+const tailwindStylesheet = resolveProjectTailwind()
+
 // Resolve to absolute paths so consumers load these from this package's own deps.
-const jsPlugins = ["@adamhl8/eslint-plugin-clean-modules", "eslint-plugin-regexp"].map(resolvePackagePath)
+const jsPlugins = [
+  "@adamhl8/eslint-plugin-clean-modules",
+  "eslint-plugin-regexp",
+  ...(tailwindStylesheet ? ["oxlint-tailwindcss"] : []),
+].map(resolvePackagePath)
 
 const baseConfig = {
   options: {
@@ -45,6 +53,9 @@ const baseConfig = {
   ],
 
   jsPlugins,
+
+  // Keep `entryPoint` relative because the plugin resolves it against the directory of the project's oxlint config.
+  ...(tailwindStylesheet ? { settings: { tailwindcss: { entryPoint: tailwindStylesheet } } } : {}),
 
   overrides: [
     {
@@ -88,6 +99,7 @@ const baseConfig = {
 
     ...enableAllPluginRules("clean-modules", cleanModulesPlugin.rules),
     ...enableAllPluginRules("regexp", regexpPluginRules),
+    ...(tailwindStylesheet ? enableAllPluginRules("tailwindcss", tailwindcssPlugin.rules) : {}),
 
     /* Modified rules */
 
@@ -178,6 +190,15 @@ const baseConfig = {
     "regexp/require-unicode-regexp": "off", // `require-unicode-regexp` covers this
     "regexp/require-unicode-sets-regexp": "off", // `require-unicode-regexp` covers this
     "regexp/sort-alternatives": "off",
+
+    ...(tailwindStylesheet
+      ? {
+          "tailwindcss/enforce-consistent-line-wrapping": "off", // oxfmt handles line width
+          "tailwindcss/enforce-logical": "off", // conflicts with `tailwindcss/enforce-physical`
+          "tailwindcss/enforce-sort-order": "off", // oxfmt sorts classes
+          "tailwindcss/max-class-count": "off",
+        }
+      : {}),
 
     "typescript/consistent-return": "off",
     "typescript/explicit-function-return-type": "off",

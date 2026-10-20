@@ -37,6 +37,14 @@ export * from "@adamhl8/configs/bask"
 
 It provides `lint`, `build`, `test`, `bump-deps`, `release`, `release-run` (hidden, run by the release workflow), `tofu-check`, `commit-types`, and `prepare`. Run `bunx bask` to list them along with the allowed commit types. The tasks degrade gracefully so projects can use them as-is: `build` only runs `tsdown` if the project has a `tsdown.config.ts`, `test` (`bun test`) passes when there are no tests, and `tofu-check` (a `tofu plan` drift check, which `build` also runs) skips itself unless run locally in a project with `.tofu` files.
 
+In projects that depend on `tailwindcss`, `lint` also runs [tailwint](https://github.com/peterwangsc/tailwint) on `.astro` files, because oxlint can't see Astro markup. It only checks and never fixes, because tailwint resolves a class conflict by deleting a class by position, not by which one wins. Projects with `.astro` files install it:
+
+```sh
+bun add -D tailwint @tailwindcss/language-server
+```
+
+Both are optional peer dependencies. bask runs `bun tailwint` from the project, so with bun's `isolated` linker the bin has to be installed by the project, not just by `@adamhl8/configs`.
+
 To customize a task, add hooks to it from your `bask.ts`. A hook also runs when another base task calls that task, so extending `lint` extends `build` too:
 
 ```ts
@@ -86,7 +94,7 @@ const config = oxfmtConfig({ ... })
 export default defineConfig(config)
 ```
 
-Tailwind classes are sorted against `src/global.css` when the project has one, so classes from plugins and `@theme` sort correctly. oxfmt has to run from the project root for this to find the file. Projects that keep their stylesheet elsewhere set `sortTailwindcss: { stylesheet: "path/to/global.css" }`.
+In projects that depend on `tailwindcss`, Tailwind classes are sorted against the project's Tailwind stylesheet, so classes from plugins and `@theme` sort correctly. The stylesheet is found the same way the Tailwind language server finds it: the first CSS file, in sorted order, that does `@import "tailwindcss"`. oxfmt has to run from the project root for this to find the file. If it picks the wrong file, set `sortTailwindcss: { stylesheet: "path/to/global.css" }`.
 
 ### oxlint
 
@@ -98,6 +106,8 @@ const config = oxlintConfig({ ... })
 
 export default defineConfig(config)
 ```
+
+When the project depends on `tailwindcss`, the config enables [oxlint-tailwindcss](https://github.com/sergioazoc/oxlint-tailwindcss) with every rule except `enforce-sort-order` and `enforce-consistent-line-wrapping` (oxfmt handles these), `enforce-logical` (it conflicts with `enforce-physical`), and `max-class-count`. The plugin reads the design system from the same stylesheet oxfmt sorts against. If that's the wrong file, set `settings: { tailwindcss: { entryPoint: "path/to/global.css" } }`, alongside the oxfmt `sortTailwindcss` override.
 
 ### knip
 

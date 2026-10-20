@@ -3,6 +3,8 @@ import { existsSync } from "node:fs"
 import { list, task } from "@adamhl8/bask"
 import bun, { $, Glob } from "bun"
 
+import { resolveProjectTailwind } from "#utils.ts"
+
 // oxlint-disable-next-line node/no-process-env
 const inCi = Boolean(process.env["CI"])
 
@@ -49,6 +51,13 @@ export const lint = task(async ({ sh }) => {
   await sh`bun markdown-toc -i --bullets - --maxdepth 3 ./README.md`
   await sh`bun oxlint --fix --fix-suggestions --fix-dangerously`
   await sh`bun oxfmt`
+
+  if (resolveProjectTailwind()) {
+    // Check for `.astro` files first so projects without them don't need tailwint installed.
+    const astroFiles = await lsFiles([":(glob)**/*.astro"])
+    // Skip `--fix` because tailwint resolves a class conflict by deleting a class by position, not by which one wins.
+    if (astroFiles.length > 0) await sh`bun tailwint "**/*.astro"`
+  }
 
   const tofuFiles = await lsFiles([
     ":(glob)**/*.tf",
