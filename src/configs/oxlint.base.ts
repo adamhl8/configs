@@ -1,7 +1,16 @@
+import cleanModulesPlugin from "@adamhl8/eslint-plugin-clean-modules"
+import { rules as regexpPluginRules } from "eslint-plugin-regexp"
 import type { OxlintConfig } from "oxlint"
 
 import { createMergeConfigFn } from "#merge-config/merge-config.ts"
 import { resolvePackagePath } from "#utils.ts"
+
+/** Sets every rule in a JS plugin to "error", because `categories` doesn't apply to JS plugins. */
+const enableAllPluginRules = (namespace: string, rules: Record<string, unknown>) =>
+  Object.fromEntries(Object.keys(rules).map((name) => [`${namespace}/${name}`, "error"] as const))
+
+// Resolve to absolute paths so consumers load these from this package's own deps.
+const jsPlugins = ["@adamhl8/eslint-plugin-clean-modules", "eslint-plugin-regexp"].map(resolvePackagePath)
 
 const baseConfig = {
   options: {
@@ -35,8 +44,7 @@ const baseConfig = {
     "node",
   ],
 
-  // Resolve to an absolute path so consumers load it from this package's own deps.
-  jsPlugins: [resolvePackagePath("@adamhl8/eslint-plugin-clean-modules")],
+  jsPlugins,
 
   overrides: [
     {
@@ -76,18 +84,25 @@ const baseConfig = {
   ],
 
   rules: {
-    "clean-modules/require-direct-exports": "error",
-    "clean-modules/require-import-extensions": "error",
-    "clean-modules/require-subpath-imports": "error",
+    /* Plugin rules */
+
+    ...enableAllPluginRules("clean-modules", cleanModulesPlugin.rules),
+    ...enableAllPluginRules("regexp", regexpPluginRules),
+
+    /* Modified rules */
 
     curly: ["error", "multi-or-nest"],
     "func-style": ["error", "expression"],
+    "require-unicode-regexp": ["error", { requireFlag: "v" }],
+
     "react/function-component-definition": [
       "error",
       { namedComponents: "function-declaration", unnamedComponents: "arrow-function" },
     ],
     "react/jsx-curly-brace-presence": ["error", { children: "never", propElementValues: "always", props: "never" }],
-    "require-unicode-regexp": ["error", { requireFlag: "v" }],
+
+    "regexp/letter-case": ["error", { hexadecimalEscape: "uppercase", unicodeEscape: "uppercase" }], // match `unicorn/escape-case`
+
     "unicorn/filename-case": [
       "error",
       {
@@ -96,18 +111,11 @@ const baseConfig = {
     ],
     "unicorn/no-useless-undefined": ["error", { checkArguments: false }],
 
+    /* Disabled rules */
+
     "capitalized-comments": "off",
     "id-length": "off",
-    "import/exports-last": "off",
-    "import/group-exports": "off",
-    "import/max-dependencies": "off",
-    "import/no-named-export": "off",
-    "import/no-nodejs-modules": "off",
-    "import/no-unassigned-import": "off",
-    "import/prefer-default-export": "off",
     "init-declarations": "off",
-    "jsdoc/require-param": "off",
-    "jsdoc/require-returns": "off",
     "max-classes-per-file": "off",
     "max-lines": "off",
     "max-lines-per-function": "off",
@@ -118,18 +126,36 @@ const baseConfig = {
     "no-inline-comments": "off",
     "no-magic-numbers": "off",
     "no-plusplus": "off",
+    "no-regex-spaces": "off", // `regexp/prefer-quantifier` covers this
     "no-ternary": "off",
     "no-undef": "off",
     "no-undefined": "off",
     "no-useless-return": "off",
     "no-void": "off",
+    "one-var": "off",
+    "require-await": "off",
+    "sort-imports": "off",
+    "sort-keys": "off",
+
+    "import/exports-last": "off",
+    "import/group-exports": "off",
+    "import/max-dependencies": "off",
+    "import/no-named-export": "off",
+    "import/no-nodejs-modules": "off",
+    "import/no-unassigned-import": "off",
+    "import/prefer-default-export": "off",
+
+    "jsdoc/require-param": "off",
+    "jsdoc/require-returns": "off",
+
     "node/callback-return": "off",
     "node/no-sync": "off",
     "node/no-top-level-await": "off",
-    "one-var": "off",
+
     "oxc/no-async-await": "off",
     "oxc/no-optional-chaining": "off",
     "oxc/no-rest-spread-properties": "off",
+
     "react/exhaustive-effect-dependencies": "off", // `react/exhaustive-deps` covers this
     "react/forbid-component-props": "off",
     "react/hooks": "off", // `react/rules-of-hooks` covers this
@@ -142,20 +168,30 @@ const baseConfig = {
     "react/react-in-jsx-scope": "off",
     "react/rule-suppression": "off",
     "react/todo": "off",
-    "require-await": "off",
-    "sort-imports": "off",
-    "sort-keys": "off",
+
+    "regexp/no-control-character": "off", // `no-control-regex` covers this
+    "regexp/no-empty-character-class": "off", // `no-empty-character-class` covers this
+    "regexp/no-invalid-regexp": "off", // `no-invalid-regexp` covers this
+    "regexp/no-super-linear-move": "off",
+    "regexp/no-useless-escape": "off", // `no-useless-escape` covers this
+    "regexp/prefer-named-capture-group": "off", // `prefer-named-capture-group` covers this
+    "regexp/require-unicode-regexp": "off", // `require-unicode-regexp` covers this
+    "regexp/require-unicode-sets-regexp": "off", // `require-unicode-regexp` covers this
+    "regexp/sort-alternatives": "off",
+
     "typescript/consistent-return": "off",
     "typescript/explicit-function-return-type": "off",
     "typescript/explicit-module-boundary-types": "off",
     "typescript/prefer-readonly-parameter-types": "off",
     "typescript/strict-boolean-expressions": "off",
+
     "unicorn/no-array-callback-reference": "off",
     "unicorn/no-array-method-this-argument": "off",
     "unicorn/no-await-expression-member": "off",
     "unicorn/no-process-exit": "off",
     "unicorn/number-literal-case": "off",
     "unicorn/switch-case-braces": "off",
+
     "vitest/no-hooks": "off",
     "vitest/no-importing-vitest-globals": "off",
     "vitest/prefer-describe-function-title": "off",
