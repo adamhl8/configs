@@ -1,3 +1,21 @@
+## [3.1.0](https://github.com/adamhl8/configs/compare/v3.0.3..v3.1.0) - 2026-10-23
+
+### 🚀 Features
+
+- _(oxlint)_ add plugins ([930924b](https://github.com/adamhl8/configs/commit/930924b41be04ac00d815c5207febcb56c2fb395) by @adamhl8)
+
+- _(oxlint)_ add e18e ([66d6fc9](https://github.com/adamhl8/configs/commit/66d6fc913482d9bdd2564e3259d5b60bbed982ba) by @adamhl8)
+
+- add tailwind linting ([84ed3e8](https://github.com/adamhl8/configs/commit/84ed3e8bbf701d05bcece8b925a999ee1d55de7f) by @adamhl8)
+
+- _(oxlint)_ add eslint-plugin-regexp ([e576fd2](https://github.com/adamhl8/configs/commit/e576fd232c3fad1a4aa4a8d56088aa27b3a9db2f) by @adamhl8)
+
+- _(oxlint)_ clean up some rules ([ca76cc8](https://github.com/adamhl8/configs/commit/ca76cc873b6d29964fadf03776ce137ad2bbddc9) by @adamhl8)
+
+### 🚜 Refactor
+
+- _(oxlint)_ improve how plugins are handled ([fab56fc](https://github.com/adamhl8/configs/commit/fab56fcce9177bb78741e859bb0dc78daee30d95) by @adamhl8)
+
 ## [3.0.3](https://github.com/adamhl8/configs/compare/v3.0.2..v3.0.3) - 2026-10-18
 
 ### ⚙️ Miscellaneous Tasks
