@@ -1,4 +1,4 @@
-// oxlint-disable no-template-curly-in-string
+// oxlint-disable no-template-curly-in-string - These aren't real string templates, they are templates replaced by release-it
 import type { Config } from "release-it"
 
 import { createMergeConfigFn } from "#merge-config/merge-config.ts"

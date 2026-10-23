@@ -56,7 +56,11 @@
     "arkenv": "^0.12.3",
     "arktype": "^2.2.9",
     "es-toolkit": "^1.52.0",
+    "eslint-plugin-hono": "^1.1.0",
+    "eslint-plugin-react-web-api": "^5.28.7",
+    "eslint-plugin-react-you-might-not-need-an-effect": "^1.0.2",
     "eslint-plugin-regexp": "^3.3.1",
+    "oxlint-plugin-directive-comments": "^0.1.0",
     "oxlint-tailwindcss": "^1.16.0",
     "ts-explicit-errors": "^4.1.3",
     "type-fest": "^5.10.0"

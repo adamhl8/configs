@@ -1,7 +1,11 @@
 import cleanModulesPlugin from "@adamhl8/eslint-plugin-clean-modules"
 import e18ePlugin from "@e18e/eslint-plugin"
+import honoPlugin from "eslint-plugin-hono"
+import reactWebApiPlugin from "eslint-plugin-react-web-api"
+import reactEffectPlugin from "eslint-plugin-react-you-might-not-need-an-effect"
 import { rules as regexpPluginRules } from "eslint-plugin-regexp"
 import type { OxlintConfig } from "oxlint"
+import { rules as directiveCommentsPluginRules } from "oxlint-plugin-directive-comments"
 import tailwindcssPlugin from "oxlint-tailwindcss"
 
 import { createMergeConfigFn } from "#merge-config/merge-config.ts"
@@ -18,7 +22,11 @@ const tailwindStylesheet = resolveProjectTailwind()
 const jsPlugins = [
   "@adamhl8/eslint-plugin-clean-modules",
   "@e18e/eslint-plugin",
+  "eslint-plugin-hono",
+  "eslint-plugin-react-web-api",
+  "eslint-plugin-react-you-might-not-need-an-effect",
   "eslint-plugin-regexp",
+  "oxlint-plugin-directive-comments",
   ...(tailwindStylesheet ? ["oxlint-tailwindcss"] : []),
 ].map(resolvePackagePath)
 
@@ -100,7 +108,11 @@ const baseConfig = {
     /* Plugin rules */
 
     ...enableAllPluginRules("clean-modules", cleanModulesPlugin.rules),
+    ...enableAllPluginRules("directive-comments", directiveCommentsPluginRules),
     ...enableAllPluginRules("e18e", e18ePlugin.rules),
+    ...enableAllPluginRules("hono", honoPlugin.rules),
+    ...enableAllPluginRules("react-web-api", reactWebApiPlugin.rules),
+    ...enableAllPluginRules("react-you-might-not-need-an-effect", reactEffectPlugin.rules),
     ...enableAllPluginRules("regexp", regexpPluginRules),
     ...(tailwindStylesheet ? enableAllPluginRules("tailwindcss", tailwindcssPlugin.rules) : {}),
 
@@ -109,6 +121,8 @@ const baseConfig = {
     curly: ["error", "multi-or-nest"],
     "func-style": ["error", "expression"],
     "require-unicode-regexp": ["error", { requireFlag: "v" }],
+
+    "directive-comments/disable-enable-pair": ["error", { allowWholeFile: true }],
 
     "react/function-component-definition": [
       "error",
@@ -152,6 +166,8 @@ const baseConfig = {
     "sort-imports": "off",
     "sort-keys": "off",
 
+    "directive-comments/no-use": "off", // bans every directive comment
+
     "e18e/no-indexof-equality": "off", // needs type information, which JS plugins don't get
     "e18e/no-spread-in-reduce": "off", // `oxc/no-accumulating-spread` covers this
     "e18e/prefer-array-at": "off", // `unicorn/prefer-at` covers this
@@ -166,6 +182,8 @@ const baseConfig = {
     "e18e/prefer-object-has-own": "off", // `prefer-object-has-own` covers this
     "e18e/prefer-slice-over-split-index": "off",
     "e18e/prefer-spread-syntax": "off", // `unicorn/prefer-spread` and `prefer-object-spread` cover this
+
+    "hono/no-process-env": "off", // `node/no-process-env` covers this
 
     "import/exports-last": "off",
     "import/group-exports": "off",
@@ -198,6 +216,12 @@ const baseConfig = {
     "react/react-in-jsx-scope": "off",
     "react/rule-suppression": "off",
     "react/todo": "off",
+
+    "react-you-might-not-need-an-effect/no-adjust-state-on-prop-change": "off", // `react/set-state-in-effect` covers this
+    "react-you-might-not-need-an-effect/no-chain-state-updates": "off", // `react/set-state-in-effect` covers this
+    "react-you-might-not-need-an-effect/no-derived-state": "off", // `react/set-state-in-effect` covers this
+    "react-you-might-not-need-an-effect/no-initialize-state": "off", // `react/set-state-in-effect` covers this
+    "react-you-might-not-need-an-effect/no-reset-all-state-on-prop-change": "off", // `react/set-state-in-effect` covers this
 
     "regexp/no-control-character": "off", // `no-control-regex` covers this
     "regexp/no-empty-character-class": "off", // `no-empty-character-class` covers this
