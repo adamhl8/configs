@@ -1,4 +1,4 @@
-/* oxlint-disable unicorn/prefer-structured-clone -- structuredClone does not properly clone functions */
+/* oxlint-disable unicorn/prefer-structured-clone - structuredClone does not properly clone functions */
 import { cloneDeep, mergeWith } from "es-toolkit"
 import type { ReadonlyDeep } from "type-fest"
 
@@ -61,6 +61,6 @@ export const createMergeConfigFn = <UserConfig extends object, BaseConfig extend
     return result
   }
 
-  // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion - give the loosely typed implementation its precise public signature
   return mergeConfigFn as OptionalMergeConfigFn<UserConfig, BaseConfig>
 }

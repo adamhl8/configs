@@ -16,7 +16,7 @@ export function requireWhen<const def>(
   type: arktype.validate<def>,
   fallback: arktype.infer<def>,
 ): arktype.instantiate<def>
-/* oxlint-disable typescript/no-unsafe-type-assertion */
+/* oxlint-disable typescript/no-unsafe-type-assertion - cast to the types the overload signatures declare */
 export function requireWhen(when: boolean, type: unknown, ...rest: [unknown?]): never {
   const t = arkenvType.raw(type)
   if (when) return t as never
@@ -30,3 +30,4 @@ export function requireWhen(when: boolean, type: unknown, ...rest: [unknown?]): 
     .pipe((v: unknown) => (v === unset ? fallback : v))
     .default(unset as never) as never
 }
+/* oxlint-enable typescript/no-unsafe-type-assertion - limit the exemption to `requireWhen` */

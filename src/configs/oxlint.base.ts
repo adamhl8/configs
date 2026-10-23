@@ -1,36 +1,145 @@
 import cleanModulesPlugin from "@adamhl8/eslint-plugin-clean-modules"
 import e18ePlugin from "@e18e/eslint-plugin"
+import bunismsPlugin from "eslint-plugin-bunisms"
 import honoPlugin from "eslint-plugin-hono"
 import reactWebApiPlugin from "eslint-plugin-react-web-api"
 import reactEffectPlugin from "eslint-plugin-react-you-might-not-need-an-effect"
 import { rules as regexpPluginRules } from "eslint-plugin-regexp"
-import type { OxlintConfig } from "oxlint"
+import type { DummyRule, OxlintConfig, OxlintOverride } from "oxlint"
 import { rules as directiveCommentsPluginRules } from "oxlint-plugin-directive-comments"
 import tailwindcssPlugin from "oxlint-tailwindcss"
 
 import { createMergeConfigFn } from "#merge-config/merge-config.ts"
-import { resolvePackagePath, resolveProjectTailwind } from "#utils.ts"
+import { readProjectPackageJson, resolvePackagePath, resolveProjectTailwind } from "#utils.ts"
 
-/** Sets every rule in a JS plugin to "error", because `categories` doesn't apply to JS plugins. */
-const enableAllPluginRules = (namespace: string, rules: Record<string, unknown> = {}) =>
-  Object.fromEntries(Object.keys(rules).map((name) => [`${namespace}/${name}`, "error"] as const))
+/** Sets every rule in a JS plugin to `severity`, because `categories` doesn't apply to JS plugins. */
+const setAllPluginRules = (name: string, rules: Record<string, unknown>, severity: "error" | "off") =>
+  Object.fromEntries(Object.keys(rules).map((rule) => [`${name}/${rule}`, severity] as const))
 
-// Load the Tailwind plugin only in Tailwind projects because it reports every class string when it has no stylesheet.
+// Type plugin rules with oxlint's generic `DummyRule` because its per-rule config types aren't exported, which breaks declaration emit.
+type PluginRules = Record<string, DummyRule>
+
+/** A JS plugin and the slice of oxlint config that goes with it. Each one is merged into the base config. */
+interface PluginPart extends Omit<OxlintConfig, "jsPlugins" | "overrides" | "rules"> {
+  overrides?: (Omit<OxlintOverride, "rules"> & { rules?: PluginRules })[]
+  rules?: PluginRules
+  /** Loads the plugin only when true. Defaults to true. */
+  enabled?: boolean
+  package: string
+  /** The plugin's rule definitions, used to set every rule to "error". The part's own `rules` then take precedence. */
+  pluginRules: Record<string, unknown> | undefined
+}
+
+const { dependencies, engines } = readProjectPackageJson()
 const tailwindStylesheet = resolveProjectTailwind()
 
-// Resolve to absolute paths so consumers load these from this package's own deps.
-const jsPlugins = [
-  "@adamhl8/eslint-plugin-clean-modules",
-  "@e18e/eslint-plugin",
-  "eslint-plugin-hono",
-  "eslint-plugin-react-web-api",
-  "eslint-plugin-react-you-might-not-need-an-effect",
-  "eslint-plugin-regexp",
-  "oxlint-plugin-directive-comments",
-  ...(tailwindStylesheet ? ["oxlint-tailwindcss"] : []),
-].map(resolvePackagePath)
+// Key each part by the rule namespace its plugin registers.
+const plugins: Record<string, PluginPart> = {
+  bunisms: {
+    overrides: [
+      {
+        excludeFiles: ["src/**/__tests__/**", "src/**/*.test.{ts,tsx}", "src/**/test-setup.ts", "src/**/test-utils.ts"],
+        // Turn off Bun suggestions in Node runtime code. Tests and tooling still run on Bun.
+        files: engines.has("node") ? ["src/**"] : [],
+        rules: setAllPluginRules("bunisms", bunismsPlugin.rules, "off"),
+      },
+    ],
+    package: "eslint-plugin-bunisms",
+    pluginRules: bunismsPlugin.rules,
+    rules: {
+      "bunisms/prefer-mock-restore-in-after-each": "off", // `test-setup.ts` preloads restore mocks globally
+    },
+  },
+  "clean-modules": {
+    package: "@adamhl8/eslint-plugin-clean-modules",
+    pluginRules: cleanModulesPlugin.rules,
+  },
+  "directive-comments": {
+    package: "oxlint-plugin-directive-comments",
+    pluginRules: directiveCommentsPluginRules,
+    rules: {
+      "directive-comments/disable-enable-pair": ["error", { allowWholeFile: true }],
+      "directive-comments/no-use": "off", // bans every directive comment
+    },
+  },
+  e18e: {
+    package: "@e18e/eslint-plugin",
+    pluginRules: e18ePlugin.rules,
+    rules: {
+      "e18e/no-indexof-equality": "off", // needs type information, which JS plugins don't get
+      "e18e/no-spread-in-reduce": "off", // `oxc/no-accumulating-spread` covers this
+      "e18e/prefer-array-at": "off", // `unicorn/prefer-at` covers this
+      "e18e/prefer-array-some": "off", // `unicorn/prefer-array-some` covers this
+      "e18e/prefer-array-to-reversed": "off", // `unicorn/no-array-reverse` covers this
+      "e18e/prefer-array-to-sorted": "off", // `unicorn/no-array-sort` covers this
+      "e18e/prefer-date-now": "off", // `unicorn/prefer-date-now` covers this
+      "e18e/prefer-exponentiation-operator": "off", // `prefer-exponentiation-operator` covers this
+      "e18e/prefer-flatmap-over-map-flat": "off", // `unicorn/prefer-array-flat-map` covers this
+      "e18e/prefer-includes": "off", // `unicorn/prefer-includes` covers this
+      "e18e/prefer-nullish-coalescing": "off", // `typescript/prefer-nullish-coalescing` covers this
+      "e18e/prefer-object-has-own": "off", // `prefer-object-has-own` covers this
+      "e18e/prefer-slice-over-split-index": "off",
+      "e18e/prefer-spread-syntax": "off", // `unicorn/prefer-spread` and `prefer-object-spread` cover this
+    },
+  },
+  hono: {
+    enabled: dependencies.has("hono"),
+    package: "eslint-plugin-hono",
+    pluginRules: honoPlugin.rules,
+    rules: {
+      "hono/no-process-env": "off", // `node/no-process-env` covers this
+    },
+  },
+  "react-web-api": {
+    enabled: dependencies.has("react"),
+    package: "eslint-plugin-react-web-api",
+    pluginRules: reactWebApiPlugin.rules,
+  },
+  "react-you-might-not-need-an-effect": {
+    enabled: dependencies.has("react"),
+    package: "eslint-plugin-react-you-might-not-need-an-effect",
+    pluginRules: reactEffectPlugin.rules,
+    rules: {
+      "react-you-might-not-need-an-effect/no-adjust-state-on-prop-change": "off", // `react/set-state-in-effect` covers this
+      "react-you-might-not-need-an-effect/no-chain-state-updates": "off", // `react/set-state-in-effect` covers this
+      "react-you-might-not-need-an-effect/no-derived-state": "off", // `react/set-state-in-effect` covers this
+      "react-you-might-not-need-an-effect/no-initialize-state": "off", // `react/set-state-in-effect` covers this
+      "react-you-might-not-need-an-effect/no-reset-all-state-on-prop-change": "off", // `react/set-state-in-effect` covers this
+    },
+  },
+  regexp: {
+    package: "eslint-plugin-regexp",
+    pluginRules: regexpPluginRules,
+    rules: {
+      "regexp/letter-case": ["error", { hexadecimalEscape: "uppercase", unicodeEscape: "uppercase" }], // match `unicorn/escape-case`
+      "regexp/no-control-character": "off", // `no-control-regex` covers this
+      "regexp/no-empty-character-class": "off", // `no-empty-character-class` covers this
+      "regexp/no-invalid-regexp": "off", // `no-invalid-regexp` covers this
+      "regexp/no-super-linear-move": "off",
+      "regexp/no-useless-escape": "off", // `no-useless-escape` covers this
+      "regexp/prefer-named-capture-group": "off", // `prefer-named-capture-group` covers this
+      "regexp/require-unicode-regexp": "off", // `require-unicode-regexp` covers this
+      "regexp/require-unicode-sets-regexp": "off", // `require-unicode-regexp` covers this
+      "regexp/sort-alternatives": "off",
+    },
+  },
+  tailwindcss: {
+    // Load the Tailwind plugin only with a stylesheet because it reports every class string without one.
+    enabled: Boolean(tailwindStylesheet),
+    package: "oxlint-tailwindcss",
+    pluginRules: tailwindcssPlugin.rules,
+    rules: {
+      "tailwindcss/enforce-consistent-line-wrapping": "off", // oxfmt handles line width
+      "tailwindcss/enforce-logical": "off", // conflicts with `tailwindcss/enforce-physical`
+      "tailwindcss/enforce-sort-order": "off", // oxfmt sorts classes
+      "tailwindcss/max-class-count": "off",
+    },
+    // Keep `entryPoint` relative because the plugin resolves it against the directory of the project's oxlint config.
+    settings: { tailwindcss: { entryPoint: tailwindStylesheet } },
+  },
+}
 
-const baseConfig = {
+const nativeConfig = {
   options: {
     reportUnusedDisableDirectives: "error",
     typeAware: true,
@@ -61,11 +170,6 @@ const baseConfig = {
     "promise",
     "node",
   ],
-
-  jsPlugins,
-
-  // Keep `entryPoint` relative because the plugin resolves it against the directory of the project's oxlint config.
-  ...(tailwindStylesheet ? { settings: { tailwindcss: { entryPoint: tailwindStylesheet } } } : {}),
 
   overrides: [
     {
@@ -105,32 +209,17 @@ const baseConfig = {
   ],
 
   rules: {
-    /* Plugin rules */
-
-    ...enableAllPluginRules("clean-modules", cleanModulesPlugin.rules),
-    ...enableAllPluginRules("directive-comments", directiveCommentsPluginRules),
-    ...enableAllPluginRules("e18e", e18ePlugin.rules),
-    ...enableAllPluginRules("hono", honoPlugin.rules),
-    ...enableAllPluginRules("react-web-api", reactWebApiPlugin.rules),
-    ...enableAllPluginRules("react-you-might-not-need-an-effect", reactEffectPlugin.rules),
-    ...enableAllPluginRules("regexp", regexpPluginRules),
-    ...(tailwindStylesheet ? enableAllPluginRules("tailwindcss", tailwindcssPlugin.rules) : {}),
-
     /* Modified rules */
 
     curly: ["error", "multi-or-nest"],
     "func-style": ["error", "expression"],
     "require-unicode-regexp": ["error", { requireFlag: "v" }],
 
-    "directive-comments/disable-enable-pair": ["error", { allowWholeFile: true }],
-
     "react/function-component-definition": [
       "error",
       { namedComponents: "function-declaration", unnamedComponents: "arrow-function" },
     ],
     "react/jsx-curly-brace-presence": ["error", { children: "never", propElementValues: "always", props: "never" }],
-
-    "regexp/letter-case": ["error", { hexadecimalEscape: "uppercase", unicodeEscape: "uppercase" }], // match `unicorn/escape-case`
 
     "unicorn/filename-case": [
       "error",
@@ -166,25 +255,6 @@ const baseConfig = {
     "sort-imports": "off",
     "sort-keys": "off",
 
-    "directive-comments/no-use": "off", // bans every directive comment
-
-    "e18e/no-indexof-equality": "off", // needs type information, which JS plugins don't get
-    "e18e/no-spread-in-reduce": "off", // `oxc/no-accumulating-spread` covers this
-    "e18e/prefer-array-at": "off", // `unicorn/prefer-at` covers this
-    "e18e/prefer-array-some": "off", // `unicorn/prefer-array-some` covers this
-    "e18e/prefer-array-to-reversed": "off", // `unicorn/no-array-reverse` covers this
-    "e18e/prefer-array-to-sorted": "off", // `unicorn/no-array-sort` covers this
-    "e18e/prefer-date-now": "off", // `unicorn/prefer-date-now` covers this
-    "e18e/prefer-exponentiation-operator": "off", // `prefer-exponentiation-operator` covers this
-    "e18e/prefer-flatmap-over-map-flat": "off", // `unicorn/prefer-array-flat-map` covers this
-    "e18e/prefer-includes": "off", // `unicorn/prefer-includes` covers this
-    "e18e/prefer-nullish-coalescing": "off", // `typescript/prefer-nullish-coalescing` covers this
-    "e18e/prefer-object-has-own": "off", // `prefer-object-has-own` covers this
-    "e18e/prefer-slice-over-split-index": "off",
-    "e18e/prefer-spread-syntax": "off", // `unicorn/prefer-spread` and `prefer-object-spread` cover this
-
-    "hono/no-process-env": "off", // `node/no-process-env` covers this
-
     "import/exports-last": "off",
     "import/group-exports": "off",
     "import/max-dependencies": "off",
@@ -217,31 +287,6 @@ const baseConfig = {
     "react/rule-suppression": "off",
     "react/todo": "off",
 
-    "react-you-might-not-need-an-effect/no-adjust-state-on-prop-change": "off", // `react/set-state-in-effect` covers this
-    "react-you-might-not-need-an-effect/no-chain-state-updates": "off", // `react/set-state-in-effect` covers this
-    "react-you-might-not-need-an-effect/no-derived-state": "off", // `react/set-state-in-effect` covers this
-    "react-you-might-not-need-an-effect/no-initialize-state": "off", // `react/set-state-in-effect` covers this
-    "react-you-might-not-need-an-effect/no-reset-all-state-on-prop-change": "off", // `react/set-state-in-effect` covers this
-
-    "regexp/no-control-character": "off", // `no-control-regex` covers this
-    "regexp/no-empty-character-class": "off", // `no-empty-character-class` covers this
-    "regexp/no-invalid-regexp": "off", // `no-invalid-regexp` covers this
-    "regexp/no-super-linear-move": "off",
-    "regexp/no-useless-escape": "off", // `no-useless-escape` covers this
-    "regexp/prefer-named-capture-group": "off", // `prefer-named-capture-group` covers this
-    "regexp/require-unicode-regexp": "off", // `require-unicode-regexp` covers this
-    "regexp/require-unicode-sets-regexp": "off", // `require-unicode-regexp` covers this
-    "regexp/sort-alternatives": "off",
-
-    ...(tailwindStylesheet
-      ? {
-          "tailwindcss/enforce-consistent-line-wrapping": "off", // oxfmt handles line width
-          "tailwindcss/enforce-logical": "off", // conflicts with `tailwindcss/enforce-physical`
-          "tailwindcss/enforce-sort-order": "off", // oxfmt sorts classes
-          "tailwindcss/max-class-count": "off",
-        }
-      : {}),
-
     "typescript/consistent-return": "off",
     "typescript/explicit-function-return-type": "off",
     "typescript/explicit-module-boundary-types": "off",
@@ -267,5 +312,32 @@ const baseConfig = {
     "vitest/require-test-timeout": "off",
   },
 } as const satisfies OxlintConfig
+
+const enabledPluginEntries = Object.entries(plugins).filter(([, plugin]) => plugin.enabled ?? true)
+const enabledPlugins = enabledPluginEntries.map(([, plugin]) => plugin)
+// Resolve JS plugins to absolute paths so consumers load them from this package's own deps.
+const resolvedPluginPackages = enabledPlugins.map((plugin) => resolvePackagePath(plugin.package))
+const pluginOverrides = enabledPlugins.flatMap((plugin) => plugin.overrides ?? [])
+const pluginSettings = Object.fromEntries(enabledPlugins.flatMap((plugin) => Object.entries(plugin.settings ?? {})))
+
+/** Lists a plugin's rules as entries */
+const toPluginRuleEntries = ([name, { pluginRules = {}, rules }]: [string, PluginPart]) => {
+  const defaultRules = setAllPluginRules(name, pluginRules, "error")
+  const pluginRuleEntries = Object.entries({ ...defaultRules, ...rules })
+  return pluginRuleEntries
+}
+
+const resolvedPluginRules = Object.fromEntries(enabledPluginEntries.flatMap(toPluginRuleEntries))
+
+const baseConfig = {
+  ...nativeConfig,
+  jsPlugins: resolvedPluginPackages,
+  overrides: [...nativeConfig.overrides, ...pluginOverrides],
+  rules: {
+    ...resolvedPluginRules,
+    ...nativeConfig.rules,
+  },
+  settings: pluginSettings,
+} satisfies OxlintConfig
 
 export const oxlintConfig = createMergeConfigFn<OxlintConfig, typeof baseConfig>(baseConfig)

@@ -18,19 +18,21 @@ export const configFilePath = (name: string) => {
 /** Returns the absolute path of a package's entry file, resolved from this package's dependencies. */
 export const resolvePackagePath = (specifier: string) => fileURLToPath(import.meta.resolve(specifier))
 
-/** Checks whether the project's `package.json` lists `tailwindcss` as a dependency. */
-const dependsOnTailwind = () => {
-  if (!existsSync("package.json")) return false
+const keysOf = (value: unknown) => (isPlainObject(value) ? Object.keys(value) : [])
 
-  const packageJson: unknown = JSON.parse(readFileSync("package.json", "utf8"))
-  if (!isPlainObject(packageJson)) return false
+/**
+ * Reads the project's `package.json` fields that the base configs branch on. `dependencies` merges the regular, dev,
+ * and peer dependency names.
+ */
+export const readProjectPackageJson = () => {
+  const packageJson: unknown = existsSync("package.json") ? JSON.parse(readFileSync("package.json", "utf8")) : {}
+  const fields = isPlainObject(packageJson) ? packageJson : {}
 
-  for (const field of ["dependencies", "devDependencies"]) {
-    const deps: unknown = packageJson[field]
-    if (isPlainObject(deps) && "tailwindcss" in deps) return true
-  }
+  const dependencyFields = ["dependencies", "devDependencies", "peerDependencies"]
+  const dependencies = new Set(dependencyFields.flatMap((field) => keysOf(fields[field])))
+  const engines = new Set(keysOf(fields["engines"]))
 
-  return false
+  return { dependencies, engines }
 }
 
 // Match entry stylesheets the same way `@tailwindcss/language-server` does.
@@ -41,7 +43,8 @@ const TAILWIND_IMPORT = /@import\s*["']tailwindcss(?:\/[^"']+)?["']/v
  * Tailwind. The stylesheet is the first CSS file, in sorted order, that imports `tailwindcss`.
  */
 export const resolveProjectTailwind = () => {
-  if (!dependsOnTailwind()) return false
+  const { dependencies } = readProjectPackageJson()
+  if (!dependencies.has("tailwindcss")) return false
 
   const stylesheets = globSync("**/*.{css,scss,sass,less,pcss}", {
     exclude: (filePath) => ["node_modules", ".git"].includes(path.basename(filePath)),

@@ -5,7 +5,7 @@ import bun, { $, Glob } from "bun"
 
 import { resolveProjectTailwind } from "#utils.ts"
 
-// oxlint-disable-next-line node/no-process-env
+// oxlint-disable-next-line node/no-process-env - read `CI` directly because the CI runner sets it
 const inCi = Boolean(process.env["CI"])
 
 /** Lists tracked and untracked files matching the pathspecs, skipping gitignored ones. */
@@ -94,7 +94,7 @@ export const releaseRun = task({ hidden: true }, async ({ sh }) => {
 })
 
 export const commitTypes = task(async ({ sh }) => {
-  // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion - trust the shape that `commitlint --print-config json` prints
   const config = (await sh`bun commitlint --print-config json`.echo(false).json()) as {
     rules: { "type-enum": [number, string, string[]] }
   }

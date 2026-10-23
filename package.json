@@ -56,6 +56,7 @@
     "arkenv": "^0.12.3",
     "arktype": "^2.2.9",
     "es-toolkit": "^1.52.0",
+    "eslint-plugin-bunisms": "^0.11.0",
     "eslint-plugin-hono": "^1.1.0",
     "eslint-plugin-react-web-api": "^5.28.7",
     "eslint-plugin-react-you-might-not-need-an-effect": "^1.0.2",
@@ -122,5 +123,8 @@
     "tsdown": {
       "optional": true
     }
+  },
+  "engines": {
+    "bun": ">=1.4"
   }
 }
