@@ -1,4 +1,5 @@
 import cleanModulesPlugin from "@adamhl8/eslint-plugin-clean-modules"
+import e18ePlugin from "@e18e/eslint-plugin"
 import { rules as regexpPluginRules } from "eslint-plugin-regexp"
 import type { OxlintConfig } from "oxlint"
 import tailwindcssPlugin from "oxlint-tailwindcss"
@@ -7,7 +8,7 @@ import { createMergeConfigFn } from "#merge-config/merge-config.ts"
 import { resolvePackagePath, resolveProjectTailwind } from "#utils.ts"
 
 /** Sets every rule in a JS plugin to "error", because `categories` doesn't apply to JS plugins. */
-const enableAllPluginRules = (namespace: string, rules: Record<string, unknown>) =>
+const enableAllPluginRules = (namespace: string, rules: Record<string, unknown> = {}) =>
   Object.fromEntries(Object.keys(rules).map((name) => [`${namespace}/${name}`, "error"] as const))
 
 // Load the Tailwind plugin only in Tailwind projects because it reports every class string when it has no stylesheet.
@@ -16,6 +17,7 @@ const tailwindStylesheet = resolveProjectTailwind()
 // Resolve to absolute paths so consumers load these from this package's own deps.
 const jsPlugins = [
   "@adamhl8/eslint-plugin-clean-modules",
+  "@e18e/eslint-plugin",
   "eslint-plugin-regexp",
   ...(tailwindStylesheet ? ["oxlint-tailwindcss"] : []),
 ].map(resolvePackagePath)
@@ -98,6 +100,7 @@ const baseConfig = {
     /* Plugin rules */
 
     ...enableAllPluginRules("clean-modules", cleanModulesPlugin.rules),
+    ...enableAllPluginRules("e18e", e18ePlugin.rules),
     ...enableAllPluginRules("regexp", regexpPluginRules),
     ...(tailwindStylesheet ? enableAllPluginRules("tailwindcss", tailwindcssPlugin.rules) : {}),
 
@@ -148,6 +151,21 @@ const baseConfig = {
     "require-await": "off",
     "sort-imports": "off",
     "sort-keys": "off",
+
+    "e18e/no-indexof-equality": "off", // needs type information, which JS plugins don't get
+    "e18e/no-spread-in-reduce": "off", // `oxc/no-accumulating-spread` covers this
+    "e18e/prefer-array-at": "off", // `unicorn/prefer-at` covers this
+    "e18e/prefer-array-some": "off", // `unicorn/prefer-array-some` covers this
+    "e18e/prefer-array-to-reversed": "off", // `unicorn/no-array-reverse` covers this
+    "e18e/prefer-array-to-sorted": "off", // `unicorn/no-array-sort` covers this
+    "e18e/prefer-date-now": "off", // `unicorn/prefer-date-now` covers this
+    "e18e/prefer-exponentiation-operator": "off", // `prefer-exponentiation-operator` covers this
+    "e18e/prefer-flatmap-over-map-flat": "off", // `unicorn/prefer-array-flat-map` covers this
+    "e18e/prefer-includes": "off", // `unicorn/prefer-includes` covers this
+    "e18e/prefer-nullish-coalescing": "off", // `typescript/prefer-nullish-coalescing` covers this
+    "e18e/prefer-object-has-own": "off", // `prefer-object-has-own` covers this
+    "e18e/prefer-slice-over-split-index": "off",
+    "e18e/prefer-spread-syntax": "off", // `unicorn/prefer-spread` and `prefer-object-spread` cover this
 
     "import/exports-last": "off",
     "import/group-exports": "off",
