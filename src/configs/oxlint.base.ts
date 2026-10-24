@@ -87,7 +87,7 @@ const plugins: Record<string, PluginPart> = {
     package: "eslint-plugin-hono",
     pluginRules: honoPlugin.rules,
     rules: {
-      "hono/no-process-env": "off", // `node/no-process-env` covers this
+      "hono/no-process-env": "off", // tools and tests legitimately read the raw environment
     },
   },
   "react-web-api": {
@@ -267,6 +267,7 @@ const nativeConfig = {
     "jsdoc/require-returns": "off",
 
     "node/callback-return": "off",
+    "node/no-process-env": "off", // tools and tests legitimately read the raw environment
     "node/no-sync": "off",
     "node/no-top-level-await": "off",
 

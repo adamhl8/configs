@@ -10,7 +10,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Checkout
+    - name: Check out repository
       uses: actions/checkout@v7
       with:
         fetch-depth: 0
@@ -30,6 +30,6 @@ runs:
       with:
         tofu_wrapper: false
 
-    - name: Install
+    - name: Install dependencies
       shell: bash
       run: bun install ${{ inputs.install-args }}

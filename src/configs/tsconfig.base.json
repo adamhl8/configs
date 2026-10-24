@@ -17,6 +17,8 @@
     "checkJs": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "declaration": true,
+    "declarationMap": true,
 
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

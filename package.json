@@ -46,7 +46,7 @@
     "access": "public"
   },
   "scripts": {
-    "prepare": "bunx bask prepare"
+    "prepare": "bask prepare"
   },
   "dependencies": {
     "@adamhl8/eslint-plugin-clean-modules": "^0.1.5",
@@ -55,10 +55,10 @@
     "@e18e/eslint-plugin": "^0.8.1",
     "arkenv": "^0.12.3",
     "arktype": "^2.2.9",
-    "es-toolkit": "^1.52.0",
+    "es-toolkit": "^1.53.0",
     "eslint-plugin-bunisms": "^0.11.0",
     "eslint-plugin-hono": "^1.1.0",
-    "eslint-plugin-react-web-api": "^5.28.7",
+    "eslint-plugin-react-web-api": "^5.28.8",
     "eslint-plugin-react-you-might-not-need-an-effect": "^1.0.2",
     "eslint-plugin-regexp": "^3.3.1",
     "oxlint-plugin-directive-comments": "^0.1.0",
@@ -71,35 +71,35 @@
     "@adamhl8/configs": "file:.",
     "@arethetypeswrong/core": "^0.18.5",
     "@commitlint/cli": "^21.2.4",
-    "@types/bun": "^1.4.3",
-    "knip": "^6.42.1",
+    "@types/bun": "^1.4.4",
+    "knip": "^6.43.0",
     "markdown-toc": "^1.2.0",
     "oxfmt": "^0.74.0",
     "oxlint": "^1.89.0",
-    "oxlint-tsgolint": "^7.0.2004",
+    "oxlint-tsgolint": "^7.0.2005",
     "publint": "^0.3.25",
     "release-it": "^21.1.1",
     "release-it-git-cliff": "^0.2.0",
-    "tsdown": "^0.23.1",
-    "typescript": "^7.0.2"
+    "tsdown": "^0.23.2",
+    "typescript": "7.1.0-beta"
   },
   "peerDependencies": {
-    "@adamhl8/bask": ">=0.3",
-    "@arethetypeswrong/core": ">=0.18.1",
-    "@commitlint/cli": ">=21",
-    "@commitlint/config-conventional": ">=21",
-    "@tailwindcss/language-server": ">=0.14",
-    "knip": ">=6",
-    "markdown-toc": ">=1",
-    "oxfmt": ">=0.73",
-    "oxlint": ">=1.79",
-    "oxlint-tsgolint": ">=7.0.2004",
-    "publint": ">=0.3.8",
+    "@adamhl8/bask": ">=0.5",
+    "@arethetypeswrong/core": ">=0.18",
+    "@commitlint/cli": ">=21.2",
+    "@commitlint/config-conventional": ">=21.2",
+    "@tailwindcss/language-server": ">=0.16",
+    "knip": ">=6.43",
+    "markdown-toc": ">=1.2",
+    "oxfmt": ">=0.74",
+    "oxlint": ">=1.89",
+    "oxlint-tsgolint": ">=7.0.2005",
+    "publint": ">=0.3",
     "release-it": ">=21.1",
-    "release-it-git-cliff": ">=0.1",
+    "release-it-git-cliff": ">=0.2",
     "tailwint": ">=1.1",
-    "tsdown": ">=0.22.7",
-    "typescript": "^7.0.0"
+    "tsdown": ">=0.23.2",
+    "typescript": "^7.1.0-beta"
   },
   "peerDependenciesMeta": {
     "@arethetypeswrong/core": {

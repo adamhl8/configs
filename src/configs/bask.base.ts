@@ -5,7 +5,6 @@ import bun, { $, Glob } from "bun"
 
 import { resolveProjectTailwind } from "#utils.ts"
 
-// oxlint-disable-next-line node/no-process-env - read `CI` directly because the CI runner sets it
 const inCi = Boolean(process.env["CI"])
 
 /** Lists tracked and untracked files matching the pathspecs, skipping gitignored ones. */

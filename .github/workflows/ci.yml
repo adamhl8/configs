@@ -16,10 +16,10 @@ jobs:
     if: github.event.action != 'edited'
     runs-on: ubuntu-latest
     steps:
-      - name: Setup
+      - name: Set up project
         uses: adamhl8/configs/.github/actions/setup@main
 
-      - name: Build + lint
+      - name: Lint and build
         run: bunx bask build
         env:
           # some projects require a github token with more permissions than the default repo scoped one
@@ -35,7 +35,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - name: Setup
+      - name: Set up project
         uses: adamhl8/configs/.github/actions/setup@main
         with:
           # commitlint only needs the installed packages, not a build

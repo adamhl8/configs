@@ -18,8 +18,6 @@ const baseConfig = {
   hash: false,
   dts: {
     generator: "tsgo",
-    newContext: true,
-    sourcemap: true,
   },
   deps: {
     neverBundle: ["bun"],
@@ -30,7 +28,7 @@ const baseConfig = {
   },
   publint: true,
   failOnWarn: true,
-  suppressWarnings: ["does not yet have a stable API"],
+  suppressWarnings: ["TypeScript Go is experimental"],
 } as const satisfies StrictConfig
 
 // Force projects to specify platform and entry

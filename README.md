@@ -54,12 +54,12 @@ import { bumpDeps, lint } from "@adamhl8/configs/bask"
 export * from "@adamhl8/configs/bask"
 
 export const astroSync = task(async ({ sh }) => {
-  await sh`bun astro sync`
+  await sh`astro sync`
 })
 
 lint.before(astroSync)
 bumpDeps.after(async ({ sh }) => {
-  await sh`bun prisma generate`
+  await sh`prisma generate`
 })
 ```
 
@@ -67,11 +67,11 @@ The only script left in `package.json` is `prepare`, which hands off to bask:
 
 ```json
 "scripts": {
-  "prepare": "bunx bask prepare"
+  "prepare": "bask prepare"
 }
 ```
 
-Scripts, git hooks, and the workflows run `bunx bask` rather than `bun bask`, because `bun bask` runs `bask.ts` instead of the bask bin.
+The `prepare` script and task `sh` calls run local bins by their bare name, because `bun run` and bask both put `node_modules/.bin` on `PATH`. Git hooks and the workflows run `bunx bask` rather than `bun bask`, because `bun bask` runs `bask.ts` instead of the bask bin.
 
 ### tsconfig
 
@@ -331,6 +331,6 @@ Configure these on each repo that uses the workflows (Settings -> Secrets and va
 
 ## Notes
 
-The `prepare` script is `"prepare": "bunx bask prepare"`, which runs the base `prepare` task (`lefthook install` outside CI, the `.gitignore` sync, and the `bunfig.toml` sync).
+The `prepare` script is `"prepare": "bask prepare"`, which runs the base `prepare` task (`lefthook install` outside CI, the `.gitignore` sync, and the `bunfig.toml` sync).
 
 bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-bunfig` instead of `src/adamhl8-bunfig/index.ts`. That's also why this repo's `bask.ts` runs `tsdown` before the `prepare` task: the bins point at `dist/`, so those builds need to be available.
