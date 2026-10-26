@@ -1,3 +1,9 @@
+## [3.2.0](https://github.com/adamhl8/configs/compare/v3.1.1..v3.2.0) - 2026-10-26
+
+### 🚀 Features
+
+- add test utils ([540b9a0](https://github.com/adamhl8/configs/commit/540b9a08829323eb3f6ee9561a4419ca2c715811) by @adamhl8)
+
 ## [3.1.1](https://github.com/adamhl8/configs/compare/v3.1.0..v3.1.1) - 2026-10-24
 
 ### ⚙️ Miscellaneous Tasks
