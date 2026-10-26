@@ -68,7 +68,7 @@ bun.plugin({
 const hasCoverage = (value: object): value is Record<typeof INSTRUMENTER_COVERAGE_VARIABLE, unknown> =>
   INSTRUMENTER_COVERAGE_VARIABLE in value
 
-process.once("exit", () => {
+const writeCoverage = () => {
   // Copy `globalThis` to a local because TypeScript doesn't narrow `globalThis` itself.
   const globalScope: object = globalThis
   // Skip a process that never loaded the package, because only instrumented code creates the global.
@@ -77,4 +77,17 @@ process.once("exit", () => {
     path.join(rawDir, `${crypto.randomUUID()}.json`),
     JSON.stringify(globalScope[INSTRUMENTER_COVERAGE_VARIABLE]),
   )
+}
+
+process.on("exit", writeCoverage)
+
+// Move `writeCoverage` behind each later exit listener so the coverage file includes what those listeners run.
+// Wait a microtask because `newListener` fires before the new listener is added.
+// A listener added in the same tick as a synchronous `process.exit()` still runs after the write.
+process.on("newListener", (event, listener) => {
+  if (event !== "exit" || listener === writeCoverage) return
+  queueMicrotask(() => {
+    process.removeListener("exit", writeCoverage)
+    process.on("exit", writeCoverage)
+  })
 })

@@ -54,4 +54,13 @@ describe("subprocess coverage", () => {
     expect(cliRecord).toContain("BRDA:5,0,1,1")
     expect(greetRecord).toContain("DA:1,1")
   }, 120_000)
+
+  it("reports the coverage of an exit listener that the bin registers after the preload", async () => {
+    const run = createShell({ cwd: COVERAGE_PACKAGE, env: minimalEnv() })
+
+    await run`bun test`
+    const lcov = await bun.file(path.join(COVERAGE_PACKAGE, "coverage/lcov.info")).text()
+
+    expect(getRecord(lcov, "src/cli.ts")).toContain("DA:8,1")
+  }, 120_000)
 })
