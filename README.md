@@ -162,7 +162,9 @@ oxlint-tailwindcss runs every rule except `enforce-sort-order` and `enforce-cons
 // knip.ts
 import { knipConfig } from "@adamhl8/configs"
 
-export default knipConfig({ ... })
+const config = knipConfig({ ... })
+
+export default config
 ```
 
 The base leaves `fixtures` and `fixture` dirs out of the analysis, at any depth. It adds `**/*.test.ts` and `bask.ts` to the bun plugin's entries rather than the top-level `entry`, so a project's own `entry` doesn't replace knip's default entries. knip doesn't see commands run through bask's `sh`, so a dependency that's only run there goes in `ignoreDependencies`.
@@ -189,7 +191,9 @@ The base builds `src/index.ts` as an unbundled ESM library with sourcemaps and t
 // commitlint.config.ts
 import { commitlintConfig } from "@adamhl8/configs"
 
-export default commitlintConfig({ ... })
+const config = commitlintConfig({ ... })
+
+export default config
 ```
 
 The allowed commit types are the conventional types without `test`, `style`, and `build`, plus `improve` and `release`. `bunx bask commit-types` prints them.
@@ -210,7 +214,9 @@ With bun's `isolated` linker, our copy lives only in `@adamhl8/configs`'s own `n
 // .release-it.ts
 import { releaseItConfig } from "@adamhl8/configs"
 
-export default releaseItConfig({ ... })
+const config = releaseItConfig({ ... })
+
+export default config
 ```
 
 The release config registers the [`release-it-git-cliff`](https://github.com/adamhl8/release-it-git-cliff) plugin with the bundled git-cliff config (`cliff.base.toml`), so there is no per-project `cliff.toml` to write. git-cliff picks the next version from the commits, and the plugin writes `CHANGELOG.md` (formatted with `oxfmt`) and sets the release notes. A release starts by running `bunx bask build`. The release commit is `release: v${version}`, and the tag is `v${version}`. It publishes with `bun publish --ignore-scripts`.
@@ -561,7 +567,7 @@ module "github" {
 
 The repo's description, homepage, and topics come from the `description`, `homepage`, and `keywords` in `package.json`. A homepage that points at the repo itself is left out. The repo only allows squash merges, which use the PR title as the commit message, and deletes branches once they're merged. Secret scanning, push protection, and vulnerability alerts are on.
 
-`actions_secrets` picks the secrets to set. `CI_SIGNING_KEY` and `CI_TOKEN` are on by default, and `NPM_CI_TOKEN` and `GH_TOKEN` are off. `additional_secrets` adds other secrets by name. Each value is read from `~/homelab/secrets/credentials.yaml` (a sops file) under the secret's lowercased name. A plan fails when the repo has a secret the module doesn't manage.
+`actions_secrets` picks the secrets to set. `CI_SIGNING_KEY` and `CI_TOKEN` are on by default, and `NPM_CI_TOKEN` and `GH_TOKEN` are off. `additional_secrets` adds other secrets by name. Each value is read from `~/homelab/secrets/credentials.yaml` (a sops file) under the secret's lowercased name. A secret on the repo that the module doesn't manage shows up as a warning in `tofu plan`, naming the secrets, and doesn't fail the plan.
 
 The `prepare` task runs `tofu init -upgrade`, and the `tofu-check` task (which `build` runs) checks for drift with `tofu plan`. See [bask tasks](#bask-tasks) for when they run.
 

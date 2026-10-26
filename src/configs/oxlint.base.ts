@@ -206,6 +206,14 @@ const nativeConfig = {
         "func-style": ["error", "declaration", { allowArrowFunctions: true }],
       },
     },
+    {
+      files: ["**/fixtures/**", "**/fixture/**"],
+      rules: {
+        "clean-modules/require-import-extensions": "off",
+        "clean-modules/require-subpath-imports": "off",
+        "import/no-default-export": "off",
+      },
+    },
   ],
 
   rules: {
