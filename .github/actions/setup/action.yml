@@ -19,6 +19,8 @@ runs:
       uses: actions/setup-node@v7
       with:
         node-version-file: package.json
+        # write an .npmrc that reads NODE_AUTH_TOKEN, which the release workflow sets to publish
+        registry-url: https://registry.npmjs.org
 
     - name: Set up bun
       uses: oven-sh/setup-bun@v2

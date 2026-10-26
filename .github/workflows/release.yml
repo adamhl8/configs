@@ -38,12 +38,6 @@ jobs:
       - name: Install git-cliff
         uses: taiki-e/install-action@git-cliff
 
-      # release-it's preflight checks (npm ping/whoami) use the npm CLI, which reads ~/.npmrc
-      - name: Configure npm auth
-        run: echo "//registry.npmjs.org/:_authToken=${NPM_CI_TOKEN}" > ~/.npmrc
-        env:
-          NPM_CI_TOKEN: ${{ secrets.NPM_CI_TOKEN }}
-
       - name: Configure git identity and signing
         run: |
           git config user.name "Adam Langbert"
@@ -67,8 +61,8 @@ jobs:
         env:
           CI_TOKEN: ${{ secrets.CI_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
-          # `bun publish` doesn't read .npmrc but does read `NPM_CONFIG_TOKEN`
-          NPM_CONFIG_TOKEN: ${{ secrets.NPM_CI_TOKEN }}
+          # the .npmrc from setup-node reads this, for npm (release-it's preflight checks) and `bun publish`
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_CI_TOKEN }}
 
       - name: Get release tag
         id: tag
