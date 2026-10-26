@@ -40,6 +40,14 @@
     "./bask": {
       "types": "./dist/configs/bask.base.d.ts",
       "import": "./dist/configs/bask.base.js"
+    },
+    "./test": {
+      "types": "./dist/test-utils/index.d.ts",
+      "import": "./dist/test-utils/index.js"
+    },
+    "./test/preload": {
+      "types": "./dist/test-utils/preload.d.ts",
+      "import": "./dist/test-utils/preload.js"
     }
   },
   "publishConfig": {

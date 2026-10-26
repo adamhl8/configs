@@ -1,0 +1,5 @@
+{
+  "name": "tiny-consumer",
+  "private": true,
+  "type": "module"
+}

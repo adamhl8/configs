@@ -30,6 +30,20 @@ const env = tsdownConfig({
   publint: false,
 })
 
+const testUtils = tsdownConfig(
+  {
+    platform: "node",
+    outDir: "./dist/test-utils/",
+    deps: {
+      neverBundle: ["bun:test"],
+    },
+    attw: false,
+    publint: false,
+  },
+  // Replace the base `entry` instead of appending to it, because the base builds `src/index.ts`.
+  { entry: ["./src/test-utils/index.ts", "./src/test-utils/preload.ts"] },
+)
+
 const adamhl8Bunfig = tsdownBinConfig({
   entry: "./src/adamhl8-bunfig/index.ts",
   outDir: "./dist/adamhl8-bunfig/",
@@ -40,4 +54,4 @@ const adamhl8Gitignore = tsdownBinConfig({
   outDir: "./dist/adamhl8-gitignore/",
 })
 
-export default defineConfig([config, env, adamhl8Bunfig, adamhl8Gitignore])
+export default defineConfig([config, env, testUtils, adamhl8Bunfig, adamhl8Gitignore])
