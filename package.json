@@ -61,7 +61,7 @@
     "prepare": "bask prepare"
   },
   "dependencies": {
-    "@adamhl8/eslint-plugin-clean-modules": "^0.1.5",
+    "@adamhl8/eslint-plugin-clean-modules": "^0.1.6",
     "@commitlint/config-conventional": "^21.2.4",
     "@commitlint/types": "^21.2.3",
     "@e18e/eslint-plugin": "^0.8.1",
@@ -75,7 +75,7 @@
     "eslint-plugin-regexp": "^3.3.1",
     "oxlint-plugin-directive-comments": "^0.1.0",
     "oxlint-tailwindcss": "^1.16.0",
-    "ts-explicit-errors": "^5.0.0",
+    "ts-explicit-errors": "^5.0.1",
     "type-fest": "^5.10.0"
   },
   "devDependencies": {
@@ -95,7 +95,7 @@
     "oxlint-tsgolint": "^7.0.2005",
     "publint": "^0.3.25",
     "release-it": "^21.1.1",
-    "release-it-git-cliff": "^0.2.0",
+    "release-it-git-cliff": "^0.2.1",
     "tsdown": "^0.23.2",
     "typescript": "7.1.0-beta"
   },
