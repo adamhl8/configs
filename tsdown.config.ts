@@ -41,7 +41,15 @@ const testUtils = tsdownConfig(
     publint: false,
   },
   // Replace the base `entry` instead of appending to it, because the base builds `src/index.ts`.
-  { entry: ["./src/test-utils/index.ts", "./src/test-utils/preload.ts"] },
+  {
+    entry: [
+      "./src/test-utils/index.ts",
+      "./src/test-utils/preload.ts",
+      "./src/test-utils/subprocess-coverage/preload.ts",
+      // Build the child preload as its own file because children load it by path through `BUN_OPTIONS`.
+      "./src/test-utils/subprocess-coverage/child-preload.ts",
+    ],
+  },
 )
 
 const adamhl8Bunfig = tsdownBinConfig({

@@ -48,6 +48,10 @@
     "./test/preload": {
       "types": "./dist/test-utils/preload.d.ts",
       "import": "./dist/test-utils/preload.js"
+    },
+    "./test/subprocess-coverage": {
+      "types": "./dist/test-utils/subprocess-coverage/preload.d.ts",
+      "import": "./dist/test-utils/subprocess-coverage/preload.js"
     }
   },
   "publishConfig": {
@@ -80,6 +84,10 @@
     "@arethetypeswrong/core": "^0.18.5",
     "@commitlint/cli": "^21.2.4",
     "@types/bun": "^1.4.4",
+    "@vitest/istanbul-lib-coverage": "^2.0.0",
+    "@vitest/istanbul-lib-instrument": "^2.0.0",
+    "@vitest/istanbul-lib-report": "^2.0.0",
+    "@vitest/istanbul-lib-source-maps": "^2.0.0",
     "knip": "^6.43.0",
     "markdown-toc": "^1.2.0",
     "oxfmt": "^0.74.0",
@@ -97,6 +105,10 @@
     "@commitlint/cli": ">=21.2",
     "@commitlint/config-conventional": ">=21.2",
     "@tailwindcss/language-server": ">=0.16",
+    "@vitest/istanbul-lib-coverage": ">=2.0",
+    "@vitest/istanbul-lib-instrument": ">=2.0",
+    "@vitest/istanbul-lib-report": ">=2.0",
+    "@vitest/istanbul-lib-source-maps": ">=2.0",
     "knip": ">=6.43",
     "markdown-toc": ">=1.2",
     "oxfmt": ">=0.74",
@@ -114,6 +126,18 @@
       "optional": true
     },
     "@tailwindcss/language-server": {
+      "optional": true
+    },
+    "@vitest/istanbul-lib-coverage": {
+      "optional": true
+    },
+    "@vitest/istanbul-lib-instrument": {
+      "optional": true
+    },
+    "@vitest/istanbul-lib-report": {
+      "optional": true
+    },
+    "@vitest/istanbul-lib-source-maps": {
       "optional": true
     },
     "publint": {

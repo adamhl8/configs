@@ -1,0 +1,11 @@
+{
+  "name": "coverage-package",
+  "version": "1.0.0",
+  "bin": {
+    "coverage-cli": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module"
+}

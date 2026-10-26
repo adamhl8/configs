@@ -61,6 +61,7 @@ Some tools are only needed by some projects:
 - Published packages: `tsdown publint @arethetypeswrong/core`
 - Releases: `release-it release-it-git-cliff` (see [release-it](#release-it))
 - Astro projects that use Tailwind: `tailwint @tailwindcss/language-server` (see [bask tasks](#bask-tasks))
+- Subprocess test coverage: `@vitest/istanbul-lib-coverage @vitest/istanbul-lib-instrument @vitest/istanbul-lib-report @vitest/istanbul-lib-source-maps` (see [Subprocess coverage](#subprocess-coverage))
 
 ## Setup
 
@@ -397,6 +398,7 @@ const { exitCode: failedCode } = await run`my-cli --bad-flag`.nothrow()
 - `packPackage(root)` runs `bun tsdown` when `root` has a `tsdown.config.ts`, then packs it with `bun pm pack --ignore-scripts` into a temp dir, and returns the tarball path.
 - `minimalEnv(extra)` returns just `PATH` and `HOME`, plus `extra`.
 - `makeTempDir(prefix)` makes a temp dir that's removed after the test run. `copyFixture` and `packPackage` use it.
+- `subprocessCoverageEnv()` returns the variables that turn on [subprocess coverage](#subprocess-coverage) for a shell's `env`, or nothing when it's off.
 
 The temp dirs are removed by a preload, which each project adds to its `bunfig.toml`:
 
@@ -412,6 +414,38 @@ import "@adamhl8/configs/test/preload"
 ```
 
 It isn't in the shared bunfig base because `adamhl8-bunfig` merges arrays by index, so a project's own `preload` would replace it.
+
+#### Subprocess coverage
+
+Bun's coverage only measures the test process, so it misses a package's own code when tests run it from the packed tarball in child processes. A second preload covers that code, imported after the first at the top of the project's own preload:
+
+```ts
+import "@adamhl8/configs/test/preload"
+import "@adamhl8/configs/test/subprocess-coverage"
+```
+
+A project without its own preload can list both in `bunfig.toml` instead:
+
+```toml
+[test]
+preload = ["@adamhl8/configs/test/preload", "@adamhl8/configs/test/subprocess-coverage"]
+```
+
+- It sets `BUN_OPTIONS` and a settings variable on `process.env`. Every Bun process started with them loads a preload that instruments the installed package's `dist/` with Istanbul (the package named in the project's `package.json`).
+- A shell that inherits `process.env` passes the variables on as is. A shell that replaces it, like one built on `minimalEnv()`, adds them with `subprocessCoverageEnv()`:
+
+  ```ts
+  import { copyFixture, minimalEnv, subprocessCoverageEnv } from "@adamhl8/configs/test"
+
+  const { run } = await copyFixture(FIXTURE, { shell: { env: minimalEnv(subprocessCoverageEnv()) } })
+  ```
+
+- After the run, the coverage from every process is merged, mapped back to `src/` through the package's source maps, printed as a table (statements, branches, functions, lines), and written to `coverage/lcov.info`.
+- Set `coverage = false` under `[test]` in `bunfig.toml`, because Bun's own coverage only sees the test process.
+- The project needs the optional peer dependencies listed under [Installation](#installation) and a build with source maps, which `tsdownConfig` produces. Tests have to install the packed tarball, as with `packPackage`, because only the installed `dist/` is instrumented.
+- Code in the package's own `exit` handlers isn't counted, and a process killed by a signal writes no coverage.
+
+Import it only from a preload. Imported from a test file, its `afterAll` would be scoped to that file, so the report would run after that file instead of after the whole run.
 
 ## GitHub Actions
 
@@ -574,3 +608,5 @@ The `prepare` task runs `tofu init -upgrade`, and the `tofu-check` task (which `
 ## Developing this repo
 
 bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-bunfig` instead of `src/adamhl8-bunfig/index.ts`. That's also why this repo's `bask.ts` runs `tsdown` before the `prepare` task: the bins point at `dist/`, so those builds need to be available.
+
+With bun's `isolated` linker, the self-dependency is a copy made at install time. After adding or moving an export, run `bun install --force` to refresh the copy, or type checks of code that imports the new export fail.
