@@ -1,3 +1,9 @@
+## [3.2.1](https://github.com/adamhl8/configs/compare/v3.2.0..v3.2.1) - 2026-10-26
+
+### 🐛 Bug Fixes
+
+- _(oxlint)_ turn off rules for fixtures ([e7a4ded](https://github.com/adamhl8/configs/commit/e7a4deddde9f38797d40cbea5da0eb02fe405f4b) by @adamhl8)
+
 ## [3.2.0](https://github.com/adamhl8/configs/compare/v3.1.1..v3.2.0) - 2026-10-26
 
 ### 🚀 Features
