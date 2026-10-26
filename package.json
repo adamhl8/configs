@@ -69,17 +69,17 @@
     "arktype": "^2.2.9",
     "es-toolkit": "^1.53.0",
     "eslint-plugin-bunisms": "^0.11.0",
-    "eslint-plugin-hono": "^1.1.0",
+    "eslint-plugin-hono": "^1.1.1",
     "eslint-plugin-react-web-api": "^5.28.8",
     "eslint-plugin-react-you-might-not-need-an-effect": "^1.0.2",
     "eslint-plugin-regexp": "^3.3.1",
     "oxlint-plugin-directive-comments": "^0.1.0",
     "oxlint-tailwindcss": "^1.16.0",
-    "ts-explicit-errors": "^4.1.3",
+    "ts-explicit-errors": "^5.0.0",
     "type-fest": "^5.10.0"
   },
   "devDependencies": {
-    "@adamhl8/bask": "^0.5.0",
+    "@adamhl8/bask": "^0.6.0",
     "@adamhl8/configs": "file:.",
     "@arethetypeswrong/core": "^0.18.5",
     "@commitlint/cli": "^21.2.4",
@@ -100,7 +100,7 @@
     "typescript": "7.1.0-beta"
   },
   "peerDependencies": {
-    "@adamhl8/bask": ">=0.5",
+    "@adamhl8/bask": ">=0.6",
     "@arethetypeswrong/core": ">=0.18",
     "@commitlint/cli": ">=21.2",
     "@commitlint/config-conventional": ">=21.2",

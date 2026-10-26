@@ -3,6 +3,8 @@ import fs from "node:fs"
 import os from "node:os"
 import path from "node:path"
 
+import bun from "bun"
+
 import { copyFixture } from "#test-utils/fixture.ts"
 
 const TINY_CONSUMER = path.join(import.meta.dir, "fixtures/tiny-consumer")
@@ -13,7 +15,7 @@ describe("copyFixture", () => {
 
     expect(path.dirname(dir)).toBe(os.tmpdir())
     expect(path.basename(dir).startsWith("configs-fixture-")).toBe(true)
-    expect(fs.existsSync(path.join(dir, "package.json"))).toBe(true)
+    expect(await bun.file(path.join(dir, "package.json")).exists()).toBe(true)
   })
 
   it("defaults the prefix to the fixture's name", async () => {

@@ -1,6 +1,7 @@
 import { beforeAll, describe, expect, it, setDefaultTimeout } from "bun:test"
-import fs from "node:fs/promises"
 import path from "node:path"
+
+import bun from "bun"
 
 import { copyFixture } from "#test-utils/fixture.ts"
 import { packPackage } from "#test-utils/pack.ts"
@@ -21,7 +22,7 @@ describe("packPackage", () => {
   it("builds and packs a package into a tarball", async () => {
     expect(path.isAbsolute(tarball)).toBe(true)
     expect(path.basename(tarball)).toBe("tiny-package-1.0.0.tgz")
-    expect((await fs.stat(tarball)).isFile()).toBe(true)
+    expect(await bun.file(tarball).exists()).toBe(true)
   })
 
   // `files` ships only `dist/`, so this also proves the build ran.
