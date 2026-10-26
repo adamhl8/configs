@@ -5,6 +5,12 @@ on:
     - cron: "0 13 * * 5" # Fridays, 13:00 UTC
   workflow_dispatch: {}
   workflow_call:
+    inputs:
+      before-bump-deps:
+        description: Shell commands to run after install, just before bump-deps
+        type: string
+        required: false
+        default: ""
     secrets:
       CI_TOKEN:
         required: true
@@ -18,6 +24,10 @@ jobs:
         with:
           # skip an extra `prepare` run because `bump-deps` will run it
           install-args: --ignore-scripts
+
+      - name: Run before-bump-deps commands
+        if: inputs.before-bump-deps != ''
+        run: ${{ inputs.before-bump-deps }}
 
       - name: Update dependencies
         run: bunx bask bump-deps
