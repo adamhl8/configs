@@ -1,3 +1,9 @@
+## [3.4.0](https://github.com/adamhl8/configs/compare/v3.3.0..v3.4.0) - 2026-10-26
+
+### ✨ Improvements
+
+- _(subprocess-coverage)_ try to always register our exit listener last ([ff54de6](https://github.com/adamhl8/configs/commit/ff54de6b043263a01d846b3e5535e0fb16262400) by @adamhl8)
+
 ## [3.3.0](https://github.com/adamhl8/configs/compare/v3.2.1..v3.3.0) - 2026-10-26
 
 ### 🚀 Features
