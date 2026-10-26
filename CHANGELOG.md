@@ -1,3 +1,9 @@
+## [3.3.0](https://github.com/adamhl8/configs/compare/v3.2.1..v3.3.0) - 2026-10-26
+
+### 🚀 Features
+
+- add subprocess coverage utils ([ff4fd8d](https://github.com/adamhl8/configs/commit/ff4fd8df860be4bdb5e8f0aff59fc375876c16c9) by @adamhl8)
+
 ## [3.2.1](https://github.com/adamhl8/configs/compare/v3.2.0..v3.2.1) - 2026-10-26
 
 ### 🐛 Bug Fixes
