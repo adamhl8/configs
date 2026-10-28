@@ -440,10 +440,18 @@ preload = ["@adamhl8/configs/test/preload", "@adamhl8/configs/test/subprocess-co
   const { run } = await copyFixture(FIXTURE, { shell: { env: minimalEnv(subprocessCoverageEnv()) } })
   ```
 
-- After the run, the coverage from every process is merged, mapped back to `src/` through the package's source maps, printed as a table (statements, branches, functions, lines), and written to `coverage/lcov.info`.
-- Set `coverage = false` under `[test]` in `bunfig.toml`, because Bun's own coverage only sees the test process.
+- After the run, the coverage from every process is merged, mapped back to `src/` through the package's source maps, printed as a table (statements, branches, functions, lines), and written to `coverage/subprocess/lcov.info`, which keeps it apart from the `coverage/lcov.info` that Bun writes.
+- To keep Bun's own coverage for code that tests import directly, leave `coverage = true` under `[test]` and list the files that subprocess coverage owns in `coveragePathIgnorePatterns`. Bun then skips those files, and the subprocess report keeps only them, so each file appears in one of the two tables. A file you don't list is left to Bun, so a file that only child processes load shows up in neither table. With `coverage = false`, the subprocess report keeps every file.
+
+  ```toml
+  [test]
+  coverage = true
+  coveragePathIgnorePatterns = ["**/__tests__/**", "src/cli/**"]
+  ```
+
+- This reads `bunfig.toml` from the project root, so turning on Bun's coverage with `--coverage` instead leaves the subprocess report unfiltered.
 - The project needs the optional peer dependencies listed under [Installation](#installation) and a build with source maps, which `tsdownConfig` produces. Tests have to install the packed tarball, as with `packPackage`, because only the installed `dist/` is instrumented.
-- Code in the package's own `exit` handlers isn't counted, and a process killed by a signal writes no coverage.
+- A process killed by a signal writes no coverage. An `exit` listener that the package adds in the same tick as a synchronous `process.exit()` isn't counted.
 
 Import it only from a preload. Imported from a test file, its `afterAll` would be scoped to that file, so the report would run after that file instead of after the whole run.
 

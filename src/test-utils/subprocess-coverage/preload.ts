@@ -18,9 +18,31 @@ const CHILD_PRELOAD = path.join(import.meta.dir, `child-preload${path.extname(im
 const hasName = (value: unknown): value is { name: string } =>
   typeof value === "object" && value !== null && "name" in value && typeof value.name === "string"
 
+const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null
+
 const root = process.cwd()
 const packageJson: unknown = await bun.file(path.join(root, "package.json")).json()
 if (!hasName(packageJson)) throw new Error(`subprocess coverage needs a package name in ${root}/package.json`)
+
+// Write to a subdir because Bun writes its own `coverage/lcov.info` after this report.
+const REPORT_DIR = path.join(root, "coverage/subprocess")
+
+/** Returns Bun's `coveragePathIgnorePatterns` while its coverage is on, or `undefined` when it's off. */
+const readBunIgnorePatterns = async () => {
+  const bunfigFile = bun.file(path.join(root, "bunfig.toml"))
+  const bunfig: unknown = (await bunfigFile.exists()) ? bun.TOML.parse(await bunfigFile.text()) : {}
+  const test = isRecord(bunfig) && isRecord(bunfig["test"]) ? bunfig["test"] : {}
+
+  const isBunCoverageOn = test["coverage"] === true
+  if (!isBunCoverageOn) return
+
+  const coverageIgnorePatterns = test["coveragePathIgnorePatterns"]
+  return [coverageIgnorePatterns].flat().filter((pattern) => typeof pattern === "string")
+}
+
+// Report only the files that Bun's coverage ignores, so each file appears in one report.
+// Join each pattern onto `root` because Bun's patterns are root-relative and the report's paths are absolute.
+const includePatterns = (await readBunIgnorePatterns())?.map((pattern) => path.join(root, pattern))
 
 const rawDir = await fs.mkdtemp(path.join(os.tmpdir(), "subprocess-coverage-"))
 const settings: CoverageSettings = { rawDir, root, packageName: packageJson.name }
@@ -30,6 +52,6 @@ process.env["BUN_OPTIONS"] = `--preload=${CHILD_PRELOAD}`
 process.env[SUBPROCESS_COVERAGE_SETTINGS_VAR] = JSON.stringify(settings)
 
 afterAll(async () => {
-  await reportCoverage(rawDir, path.join(root, "coverage"))
+  await reportCoverage(rawDir, REPORT_DIR, includePatterns)
   await fs.rm(rawDir, { recursive: true, force: true })
 })
