@@ -1,3 +1,19 @@
+## [3.5.0](https://github.com/adamhl8/configs/compare/v3.4.1..v3.5.0) - 2026-10-28
+
+### 🚀 Features
+
+- _(subprocess-coverage)_ when bun coverage is on, only report coveragePathIgnorePatterns ([c294b9e](https://github.com/adamhl8/configs/commit/c294b9e80686d39f9ad099278471bbf7d5388d05) by @adamhl8)
+
+### ⚙️ Miscellaneous Tasks
+
+- arkenv prep ([e9b2dbe](https://github.com/adamhl8/configs/commit/e9b2dbe7298c012b4410aa1df532f5afea41e317) by @adamhl8)
+
+- _(update-deps)_ add a before-bump-deps input ([123b616](https://github.com/adamhl8/configs/commit/123b61612de71170ea4addc1e21b99752f7434ce) by @adamhl8)
+
+- simplify npm auth ([749a7d9](https://github.com/adamhl8/configs/commit/749a7d9f578605507881e9510baa549d7807975a) by @adamhl8)
+
+- install newer version of node ([5a2656a](https://github.com/adamhl8/configs/commit/5a2656ad91f547c20159d4b829f1bc0609b931a3) by @adamhl8)
+
 ## [3.4.1](https://github.com/adamhl8/configs/compare/v3.4.0..v3.4.1) - 2026-10-26
 
 ### ⚙️ Miscellaneous Tasks
