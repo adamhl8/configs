@@ -1,3 +1,9 @@
+## [3.5.1](https://github.com/adamhl8/configs/compare/v3.5.0..v3.5.1) - 2026-10-29
+
+### 🐛 Bug Fixes
+
+- _(subprocess-coverage)_ pass through files without a sourceMappingURL ([a2112ba](https://github.com/adamhl8/configs/commit/a2112bad6f6177438db1e77370dbb32c8e347cc3) by @adamhl8)
+
 ## [3.5.0](https://github.com/adamhl8/configs/compare/v3.4.1..v3.5.0) - 2026-10-28
 
 ### 🚀 Features
