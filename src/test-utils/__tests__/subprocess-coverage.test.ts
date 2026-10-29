@@ -84,6 +84,11 @@ describe("subprocess coverage", () => {
 
   it("reports every file when Bun's coverage is off", () => {
     expect(getRecord(withoutBunCoverage.subprocessLcov, "src/cli.ts")).toContain("DA:9,1")
-    expect(getRecord(withoutBunCoverage.subprocessLcov, "src/shout.ts")).toContain("DA:1,1")
+    expect(getRecord(withoutBunCoverage.subprocessLcov, "src/shout.ts")).not.toBe("")
+  })
+
+  // Read the coverage-off run because the other run leaves `shout.ts` to Bun.
+  it("reports code that a package entry with no source map re-exports", () => {
+    expect(getRecord(withoutBunCoverage.subprocessLcov, "src/shout.ts")).toContain("FNH:1")
   })
 })

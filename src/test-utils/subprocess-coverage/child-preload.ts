@@ -52,6 +52,8 @@ const readSourceMap = async (file: string, packageDir: string, projectDir: strin
 const instrumenter = createInstrumenter({ esModules: true, coverageVariable: INSTRUMENTER_COVERAGE_VARIABLE })
 // Match the built files of the copy that a test project installs, and capture its package dir.
 const installedDist = new RegExp(String.raw`^(.*/node_modules/${RegExp.escape(packageName)})/dist/.*\.js$`, "v")
+// Match the comment that a bundler adds to each file it writes a source map for.
+const sourceMappingUrl = /^\/\/# sourceMappingURL=/mv
 
 bun.plugin({
   name: "subprocess-coverage",
@@ -59,6 +61,9 @@ bun.plugin({
     build.onLoad({ filter: installedDist }, async ({ path: file }) => {
       const [, packageDir = ""] = installedDist.exec(file) ?? []
       const code = await bun.file(file).text()
+      // Pass through a file with no map, like a re-export-only entry, because it has no source of its own to cover.
+      // A file whose comment names a missing map still throws, so a broken build doesn't go unnoticed.
+      if (!sourceMappingUrl.test(code)) return { contents: code, loader: "js" }
       const sourceMap = await readSourceMap(file, packageDir, root)
       return { contents: instrumenter.instrumentSync(code, file, sourceMap), loader: "js" }
     })

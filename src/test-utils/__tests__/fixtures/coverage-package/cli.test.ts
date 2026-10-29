@@ -21,3 +21,14 @@ it("runs the installed bin", async () => {
 
   expect(stdout).toBe("hello")
 })
+
+it("imports the package's entry", async () => {
+  const { run } = await copyFixture(path.join(import.meta.dir, "consumer"), {
+    shell: { env: minimalEnv(subprocessCoverageEnv()) },
+  })
+  await run`bun add ${tarball}`
+
+  const { stdout } = await run`bun -e ${'import { shout } from "coverage-package"; console.log(shout("hi"))'}`
+
+  expect(stdout).toBe("HI")
+})
