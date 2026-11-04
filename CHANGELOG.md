@@ -1,3 +1,9 @@
+## [4.0.0](https://github.com/adamhl8/configs/compare/v3.5.1..v4.0.0) - 2026-11-04
+
+### 🚀 Features
+
+- [**breaking**] remove subprocess coverage ([c8b52df](https://github.com/adamhl8/configs/commit/c8b52df304ae613cb1c6a5d20768374964b770f0) by @adamhl8)
+
 ## [3.5.1](https://github.com/adamhl8/configs/compare/v3.5.0..v3.5.1) - 2026-10-29
 
 ### 🐛 Bug Fixes
