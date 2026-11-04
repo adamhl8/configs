@@ -1,5 +1,0 @@
-[test]
-coverage = true
-coverageReporter = ["text", "lcov"]
-coveragePathIgnorePatterns = ["src/{cli,greet}.ts"]
-preload = ["@adamhl8/configs/test/preload", "@adamhl8/configs/test/subprocess-coverage"]

@@ -143,7 +143,8 @@ const nativeConfig = {
   options: {
     reportUnusedDisableDirectives: "error",
     typeAware: true,
-    typeCheck: true,
+    // Leave `typeCheck` off because `bask lint` runs `tsc`, which also reports declaration errors.
+    typeCheck: false,
   },
 
   categories: {

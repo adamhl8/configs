@@ -41,15 +41,7 @@ const testUtils = tsdownConfig(
     publint: false,
   },
   // Replace the base `entry` instead of appending to it, because the base builds `src/index.ts`.
-  {
-    entry: [
-      "./src/test-utils/index.ts",
-      "./src/test-utils/preload.ts",
-      "./src/test-utils/subprocess-coverage/preload.ts",
-      // Build the child preload as its own file because children load it by path through `BUN_OPTIONS`.
-      "./src/test-utils/subprocess-coverage/child-preload.ts",
-    ],
-  },
+  { entry: ["./src/test-utils/index.ts", "./src/test-utils/preload.ts"] },
 )
 
 const adamhl8Bunfig = tsdownBinConfig({
@@ -62,4 +54,9 @@ const adamhl8Gitignore = tsdownBinConfig({
   outDir: "./dist/adamhl8-gitignore/",
 })
 
-export default defineConfig([config, env, testUtils, adamhl8Bunfig, adamhl8Gitignore])
+const adamhl8Tsconfig = tsdownBinConfig({
+  entry: "./src/adamhl8-tsconfig/index.ts",
+  outDir: "./dist/adamhl8-tsconfig/",
+})
+
+export default defineConfig([config, env, testUtils, adamhl8Bunfig, adamhl8Gitignore, adamhl8Tsconfig])

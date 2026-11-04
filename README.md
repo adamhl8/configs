@@ -29,6 +29,7 @@ Configs, tasks, and workflows I use across my TS projects.
 - [Synced files](#synced-files)
   - [bunfig](#bunfig)
   - [gitignore](#gitignore)
+  - [tsconfig extends](#tsconfig-extends)
 - [Utilities](#utilities)
   - [env](#env)
   - [test](#test)
@@ -61,7 +62,6 @@ Some tools are only needed by some projects:
 - Published packages: `tsdown publint @arethetypeswrong/core`
 - Releases: `release-it release-it-git-cliff` (see [release-it](#release-it))
 - Astro projects that use Tailwind: `tailwint @tailwindcss/language-server` (see [bask tasks](#bask-tasks))
-- Subprocess test coverage: `@vitest/istanbul-lib-coverage @vitest/istanbul-lib-instrument @vitest/istanbul-lib-report @vitest/istanbul-lib-source-maps` (see [Subprocess coverage](#subprocess-coverage))
 
 ## Setup
 
@@ -82,7 +82,7 @@ A project using everything here has these files:
 | `.github/workflows/*.yml` | [GitHub Actions](#github-actions)             |
 | `github.tofu`             | [GitHub repo settings](#github-repo-settings) |
 
-`bunfig.toml` and `.gitignore` are kept up to date by the [synced files](#synced-files).
+`bunfig.toml`, `.gitignore`, and the `extends` in `tsconfig.json` are kept up to date by the [synced files](#synced-files).
 
 ## Configs
 
@@ -117,6 +117,10 @@ The second config works at any depth: only the arrays you provide are replaced, 
 ```
 
 The base tsconfig adds stricter checks like `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`, with no emit and bundler module resolution. It sets `types: ["bun"]`, so the project needs `@types/bun` installed.
+
+The base sets `declaration: true` so `tsc` fails on an export whose type can't be named. tsdown doesn't catch this: with Bun's isolated linker, it silently publishes that export as `any`.
+
+`@adamhl8/configs/tsconfig/no-dts` is the same config with `declaration` off, so `tsc` doesn't report these errors in a project that never publishes a `.d.ts`. You don't need to choose between them because the [tsconfig sync](#tsconfig-extends) sets `extends` for you.
 
 ### oxfmt
 
@@ -260,17 +264,17 @@ export * from "@adamhl8/configs/bask"
 
 Run `bunx bask` to list them along with the allowed commit types.
 
-| Task           | What it does                                                                                                                     |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `lint`         | Updates the README's table of contents, runs oxlint (with fixes), oxfmt, tailwint, `tofu fmt`, knip, and actionlint, then `test` |
-| `build`        | Runs `lint`, `tsdown`, and `tofu-check`. In CI, it fails when lint fixes or formatting changed any files                         |
-| `test`         | Runs `bun test`, which passes when there are no tests                                                                            |
-| `bump-deps`    | Updates every dependency to its latest version, then reinstalls without the lockfile, `node_modules`, or bun's cache             |
-| `release`      | Starts the [release workflow](#release) (`gh workflow run release.yml`)                                                          |
-| `release-run`  | Runs `release-it --ci`. It's hidden because only the release workflow runs it                                                    |
-| `tofu-check`   | Runs `tofu plan` to check the [GitHub repo settings](#github-repo-settings) for drift                                            |
-| `commit-types` | Prints the allowed commit types                                                                                                  |
-| `prepare`      | Runs `lefthook install`, the [synced files](#synced-files), and `tofu init -upgrade`                                             |
+| Task           | What it does                                                                                                                            |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `lint`         | Updates the README's table of contents, runs oxlint (with fixes), oxfmt, tailwint, `tofu fmt`, `tsc`, knip, and actionlint, then `test` |
+| `build`        | Runs `lint`, `tsdown`, and `tofu-check`. In CI, it fails when lint fixes or formatting changed any files                                |
+| `test`         | Runs `bun test`, which passes when there are no tests                                                                                   |
+| `bump-deps`    | Updates every dependency to its latest version, then reinstalls without the lockfile, `node_modules`, or bun's cache                    |
+| `release`      | Starts the [release workflow](#release) (`gh workflow run release.yml`)                                                                 |
+| `release-run`  | Runs `release-it --ci`. It's hidden because only the release workflow runs it                                                           |
+| `tofu-check`   | Runs `tofu plan` to check the [GitHub repo settings](#github-repo-settings) for drift                                                   |
+| `commit-types` | Prints the allowed commit types                                                                                                         |
+| `prepare`      | Runs `lefthook install`, the [synced files](#synced-files), and `tofu init -upgrade`                                                    |
 
 The tasks skip the steps a project doesn't need, so projects can use them as-is:
 
@@ -350,6 +354,17 @@ dist/
 
 Everything below the marker is left untouched. The sync can also be run manually by running `adamhl8-gitignore`.
 
+### tsconfig extends
+
+A tsconfig can't branch on the project, so the right base config is synced into the project's `tsconfig.json`. The `prepare` task runs the `adamhl8-tsconfig` bin, which sets `extends` based on whether the `package.json` declares types:
+
+- `@adamhl8/configs/tsconfig` when it has a top-level `types` or `typings` field, or a `types` condition or declaration file path anywhere in `exports`
+- `@adamhl8/configs/tsconfig/no-dts` otherwise
+
+A package that publishes types has to declare them for this to work. TypeScript also finds a `.d.ts` next to its `.js` without one, but this sync would then turn off the `declaration` check that protects those types.
+
+Only the `extends` value changes, so comments, formatting, and other options are left untouched. To opt out, extend anything other than these two configs, or set `declaration` in the project's own `compilerOptions`. The sync can also be run manually by running `adamhl8-tsconfig`.
+
 ## Utilities
 
 ### env
@@ -377,7 +392,7 @@ Helpers for integration tests that run real commands in temp dirs, exported from
 ```ts
 import { copyFixture, minimalEnv, packPackage } from "@adamhl8/configs/test"
 
-const tarball = await packPackage(ROOT) // once per run, like in a preload's `beforeAll`
+const tarball = await packPackage(ROOT)
 const { dir, run } = await copyFixture(FIXTURE, { shell: { env: minimalEnv() } })
 await run`bun add -d ${tarball}`
 
@@ -394,11 +409,10 @@ const { exitCode: failedCode } = await run`my-cli --bad-flag`.nothrow()
   - Each command can chain `.cwd()`, `.env()` (merged over the shell's), `.localBins()`, and `.nothrow()`.
   - The `node` shims from `bask` and `bun run --bun` are taken off `PATH`, so `node` is always the real Node.
   - Commands read the test runner's stdin, so add `< /dev/null` to a command that might prompt.
-- `copyFixture(fixture, { prefix, shell })` copies a fixture dir into a temp dir and returns the `dir` plus a `run` shell bound to it. `shell` takes the `createShell` options except `cwd`.
-- `packPackage(root)` runs `bun tsdown` when `root` has a `tsdown.config.ts`, then packs it with `bun pm pack --ignore-scripts` into a temp dir, and returns the tarball path.
+- `copyFixture(fixture, { shell })` copies a fixture dir into a temp dir and returns the `dir` plus a `run` shell bound to it. `shell` takes the `createShell` options except `cwd`.
+- `packPackage(root)` runs `bun tsdown` when `root` has a `tsdown.config.ts`, then packs it with `bun pm pack --ignore-scripts` into a temp dir, and returns the tarball path. It runs once per resolved `root` for the life of the test process, so call it wherever a test needs the tarball. Concurrent callers share one build, and a failed pack fails every caller the same way.
 - `minimalEnv(extra)` returns just `PATH` and `HOME`, plus `extra`.
-- `makeTempDir(prefix)` makes a temp dir that's removed after the test run. `copyFixture` and `packPackage` use it.
-- `subprocessCoverageEnv()` returns the variables that turn on [subprocess coverage](#subprocess-coverage) for a shell's `env`, or nothing when it's off.
+- `makeTempDir()` makes a temp dir that's removed after the test run. Its name starts with the name of the current working directory, so a dir left behind by a killed run shows which project it came from. `copyFixture` and `packPackage` use it.
 
 The temp dirs are removed by a preload, which each project adds to its `bunfig.toml`:
 
@@ -414,46 +428,6 @@ import "@adamhl8/configs/test/preload"
 ```
 
 It isn't in the shared bunfig base because `adamhl8-bunfig` merges arrays by index, so a project's own `preload` would replace it.
-
-#### Subprocess coverage
-
-Bun's coverage only measures the test process, so it misses a package's own code when tests run it from the packed tarball in child processes. A second preload covers that code, imported after the first at the top of the project's own preload:
-
-```ts
-import "@adamhl8/configs/test/preload"
-import "@adamhl8/configs/test/subprocess-coverage"
-```
-
-A project without its own preload can list both in `bunfig.toml` instead:
-
-```toml
-[test]
-preload = ["@adamhl8/configs/test/preload", "@adamhl8/configs/test/subprocess-coverage"]
-```
-
-- It sets `BUN_OPTIONS` and a settings variable on `process.env`. Every Bun process started with them loads a preload that instruments the installed package's `dist/` with Istanbul (the package named in the project's `package.json`).
-- A shell that inherits `process.env` passes the variables on as is. A shell that replaces it, like one built on `minimalEnv()`, adds them with `subprocessCoverageEnv()`:
-
-  ```ts
-  import { copyFixture, minimalEnv, subprocessCoverageEnv } from "@adamhl8/configs/test"
-
-  const { run } = await copyFixture(FIXTURE, { shell: { env: minimalEnv(subprocessCoverageEnv()) } })
-  ```
-
-- After the run, the coverage from every process is merged, mapped back to `src/` through the package's source maps, printed as a table (statements, branches, functions, lines), and written to `coverage/subprocess/lcov.info`, which keeps it apart from the `coverage/lcov.info` that Bun writes.
-- To keep Bun's own coverage for code that tests import directly, leave `coverage = true` under `[test]` and list the files that subprocess coverage owns in `coveragePathIgnorePatterns`. Bun then skips those files, and the subprocess report keeps only them, so each file appears in one of the two tables. A file you don't list is left to Bun, so a file that only child processes load shows up in neither table. With `coverage = false`, the subprocess report keeps every file.
-
-  ```toml
-  [test]
-  coverage = true
-  coveragePathIgnorePatterns = ["**/__tests__/**", "src/cli/**"]
-  ```
-
-- This reads `bunfig.toml` from the project root, so turning on Bun's coverage with `--coverage` instead leaves the subprocess report unfiltered.
-- The project needs the optional peer dependencies listed under [Installation](#installation) and a build with source maps, which `tsdownConfig` produces. Tests have to install the packed tarball, as with `packPackage`, because only the installed `dist/` is instrumented.
-- A process killed by a signal writes no coverage. An `exit` listener that the package adds in the same tick as a synchronous `process.exit()` isn't counted.
-
-Import it only from a preload. Imported from a test file, its `afterAll` would be scoped to that file, so the report would run after that file instead of after the whole run.
 
 ## GitHub Actions
 
@@ -618,3 +592,5 @@ The `prepare` task runs `tofu init -upgrade`, and the `tofu-check` task (which `
 bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-bunfig` instead of `src/adamhl8-bunfig/index.ts`. That's also why this repo's `bask.ts` runs `tsdown` before the `prepare` task: the bins point at `dist/`, so those builds need to be available.
 
 With bun's `isolated` linker, the self-dependency is a copy made at install time. After adding or moving an export, run `bun install --force` to refresh the copy, or type checks of code that imports the new export fail.
+
+`bun.lock` records this repo's bins on the self-dependency's entry, and `bun install` doesn't update an existing entry. After adding a bin, add it to that entry by hand, or `bun install` fails in the `prepare` task with `Script not found`. Running `rm bun.lock && bun install` also updates the entry, but it can pick up newer dependency versions.

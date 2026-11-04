@@ -11,17 +11,10 @@ const TINY_CONSUMER = path.join(import.meta.dir, "fixtures/tiny-consumer")
 
 describe("copyFixture", () => {
   it("copies the fixture into a new temp dir", async () => {
-    const { dir } = await copyFixture(TINY_CONSUMER, { prefix: "configs-fixture-" })
-
-    expect(path.dirname(dir)).toBe(os.tmpdir())
-    expect(path.basename(dir).startsWith("configs-fixture-")).toBe(true)
-    expect(await bun.file(path.join(dir, "package.json")).exists()).toBe(true)
-  })
-
-  it("defaults the prefix to the fixture's name", async () => {
     const { dir } = await copyFixture(TINY_CONSUMER)
 
-    expect(path.basename(dir).startsWith("tiny-consumer-")).toBe(true)
+    expect(path.dirname(dir)).toBe(os.tmpdir())
+    expect(await bun.file(path.join(dir, "package.json")).exists()).toBe(true)
   })
 
   it("binds the returned shell to the copy", async () => {

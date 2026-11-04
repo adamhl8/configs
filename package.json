@@ -18,7 +18,8 @@
   },
   "bin": {
     "adamhl8-bunfig": "./dist/adamhl8-bunfig/index",
-    "adamhl8-gitignore": "./dist/adamhl8-gitignore/index"
+    "adamhl8-gitignore": "./dist/adamhl8-gitignore/index",
+    "adamhl8-tsconfig": "./dist/adamhl8-tsconfig/index"
   },
   "files": [
     "dist/"
@@ -29,6 +30,7 @@
   },
   "exports": {
     "./tsconfig": "./dist/configs/tsconfig.base.json",
+    "./tsconfig/no-dts": "./dist/configs/tsconfig.no-dts.base.json",
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
@@ -48,10 +50,6 @@
     "./test/preload": {
       "types": "./dist/test-utils/preload.d.ts",
       "import": "./dist/test-utils/preload.js"
-    },
-    "./test/subprocess-coverage": {
-      "types": "./dist/test-utils/subprocess-coverage/preload.d.ts",
-      "import": "./dist/test-utils/subprocess-coverage/preload.js"
     }
   },
   "publishConfig": {
@@ -61,21 +59,21 @@
     "prepare": "bask prepare"
   },
   "dependencies": {
-    "@adamhl8/eslint-plugin-clean-modules": "^0.1.5",
+    "@adamhl8/eslint-plugin-clean-modules": "^0.1.6",
     "@commitlint/config-conventional": "^21.2.4",
     "@commitlint/types": "^21.2.3",
     "@e18e/eslint-plugin": "^0.8.1",
     "arkenv": "^0.12.3",
     "arktype": "^2.2.9",
-    "es-toolkit": "^1.53.0",
+    "es-toolkit": "^1.53.1",
     "eslint-plugin-bunisms": "^0.11.0",
-    "eslint-plugin-hono": "^1.1.1",
+    "eslint-plugin-hono": "^1.2.1",
     "eslint-plugin-react-web-api": "^5.28.8",
-    "eslint-plugin-react-you-might-not-need-an-effect": "^1.0.2",
-    "eslint-plugin-regexp": "^3.3.1",
+    "eslint-plugin-react-you-might-not-need-an-effect": "^1.1.0",
+    "eslint-plugin-regexp": "^3.3.3",
     "oxlint-plugin-directive-comments": "^0.1.0",
-    "oxlint-tailwindcss": "^1.16.0",
-    "ts-explicit-errors": "^5.0.0",
+    "oxlint-tailwindcss": "^1.17.1",
+    "ts-explicit-errors": "^5.0.1",
     "type-fest": "^5.10.0"
   },
   "devDependencies": {
@@ -84,19 +82,15 @@
     "@arethetypeswrong/core": "^0.18.5",
     "@commitlint/cli": "^21.2.4",
     "@types/bun": "^1.4.4",
-    "@vitest/istanbul-lib-coverage": "^2.0.0",
-    "@vitest/istanbul-lib-instrument": "^2.0.0",
-    "@vitest/istanbul-lib-report": "^2.0.0",
-    "@vitest/istanbul-lib-source-maps": "^2.0.0",
-    "knip": "^6.43.0",
+    "knip": "^6.44.1",
     "markdown-toc": "^1.2.0",
-    "oxfmt": "^0.74.0",
-    "oxlint": "^1.89.0",
+    "oxfmt": "^0.76.0",
+    "oxlint": "^1.91.0",
     "oxlint-tsgolint": "^7.0.2005",
     "publint": "^0.3.25",
-    "release-it": "^21.1.1",
-    "release-it-git-cliff": "^0.2.0",
-    "tsdown": "^0.23.2",
+    "release-it": "^21.1.2",
+    "release-it-git-cliff": "^0.2.1",
+    "tsdown": "^0.23.5",
     "typescript": "7.1.0-beta"
   },
   "peerDependencies": {
@@ -105,20 +99,16 @@
     "@commitlint/cli": ">=21.2",
     "@commitlint/config-conventional": ">=21.2",
     "@tailwindcss/language-server": ">=0.16",
-    "@vitest/istanbul-lib-coverage": ">=2.0",
-    "@vitest/istanbul-lib-instrument": ">=2.0",
-    "@vitest/istanbul-lib-report": ">=2.0",
-    "@vitest/istanbul-lib-source-maps": ">=2.0",
-    "knip": ">=6.43",
+    "knip": ">=6.44",
     "markdown-toc": ">=1.2",
-    "oxfmt": ">=0.74",
-    "oxlint": ">=1.89",
+    "oxfmt": ">=0.76",
+    "oxlint": ">=1.91",
     "oxlint-tsgolint": ">=7.0.2005",
     "publint": ">=0.3",
     "release-it": ">=21.1",
     "release-it-git-cliff": ">=0.2",
     "tailwint": ">=1.1",
-    "tsdown": ">=0.23.2",
+    "tsdown": ">=0.23.5",
     "typescript": "^7.1.0-beta"
   },
   "peerDependenciesMeta": {
@@ -126,18 +116,6 @@
       "optional": true
     },
     "@tailwindcss/language-server": {
-      "optional": true
-    },
-    "@vitest/istanbul-lib-coverage": {
-      "optional": true
-    },
-    "@vitest/istanbul-lib-instrument": {
-      "optional": true
-    },
-    "@vitest/istanbul-lib-report": {
-      "optional": true
-    },
-    "@vitest/istanbul-lib-source-maps": {
       "optional": true
     },
     "publint": {

@@ -12,6 +12,7 @@ const commitTypes = [...filteredTypes, "improve", "release"]
 const baseConfig = {
   extends: ["@commitlint/config-conventional"],
   rules: {
+    // oxlint-disable-next-line typescript/no-unsafe-enum-assignment - use `2` because the enum leaks into consumer types
     "type-enum": [2, "always", commitTypes],
   },
 } as const satisfies UserConfig

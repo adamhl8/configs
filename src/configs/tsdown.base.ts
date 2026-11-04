@@ -60,8 +60,9 @@ const binConfig = {
   outExtensions: () => ({ js: "" }) as const,
 } as const satisfies StrictBinConfig
 
-// The export annotations forbid the no-arg call (platform/entry must be provided) and are load-bearing for
-// declaration emit: without one, tsgo synthesizes the type and fails with TS2883 on tsdown's non-exported internals.
+// The export annotations forbid the no-arg call because `platform` and `entry` must be provided.
+// They also keep the published types correct.
+// Without one, `tsc` fails with TS2883 on tsdown's non-exported internals and the build silently emits `any`.
 export const tsdownConfig: MergeConfigFn<StrictConfig, typeof baseConfig> = createMergeConfigFn<
   StrictConfig,
   typeof baseConfig

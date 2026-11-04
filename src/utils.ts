@@ -20,9 +20,19 @@ export const resolvePackagePath = (specifier: string) => fileURLToPath(import.me
 
 const keysOf = (value: unknown) => (isPlainObject(value) ? Object.keys(value) : [])
 
+const DECLARATION_FILE = /\.d\.[cm]?ts$/v
+
+/** Checks an `exports` value, at any depth, for a `types` condition or a path to a declaration file. */
+const exportsDeclareTypes = (value: unknown): boolean => {
+  if (typeof value === "string") return DECLARATION_FILE.test(value)
+  if (Array.isArray(value)) return value.some(exportsDeclareTypes)
+  if (!isPlainObject(value)) return false
+  return "types" in value || Object.values(value).some(exportsDeclareTypes)
+}
+
 /**
  * Reads the project's `package.json` fields that the base configs branch on. `dependencies` merges the regular, dev,
- * and peer dependency names.
+ * and peer dependency names. `publishesTypes` is true when the `package.json` declares types.
  */
 export const readProjectPackageJson = () => {
   const packageJson: unknown = existsSync("package.json") ? JSON.parse(readFileSync("package.json", "utf8")) : {}
@@ -31,8 +41,9 @@ export const readProjectPackageJson = () => {
   const dependencyFields = ["dependencies", "devDependencies", "peerDependencies"]
   const dependencies = new Set(dependencyFields.flatMap((field) => keysOf(fields[field])))
   const engines = new Set(keysOf(fields["engines"]))
+  const publishesTypes = "types" in fields || "typings" in fields || exportsDeclareTypes(fields["exports"])
 
-  return { dependencies, engines }
+  return { dependencies, engines, publishesTypes }
 }
 
 // Match entry stylesheets the same way `@tailwindcss/language-server` does.

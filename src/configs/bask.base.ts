@@ -29,9 +29,10 @@ export const tofuCheck = task(async ({ sh }) => {
 export const prepare = task(async ({ sh }) => {
   // Skip `lefthook install` in CI so commits made by the workflows don't run the hooks.
   if (!inCi) await sh`lefthook install`
-  await sh`bun adamhl8-gitignore`
-  await sh`bun adamhl8-bunfig`
-  await sh`bun oxfmt bunfig.toml`
+  await sh`adamhl8-gitignore`
+  await sh`adamhl8-bunfig`
+  await sh`adamhl8-tsconfig`
+  await sh`oxfmt bunfig.toml`
   if (await canRunTofu()) await sh`tofu init -upgrade`
 })
 
@@ -47,15 +48,15 @@ export const test = task(async ({ sh }) => {
 })
 
 export const lint = task(async ({ sh }) => {
-  await sh`bun markdown-toc -i --bullets - --maxdepth 3 ./README.md`
-  await sh`bun oxlint --fix --fix-suggestions --fix-dangerously`
-  await sh`bun oxfmt`
+  await sh`markdown-toc -i --bullets - --maxdepth 3 ./README.md`
+  await sh`oxlint --fix --fix-suggestions --fix-dangerously`
+  await sh`oxfmt`
 
   if (resolveProjectTailwind()) {
     // Check for `.astro` files first so projects without them don't need tailwint installed.
     const astroFiles = await lsFiles([":(glob)**/*.astro"])
     // Skip `--fix` because tailwint resolves a class conflict by deleting a class by position, not by which one wins.
-    if (astroFiles.length > 0) await sh`bun tailwint "**/*.astro"`
+    if (astroFiles.length > 0) await sh`tailwint "**/*.astro"`
   }
 
   const tofuFiles = await lsFiles([
@@ -67,14 +68,15 @@ export const lint = task(async ({ sh }) => {
   ])
   if (tofuFiles.length > 0) await sh`tofu fmt ${tofuFiles}`
 
-  await sh`bun knip-bun`
+  await sh`tsc`
+  await sh`knip-bun`
   if (existsSync(".github/workflows")) await sh`actionlint`
   await test()
 })
 
 export const build = task(async ({ sh }) => {
   await lint()
-  if (await bun.file("tsdown.config.ts").exists()) await sh`bun tsdown`
+  if (await bun.file("tsdown.config.ts").exists()) await sh`tsdown`
   // Fail in CI if the build changed or created any files, because lint fixes and formatting are applied in place.
   // `--intent-to-add` makes untracked files show up in the diff.
   if (inCi) {
@@ -89,12 +91,12 @@ export const release = task(async ({ sh }) => {
 })
 
 export const releaseRun = task({ hidden: true }, async ({ sh }) => {
-  await sh`bun release-it -VV --ci`
+  await sh`release-it -VV --ci`
 })
 
 export const commitTypes = task(async ({ sh }) => {
   // oxlint-disable-next-line typescript/no-unsafe-type-assertion - trust the shape that `commitlint --print-config json` prints
-  const config = (await sh`bun commitlint --print-config json`.echo(false).json()) as {
+  const config = (await sh`commitlint --print-config json`.echo(false).json()) as {
     rules: { "type-enum": [number, string, string[]] }
   }
   const { 2: types } = config.rules["type-enum"]

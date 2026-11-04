@@ -36,7 +36,7 @@ describe("createShell", () => {
   let child = ""
 
   beforeAll(async () => {
-    dir = await makeTempDir("configs-shell-")
+    dir = await makeTempDir()
     child = path.join(dir, "child")
     await writeBin(dir, "parent-tool", "parent")
     await writeBin(child, "child-tool", "child")
@@ -130,8 +130,11 @@ describe("createShell", () => {
   })
 
   it("removes node shims from PATH", async () => {
-    const baskShim = await makeTempDir("bask-node-")
-    const bunShim = await makeTempDir("bun-node-")
+    const shimsDir = await makeTempDir()
+    // Use these names because `removeNodeShims` recognizes shims by name.
+    const baskShim = path.join(shimsDir, "bask-node-shim")
+    const bunShim = path.join(shimsDir, "bun-node-shim")
+    await Promise.all([fs.promises.mkdir(baskShim), fs.promises.mkdir(bunShim)])
     const shimEnv = { PATH: [baskShim, bunShim, process.env["PATH"]].join(path.delimiter) }
 
     expect((await createShell({ env: shimEnv })`echo $PATH`).stdout).not.toContain("-node-")
