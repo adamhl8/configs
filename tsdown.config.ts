@@ -14,6 +14,10 @@ const config = tsdownConfig({
       from: "./src/tofu/",
       to: "./dist/",
     },
+    {
+      from: "./src/dep-report/prompt.md",
+      to: "./dist/dep-report/",
+    },
   ],
   deps: {
     // tsdown (correctly) bundles dev dependencies, but we don't want to bundle anything from them. Consuming projects are assumed to have the needed dependencies installed.
