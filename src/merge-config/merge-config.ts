@@ -20,6 +20,15 @@ const merge = (target: object, source: object, mode: Mode): object =>
     return userArray
   })
 
+/** Clones `baseConfig`, then merges `userConfig` and `replaceConfig` into the clone. */
+const mergeConfig = (baseConfig: object, userConfig?: object, replaceConfig?: object) => {
+  // Start from a clone so consumers can't mutate the shared base config
+  const result = cloneDeep(baseConfig)
+  if (userConfig !== undefined) merge(result, userConfig, "spread")
+  if (replaceConfig !== undefined) merge(result, replaceConfig, "replace")
+  return result
+}
+
 /**
  * The merge config function. `userConfig` is deep merged into `BaseConfig` with arrays appended to the base array. The
  * optional `replaceConfig` is then deep merged into that result with arrays used as-is, so putting an array there
@@ -53,14 +62,42 @@ export const createMergeConfigFn = <UserConfig extends object, BaseConfig extend
   baseConfig: BaseConfig,
 ): OptionalMergeConfigFn<UserConfig, BaseConfig> => {
   // Loosely typed on purpose, the assertion below gives it the precise public signature
-  const mergeConfigFn = (userConfig?: object, replaceConfig?: object) => {
-    // Start from a clone so consumers can't mutate the shared base config
-    const result = cloneDeep(baseConfig)
-    if (userConfig !== undefined) merge(result, userConfig, "spread")
-    if (replaceConfig !== undefined) merge(result, replaceConfig, "replace")
-    return result
-  }
+  const mergeConfigFn = (userConfig?: object, replaceConfig?: object) =>
+    mergeConfig(baseConfig, userConfig, replaceConfig)
 
   // oxlint-disable-next-line typescript/no-unsafe-type-assertion - give the loosely typed implementation its precise public signature
   return mergeConfigFn as OptionalMergeConfigFn<UserConfig, BaseConfig>
+}
+
+/**
+ * An OptionalMergeConfigFn whose result is a function of `Args`, for a tool that calls its config with arguments. The
+ * merge waits for that call, because `Args` picks the base config. The result type is the same for any `Args`.
+ */
+export type ArgsMergeConfigFn<UserConfig, BaseConfig, Args> = (<
+  const UserConfigToMerge extends ReadonlyDeep<UserConfig>,
+>(
+  userConfig: UserConfigToMerge,
+) => (args: Args) => MergedConfig<BaseConfig, UserConfigToMerge>)
+  & (<
+    const UserConfigToMerge extends ReadonlyDeep<UserConfig>,
+    const ReplaceConfigToMerge extends ReadonlyDeep<Partial<UserConfig>>,
+  >(
+    userConfig: UserConfigToMerge,
+    replaceConfig: ReplaceConfigToMerge,
+  ) => (args: Args) => MergedConfig<MergedConfig<BaseConfig, UserConfigToMerge>, ReplaceConfigToMerge, "replace">)
+  & (() => (args: Args) => Clean<BaseConfig>)
+
+/**
+ * Creates an ArgsMergeConfigFn, which builds its base config from the tool's arguments with `createBaseConfig`.
+ * `UserConfig` is not inferrable, so all three type arguments must be passed explicitly.
+ */
+export const createArgsMergeConfigFn = <UserConfig extends object, BaseConfig extends ReadonlyDeep<UserConfig>, Args>(
+  createBaseConfig: (args: Args) => BaseConfig,
+): ArgsMergeConfigFn<UserConfig, BaseConfig, Args> => {
+  // Loosely typed on purpose, the assertion below gives it the precise public signature
+  const argsMergeConfigFn = (userConfig?: object, replaceConfig?: object) => (args: Args) =>
+    mergeConfig(createBaseConfig(args), userConfig, replaceConfig)
+
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion - give the loosely typed implementation its precise public signature
+  return argsMergeConfigFn as ArgsMergeConfigFn<UserConfig, BaseConfig, Args>
 }

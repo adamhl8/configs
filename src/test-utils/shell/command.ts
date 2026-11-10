@@ -55,6 +55,7 @@ export class ShellCommand implements PromiseLike<ShellResult> {
   ) {
     // Keep the first run because Bun rejects settings on a command that already started.
     this.#result ??= this.#run()
+    // oxlint-disable-next-line promise/prefer-catch - forward both handlers so `onrejected` doesn't catch errors from `onfulfilled`
     return this.#result.then(onfulfilled, onrejected)
   }
 

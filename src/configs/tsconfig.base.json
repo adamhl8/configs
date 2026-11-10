@@ -17,6 +17,7 @@
     "checkJs": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "outDir": "${configDir}/dist",
     "declaration": true,
 
     "allowUnreachableCode": false,

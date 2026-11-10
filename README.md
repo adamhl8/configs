@@ -172,7 +172,14 @@ const config = knipConfig({ ... })
 export default config
 ```
 
-The base leaves `fixtures` and `fixture` dirs out of the analysis, at any depth. It adds `**/*.test.ts` and `bask.ts` to the bun plugin's entries rather than the top-level `entry`, so a project's own `entry` doesn't replace knip's default entries. knip doesn't see commands run through bask's `sh`, so a dependency that's only run there goes in `ignoreDependencies`.
+The base leaves `fixtures` and `fixture` dirs out of the analysis, at any depth. It adds `**/*.test.ts` and `bask.ts` to the bun plugin's entries rather than the top-level `entry`. knip doesn't see commands run through bask's `sh`, so a dependency that's only run there goes in `ignoreDependencies`.
+
+`knipConfig` returns a function, because knip passes it the CLI arguments. The `lint` task runs knip twice:
+
+- `knip` checks everything, tests included.
+- `knip --production` leaves out tests and devDependencies. It reports an export that only tests use, so a package's main module exports only what runtime code uses. It keeps an export that its own module uses, so a test can import it from that module. It also leaves `__tests__` dirs out, and skips binaries, because dev tools come from devDependencies.
+
+The production run starts from the entries marked with a trailing `!`. The base tsconfig's `outDir` lets knip map the `dist/` files in `package.json`'s `main`, `bin`, and `exports` back to `src/`, so those count without any marking. knip's default entries (`index`, `cli`, and `main`, at the root or in `src/`) are marked too. A project's own top-level `entry` replaces knip's default entries. So mark each runtime entry the project lists, like `entry: ["src/server.ts!"]`. An entry without the `!`, like a script or a test that runs by path, counts only in the plain run.
 
 ### tsdown
 

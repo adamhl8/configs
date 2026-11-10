@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 
 import type { IsEqual } from "type-fest"
 
-import { createMergeConfigFn } from "#merge-config/merge-config.ts"
+import { createArgsMergeConfigFn, createMergeConfigFn } from "#merge-config/merge-config.ts"
 
 const metaTag = Symbol.for("test/meta")
 
@@ -127,6 +127,45 @@ describe("createMergeConfigFn", () => {
   })
 })
 
+interface TestArgs {
+  strict?: boolean
+}
+
+const createArgsBaseConfig = ({ strict }: TestArgs) =>
+  ({
+    name: "base",
+    // Mark each branch `as const`, because the outer `as const` doesn't reach into a conditional.
+    list: strict === true ? (["a", "strict"] as const) : (["a"] as const),
+    nested: { flag: strict === true },
+  }) as const satisfies TestConfig
+
+const argsMergeFn = createArgsMergeConfigFn<TestConfig, ReturnType<typeof createArgsBaseConfig>, TestArgs>(
+  createArgsBaseConfig,
+)
+
+describe("createArgsMergeConfigFn", () => {
+  test("the args pick the base config", () => {
+    const configFn = argsMergeFn({ list: ["x"] })
+    expect(configFn({ strict: true }).list).toEqual(["a", "strict", "x"])
+    expect(configFn({}).list).toEqual(["a", "x"])
+  })
+
+  test("a replace config merges into the base config the args build", () => {
+    const result = argsMergeFn({}, { list: ["y"] })({ strict: true })
+    expect(result).toEqual({ name: "base", list: ["y"], nested: { flag: true } })
+  })
+
+  test("no-arg call returns the base config the args build", () => {
+    expect(argsMergeFn()({ strict: false })).toEqual({ name: "base", list: ["a"], nested: { flag: false } })
+  })
+
+  test("a result does not alias the next call's result", () => {
+    const configFn = argsMergeFn({ list: ["x"] })
+    configFn({}).list.push("x")
+    expect(configFn({}).list).toEqual(["a", "x"])
+  })
+})
+
 /* type-level assertions, enforced by the typecheck step */
 type Expect<T extends true> = T
 
@@ -179,3 +218,22 @@ mergeFn({}, { nmae: "x" })
 mergeFn({}, { list: [1] })
 // @ts-expect-error the old global arrays option is not a config
 mergeFn({ list: ["x"] }, { arrays: "replace" })
+
+const a1 = argsMergeFn({ list: ["x"] })({})
+const a2 = argsMergeFn({}, { list: ["y"] })({ strict: true })
+const a3 = argsMergeFn()({})
+
+export type ArgsTypeAssertions = [
+  // the result type has one member per base config the args can build
+  Expect<IsEqual<typeof a1.list, ("a" | "x")[] | ("a" | "strict" | "x")[]>>,
+  Expect<IsEqual<typeof a2.list, ["y"]>>,
+  Expect<IsEqual<typeof a3.list, ["a", "strict"] | ["a"]>>,
+  Expect<IsEqual<typeof a3.nested, { flag: boolean }>>,
+]
+
+// @ts-expect-error typo key
+argsMergeFn({ nmae: "x" })
+// @ts-expect-error typo key in the replace config
+argsMergeFn({}, { nmae: "x" })
+// @ts-expect-error args of the wrong type
+argsMergeFn({})({ strict: "yes" })

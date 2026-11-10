@@ -70,6 +70,7 @@ export const lint = task(async ({ sh }) => {
 
   await sh`tsc`
   await sh`knip-bun`
+  await sh`knip-bun --production`
   if (existsSync(".github/workflows")) await sh`actionlint`
   await test()
 })

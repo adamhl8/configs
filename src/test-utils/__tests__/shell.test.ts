@@ -177,10 +177,9 @@ describe("createShell", () => {
   it("names the cwd when a command can't start", async () => {
     const missing = path.join(dir, "missing")
 
-    const error = await createShell({ cwd: missing })`pwd`.then(
-      () => new Error("Expected the command to throw"),
-      (startError: unknown) => startError,
-    )
+    const error = await createShell({ cwd: missing })`pwd`
+      .then(() => new Error("Expected the command to throw"))
+      .catch((startError: unknown) => startError)
 
     expect(error).toBeInstanceOf(Error)
     expect(String(error)).toContain(`Command failed to start (cwd: ${missing})`)
