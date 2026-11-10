@@ -1,3 +1,13 @@
+## [4.1.0](https://github.com/adamhl8/configs/compare/v4.0.0..v4.1.0) - 2026-11-10
+
+### 🚀 Features
+
+- _(oxlint)_ add package boundries plugin ([d448747](https://github.com/adamhl8/configs/commit/d448747e5c45b7052d1db97d972ab63be96531e9) by @adamhl8)
+
+- add dependency update report ([3f9955b](https://github.com/adamhl8/configs/commit/3f9955bc0cdf75c7f643ddcb32ded8d6c287ffcb) by @adamhl8)
+
+- add knip --production ([2003843](https://github.com/adamhl8/configs/commit/20038437a4f1f7ebeb159f54096b3e5f21cea0ab) by @adamhl8)
+
 ## [4.0.0](https://github.com/adamhl8/configs/compare/v3.5.1..v4.0.0) - 2026-11-04
 
 ### 🚀 Features
