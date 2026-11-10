@@ -1,4 +1,5 @@
-import cleanModulesPlugin from "@adamhl8/eslint-plugin-clean-modules"
+import cleanModulesPlugin from "@adamhl8/oxlint-plugin-clean-modules"
+import packageBoundariesPlugin from "@adamhl8/oxlint-plugin-package-boundaries"
 import e18ePlugin from "@e18e/eslint-plugin"
 import bunismsPlugin from "eslint-plugin-bunisms"
 import honoPlugin from "eslint-plugin-hono"
@@ -51,7 +52,7 @@ const plugins: Record<string, PluginPart> = {
     },
   },
   "clean-modules": {
-    package: "@adamhl8/eslint-plugin-clean-modules",
+    package: "@adamhl8/oxlint-plugin-clean-modules",
     pluginRules: cleanModulesPlugin.rules,
   },
   "directive-comments": {
@@ -89,6 +90,17 @@ const plugins: Record<string, PluginPart> = {
     rules: {
       "hono/no-process-env": "off", // tools and tests legitimately read the raw environment
     },
+  },
+  "package-boundaries": {
+    overrides: [
+      {
+        files: ["**/__tests__/**", "**/*.test.{ts,tsx}"],
+        // Let a test import any module, because it checks a package's internals, not only its public surface.
+        rules: setAllPluginRules("package-boundaries", packageBoundariesPlugin.rules, "off"),
+      },
+    ],
+    package: "@adamhl8/oxlint-plugin-package-boundaries",
+    pluginRules: packageBoundariesPlugin.rules,
   },
   "react-web-api": {
     enabled: dependencies.has("react"),

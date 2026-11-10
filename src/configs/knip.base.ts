@@ -3,7 +3,14 @@ import type { KnipConfig, KnipConfiguration } from "knip"
 import type { ArgsMergeConfigFn } from "#merge-config/merge-config.ts"
 import { createArgsMergeConfigFn } from "#merge-config/merge-config.ts"
 
-type KnipArgs = Parameters<Extract<KnipConfig, (...args: never[]) => unknown>>[0]
+type KnipCliArgs = Parameters<Extract<KnipConfig, (...args: never[]) => unknown>>[0]
+
+/**
+ * The CLI arguments knip passes to its config. Wrap them in an interface so a hover shows `KnipArgs` instead of every
+ * option. Export it so a project's `knip.ts` can name it in its declarations.
+ */
+// oxlint-disable-next-line typescript/no-empty-interface, typescript/no-empty-object-type - name knip's CLI args so a hover shows the name, not every option
+export interface KnipArgs extends KnipCliArgs {}
 
 /** Builds the base config for one knip run. `knip --production` leaves out tests and devDependencies. */
 const createBaseConfig = ({ production }: KnipArgs) => {

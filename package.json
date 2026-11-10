@@ -59,7 +59,8 @@
     "prepare": "bask prepare"
   },
   "dependencies": {
-    "@adamhl8/eslint-plugin-clean-modules": "^0.1.6",
+    "@adamhl8/oxlint-plugin-clean-modules": "^0.2.0",
+    "@adamhl8/oxlint-plugin-package-boundaries": "^0.1.0",
     "@commitlint/config-conventional": "^21.2.4",
     "@commitlint/types": "^21.2.3",
     "@e18e/eslint-plugin": "^0.8.1",

@@ -5,6 +5,9 @@ import type { ShellExpression } from "bun"
 
 import { ShellCommand } from "#test-utils/shell/command.ts"
 
+export type { ShellCommand } from "#test-utils/shell/command.ts"
+export { minimalEnv } from "#test-utils/shell/env.ts"
+
 export type ShellEnv = Record<string, string | undefined>
 
 export interface ShellOptions {

@@ -153,10 +153,12 @@ export default defineConfig(config)
 
 The base turns on every rule category as an error, with type-aware linting and type checking, then turns off the rules that don't fit. It also loads these JS plugins with every rule on, except the rules a native rule already covers:
 
-- Always: [bunisms](https://github.com/himynameisdave/eslint-plugin-bunisms), [clean-modules](https://github.com/adamhl8/eslint-plugin-clean-modules), [directive-comments](https://github.com/tunderadev/oxlint-plugin-directive-comments), [e18e](https://github.com/e18e/eslint-plugin), and [regexp](https://github.com/ota-meshi/eslint-plugin-regexp)
+- Always: [bunisms](https://github.com/himynameisdave/eslint-plugin-bunisms), [clean-modules](https://github.com/adamhl8/oxlint-plugin-clean-modules), [directive-comments](https://github.com/tunderadev/oxlint-plugin-directive-comments), [e18e](https://github.com/e18e/eslint-plugin), [package-boundaries](https://github.com/adamhl8/oxlint-plugin-package-boundaries), and [regexp](https://github.com/ota-meshi/eslint-plugin-regexp)
 - When the project depends on `hono`: [hono](https://github.com/ouka-lab/eslint-plugin-hono)
 - When the project depends on `react`: [react-web-api](https://github.com/Rel1cx/eslint-react) and [react-you-might-not-need-an-effect](https://github.com/nickjvandyke/eslint-plugin-react-you-might-not-need-an-effect)
 - When the project has a Tailwind stylesheet: [oxlint-tailwindcss](https://github.com/sergioazoc/oxlint-tailwindcss)
+
+package-boundaries is off for tests, in `__tests__` dirs and `*.test.ts` files, because a test may import any module.
 
 The plugins are loaded from `@adamhl8/configs`'s own dependencies, so the project doesn't install them. In a project whose `package.json` has `engines.node`, the bunisms rules are off in `src/` (except in tests), because that code runs on Node.
 
