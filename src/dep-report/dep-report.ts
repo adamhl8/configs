@@ -8,7 +8,7 @@ import { difference, findMinimumForRange, tryParseRange } from "verkit"
 const DEPENDENCY_FIELDS = ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies"] as const
 
 /** Reads every dependency range in the project's `package.json`, keyed by `<field> <name>`. */
-export const readDependencyRanges = () => {
+const readDependencyRanges = () => {
   const packageJson: unknown = JSON.parse(readFileSync("package.json", "utf8"))
   const fields = isPlainObject(packageJson) ? packageJson : {}
 
@@ -53,37 +53,43 @@ interface ClaudeResult {
 }
 
 /**
- * Asks Claude Code to research the dependency ranges that changed since `rangesBefore` and prints its report. Skips the
- * report when nothing changed or `claude` isn't installed.
+ * Snapshots the project's dependency ranges and loads the prompt. Returns a function that asks Claude Code to research
+ * the ranges that changed since the snapshot and prints its report. That function skips the report when nothing changed
+ * or `claude` isn't installed.
  */
-export const reportDependencyChanges = async (rangesBefore: ReadonlyMap<string, string>) => {
-  const changes = listRangeChanges(rangesBefore, readDependencyRanges())
-  if (changes.length === 0) return
-  if (!Bun.which("claude")) {
-    console.log("\nSkipping the dependency report because `claude` isn't installed.")
-    return
-  }
-
-  console.log("\nAsking Claude to review the dependency changes. This takes a few minutes.")
+export const prepareDependencyReport = async () => {
+  const rangesBefore = readDependencyRanges()
+  // Read the prompt now because the reinstall can move this package to a new folder and delete the old one.
   const instructions = await Bun.file(fileURLToPath(new URL("prompt.md", import.meta.url))).text()
-  const prompt = `${instructions}\n${changes.join("\n")}\n`
 
-  // Use `auto` because the research runs commands that an allowlist can't predict.
-  // Deny the file tools because the report must not change the project.
-  const output =
-    await $`claude -p ${prompt} --output-format json --permission-mode auto --disallowedTools Edit,Write,NotebookEdit --name ${"bump-deps report"}`
-      .nothrow()
-      .quiet()
+  return async () => {
+    const changes = listRangeChanges(rangesBefore, readDependencyRanges())
+    if (changes.length === 0) return
+    if (!Bun.which("claude")) {
+      console.log("\nSkipping the dependency report because `claude` isn't installed.")
+      return
+    }
 
-  // Report a failure without throwing because the dependencies are already bumped.
-  // oxlint-disable-next-line typescript/no-unsafe-type-assertion - trust the shape that `claude --output-format json` prints
-  const parsed = output.exitCode === 0 ? (output.json() as ClaudeResult) : undefined
-  if (!parsed || parsed.is_error) {
-    console.log(`\nThe dependency report failed:\n${output.stderr.toString() || output.stdout.toString()}`)
-    return
+    console.log("\nAsking Claude to review the dependency changes. This takes a few minutes.")
+    const prompt = `${instructions}\n${changes.join("\n")}\n`
+
+    // Use `auto` because the research runs commands that an allowlist can't predict.
+    // Deny the file tools because the report must not change the project.
+    const output =
+      await $`claude -p ${prompt} --output-format json --permission-mode auto --disallowedTools Edit,Write,NotebookEdit --name ${"bump-deps report"}`
+        .nothrow()
+        .quiet()
+
+    // Report a failure without throwing because the dependencies are already bumped.
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion - trust the shape that `claude --output-format json` prints
+    const parsed = output.exitCode === 0 ? (output.json() as ClaudeResult) : undefined
+    if (!parsed || parsed.is_error) {
+      console.log(`\nThe dependency report failed:\n${output.stderr.toString() || output.stdout.toString()}`)
+      return
+    }
+
+    console.log(`\n${parsed.result}`)
+    const cost = parsed.total_cost_usd === undefined ? "" : ` (cost: $${parsed.total_cost_usd.toFixed(2)})`
+    console.log(`\nFollow up with: claude --resume ${parsed.session_id}${cost}`)
   }
-
-  console.log(`\n${parsed.result}`)
-  const cost = parsed.total_cost_usd === undefined ? "" : ` (cost: $${parsed.total_cost_usd.toFixed(2)})`
-  console.log(`\nFollow up with: claude --resume ${parsed.session_id}${cost}`)
 }

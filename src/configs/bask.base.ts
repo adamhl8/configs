@@ -3,7 +3,7 @@ import { existsSync } from "node:fs"
 import { list, task } from "@adamhl8/bask"
 import bun, { $, Glob } from "bun"
 
-import { readDependencyRanges, reportDependencyChanges } from "#dep-report/dep-report.ts"
+import { prepareDependencyReport } from "#dep-report/dep-report.ts"
 import { resolveProjectTailwind } from "#utils.ts"
 
 const inCi = Boolean(process.env["CI"])
@@ -37,19 +37,19 @@ export const prepare = task(async ({ sh }) => {
   if (await canRunTofu()) await sh`tofu init -upgrade`
 })
 
-let rangesBeforeBump = new Map<string, string>()
+let reportDependencyChanges: (() => Promise<void>) | undefined
 
 export const bumpDeps = task(async ({ sh }) => {
   await sh`bunx npm-check-updates --upgrade --format group`
   await sh`rm -f bun.lock`
   await sh`rm -rf node_modules/`
   await sh`bun install --no-summary --no-cache`
-  if (!inCi) await reportDependencyChanges(rangesBeforeBump)
+  await reportDependencyChanges?.()
 })
 
 // Register the snapshot here so it runs before a project's own `before` hooks, which can bump ranges too.
-bumpDeps.before(() => {
-  rangesBeforeBump = readDependencyRanges()
+bumpDeps.before(async () => {
+  if (!inCi) reportDependencyChanges = await prepareDependencyReport()
 })
 
 export const test = task(async ({ sh }) => {
