@@ -1,3 +1,9 @@
+## [4.1.1](https://github.com/adamhl8/configs/compare/v4.1.0..v4.1.1) - 2026-11-11
+
+### 🐛 Bug Fixes
+
+- dep report ([da62742](https://github.com/adamhl8/configs/commit/da6274243b59a0e58695807babd683c58c47677e) by @adamhl8)
+
 ## [4.1.0](https://github.com/adamhl8/configs/compare/v4.0.0..v4.1.0) - 2026-11-10
 
 ### 🚀 Features
