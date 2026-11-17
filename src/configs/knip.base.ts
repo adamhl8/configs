@@ -1,7 +1,7 @@
 import type { KnipConfig, KnipConfiguration } from "knip"
 
-import type { ArgsMergeConfigFn } from "#merge-config/merge-config.ts"
-import { createArgsMergeConfigFn } from "#merge-config/merge-config.ts"
+import type { ArgsMergeConfigFn } from "#merge-config.ts"
+import { createArgsMergeConfigFn } from "#merge-config.ts"
 
 type KnipCliArgs = Parameters<Extract<KnipConfig, (...args: never[]) => unknown>>[0]
 

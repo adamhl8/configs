@@ -2,12 +2,12 @@
 import { cloneDeep, mergeWith } from "es-toolkit"
 import type { ReadonlyDeep } from "type-fest"
 
-import type { Clean, MergedConfig, Mode } from "#merge-config/merge.types.ts"
+import type { Clean, MergedConfig, Mode } from "#merge-config/types.ts"
 
 /**
- * The runtime counterpart of MergedConfig in merge.types.ts: a deep merge whose customizer applies the array mode. The
- * source is pre-cloned so the result never aliases the caller's objects. The merge visits string keys only, so
- * symbol-keyed properties in user configs are dropped (the types mirror this).
+ * The runtime counterpart of MergedConfig in `merge-config/types.ts`: a deep merge whose customizer applies the array
+ * mode. The source is pre-cloned so the result never aliases the caller's objects. The merge visits string keys only,
+ * so symbol-keyed properties in user configs are dropped (the types mirror this).
  */
 const merge = (target: object, source: object, mode: Mode): object =>
   mergeWith(target, cloneDeep(source), (objValue: unknown, srcValue: unknown) => {

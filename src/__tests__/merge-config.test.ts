@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 
 import type { IsEqual } from "type-fest"
 
-import { createArgsMergeConfigFn, createMergeConfigFn } from "#merge-config/merge-config.ts"
+import { createArgsMergeConfigFn, createMergeConfigFn } from "#merge-config.ts"
 
 const metaTag = Symbol.for("test/meta")
 

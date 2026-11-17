@@ -158,7 +158,7 @@ The base turns on every rule category as an error, with type-aware linting and t
 - When the project depends on `react`: [react-web-api](https://github.com/Rel1cx/eslint-react) and [react-you-might-not-need-an-effect](https://github.com/nickjvandyke/eslint-plugin-react-you-might-not-need-an-effect)
 - When the project has a Tailwind stylesheet: [oxlint-tailwindcss](https://github.com/sergioazoc/oxlint-tailwindcss)
 
-package-boundaries is off for tests, in `__tests__` dirs and `*.test.ts` files. A test may import code that uses the package it's in, and nothing imports a test, so it can't start a cycle.
+package-boundaries needs no override for tests. Its rules leave test code out themselves: test files, and anything in a `__tests__` folder.
 
 The plugins are loaded from `@adamhl8/configs`'s own dependencies, so the project doesn't install them. In a project whose `package.json` has `engines.node`, the bunisms rules are off in `src/` (except in tests), because that code runs on Node.
 
@@ -274,17 +274,17 @@ export * from "@adamhl8/configs/bask"
 
 Run `bunx bask` to list them along with the allowed commit types.
 
-| Task           | What it does                                                                                                                                                                                   |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `lint`         | Updates the README's table of contents, runs oxlint (with fixes), oxfmt, tailwint, `tofu fmt`, `tsc`, knip, and actionlint, then `test`                                                        |
-| `build`        | Runs `lint`, `tsdown`, and `tofu-check`. In CI, it fails when lint fixes or formatting changed any files                                                                                       |
-| `test`         | Runs `bun test`, which passes when there are no tests                                                                                                                                          |
-| `bump-deps`    | Updates every dependency to its latest version, then reinstalls without the lockfile, `node_modules`, or bun's cache. Then [reports](#dependency-report) what the changes mean for the project |
-| `release`      | Starts the [release workflow](#release) (`gh workflow run release.yml`)                                                                                                                        |
-| `release-run`  | Runs `release-it --ci`. It's hidden because only the release workflow runs it                                                                                                                  |
-| `tofu-check`   | Runs `tofu plan` to check the [GitHub repo settings](#github-repo-settings) for drift                                                                                                          |
-| `commit-types` | Prints the allowed commit types                                                                                                                                                                |
-| `prepare`      | Runs `lefthook install`, the [synced files](#synced-files), and `tofu init -upgrade`                                                                                                           |
+| Task           | What it does                                                                                                                                                                                                    |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lint`         | Updates the README's table of contents, runs oxlint (with fixes), oxfmt, tailwint, `tofu fmt`, `tsc`, knip, and actionlint, then `test`                                                                         |
+| `build`        | Runs `lint`, `tsdown`, and `tofu-check`. In CI, it fails when lint fixes or formatting changed any files                                                                                                        |
+| `test`         | Runs `bun test`, which passes when there are no tests                                                                                                                                                           |
+| `bump-deps`    | Updates every dependency to its latest version, then reinstalls without the lockfile, `node_modules`, or bun's cache. With `-r`/`--report`, [reports](#dependency-report) what the changes mean for the project |
+| `release`      | Starts the [release workflow](#release) (`gh workflow run release.yml`)                                                                                                                                         |
+| `release-run`  | Runs `release-it --ci`. It's hidden because only the release workflow runs it                                                                                                                                   |
+| `tofu-check`   | Runs `tofu plan` to check the [GitHub repo settings](#github-repo-settings) for drift                                                                                                                           |
+| `commit-types` | Prints the allowed commit types                                                                                                                                                                                 |
+| `prepare`      | Runs `lefthook install`, the [synced files](#synced-files), and `tofu init -upgrade`                                                                                                                            |
 
 The tasks skip the steps a project doesn't need, so projects can use them as-is:
 
@@ -292,7 +292,7 @@ The tasks skip the steps a project doesn't need, so projects can use them as-is:
 - `build` runs `tsdown` only when the project has a `tsdown.config.ts`.
 - `tofu-check` and `tofu init` run only outside CI, in a project with a root `.tofu` file, on a machine with the `adamhl8` AWS profile.
 - `prepare` skips `lefthook install` in CI, so commits made by the workflows don't run the hooks.
-- `bump-deps` runs the [dependency report](#dependency-report) only outside CI, when a range changed by more than a patch, on a machine with `claude` installed.
+- `bump-deps -r` runs the [dependency report](#dependency-report) only when a range changed by more than a patch, on a machine with `claude` installed.
 
 tailwint runs on `.astro` files because oxlint can't see Astro markup. It only checks and never fixes, because tailwint resolves a class conflict by deleting a class by position, not by which one wins. Projects with `.astro` files install it:
 
@@ -333,9 +333,9 @@ The `prepare` script and task `sh` calls run local bins by their bare name, beca
 
 ### Dependency report
 
-After `bump-deps` reinstalls, it runs Claude Code headless (`claude -p`) on the ranges that changed. It skips patch-only bumps of 1.0+ packages, but keeps 0.x patch bumps, because those can add features or break things. Claude reads the release notes, compares rule lists and config schemas between versions, and runs the project's checks. It prints a report of what needs action, what's worth knowing, and what needs nothing. The last line is a `claude --resume` command to pick up that session and act on the report, along with what the run cost.
+With `-r`/`--report` (`bunx bask bump-deps -r`), `bump-deps` runs Claude Code headless (`claude -p`) on the ranges that changed, after it reinstalls. It skips patch-only bumps of 1.0+ packages, but keeps 0.x patch bumps, because those can add features or break things. Claude reads the release notes, compares rule lists and config schemas between versions, and runs the project's checks. It prints a report of what needs action, what's worth knowing, and what needs nothing. The last line is a `claude --resume` command to pick up that session and act on the report, along with what the run cost.
 
-The run uses `auto` permission mode with the file-editing tools denied, and the prompt tells Claude not to change the project. The report runs before a project's own `bumpDeps.after` hooks. The prompt lives in `src/dep-report/prompt.md`.
+The run uses `auto` permission mode with the file-editing tools denied, and the prompt tells Claude not to change the project. The report runs before a project's own `bumpDeps.after` hooks. The prompt lives in `src/configs/bask/dep-report-prompt.md`.
 
 ## Synced files
 

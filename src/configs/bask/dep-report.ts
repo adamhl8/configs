@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs"
+import process from "node:process"
 import { fileURLToPath } from "node:url"
 
-import { $ } from "bun"
+import bun, { $, which } from "bun"
 import { isPlainObject } from "es-toolkit/predicate"
 import { difference, findMinimumForRange, tryParseRange } from "verkit"
 
@@ -47,10 +48,10 @@ const listRangeChanges = (before: ReadonlyMap<string, string>, after: ReadonlyMa
 
 /** Renders markdown for the terminal, with colors and clickable links when the output supports them. */
 const renderMarkdown = (markdown: string) =>
-  Bun.markdown
+  bun.markdown
     .ansi(markdown, {
-      colors: Bun.enableANSIColors,
-      hyperlinks: Bun.enableANSIColors,
+      colors: bun.enableANSIColors,
+      hyperlinks: bun.enableANSIColors,
       // Leave `columns` undefined when piped so the renderer uses its default width.
       columns: process.stdout.columns,
     })
@@ -71,12 +72,12 @@ interface ClaudeResult {
 export const prepareDependencyReport = async () => {
   const rangesBefore = readDependencyRanges()
   // Read the prompt now because the reinstall can move this package to a new folder and delete the old one.
-  const instructions = await Bun.file(fileURLToPath(new URL("prompt.md", import.meta.url))).text()
+  const instructions = await bun.file(fileURLToPath(new URL("dep-report-prompt.md", import.meta.url))).text()
 
   return async () => {
     const changes = listRangeChanges(rangesBefore, readDependencyRanges())
     if (changes.length === 0) return
-    if (!Bun.which("claude")) {
+    if (!which("claude")) {
       console.log("\nSkipping the dependency report because `claude` isn't installed.")
       return
     }

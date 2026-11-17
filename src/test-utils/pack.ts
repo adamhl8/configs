@@ -2,7 +2,7 @@ import path from "node:path"
 
 import bun from "bun"
 
-import { createShell } from "#test-utils/shell/shell.ts"
+import { createShell } from "#test-utils/shell.ts"
 import { makeTempDir } from "#test-utils/temp-dir.ts"
 
 const packs = new Map<string, Promise<string>>()

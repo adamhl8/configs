@@ -5,11 +5,11 @@ import path from "node:path"
 
 import bun from "bun"
 
+import { createShell } from "#test-utils/shell.ts"
 import { minimalEnv } from "#test-utils/shell/env.ts"
-import { createShell } from "#test-utils/shell/shell.ts"
 import { makeTempDir } from "#test-utils/temp-dir.ts"
 
-const SHELL_MODULE = path.join(import.meta.dir, "../shell/shell.ts")
+const SHELL_MODULE = path.join(import.meta.dir, "../shell.ts")
 
 // Compare real paths because macOS temp dirs sit behind the `/var` -> `/private/var` symlink.
 const realpath = (dir: string) => fs.realpathSync(dir)

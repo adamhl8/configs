@@ -1,7 +1,7 @@
 import fs from "node:fs/promises"
 
-import { createShell } from "#test-utils/shell/shell.ts"
-import type { ShellOptions } from "#test-utils/shell/shell.ts"
+import { createShell } from "#test-utils/shell.ts"
+import type { ShellOptions } from "#test-utils/shell.ts"
 import { makeTempDir } from "#test-utils/temp-dir.ts"
 
 export interface CopyFixtureOptions {

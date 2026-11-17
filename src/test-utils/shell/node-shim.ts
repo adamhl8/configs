@@ -1,6 +1,6 @@
 import path from "node:path"
 
-import type { ShellEnv } from "#test-utils/shell/shell.ts"
+import type { ShellEnv } from "#test-utils/shell.ts"
 
 const NODE_SHIM_DIR = /^(?:bask|bun)-node-/v
 

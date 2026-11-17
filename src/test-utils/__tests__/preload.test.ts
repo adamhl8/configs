@@ -4,8 +4,8 @@ import fs from "node:fs/promises"
 import path from "node:path"
 
 import { copyFixture } from "#test-utils/fixture.ts"
+import { createShell } from "#test-utils/shell.ts"
 import { minimalEnv } from "#test-utils/shell/env.ts"
-import { createShell } from "#test-utils/shell/shell.ts"
 
 const ROOT = path.resolve(import.meta.dir, "../../..")
 const PRELOAD_PROJECT = path.join(import.meta.dir, "fixtures/preload-project")

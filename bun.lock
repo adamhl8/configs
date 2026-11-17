@@ -5,8 +5,8 @@
     "": {
       "name": "@adamhl8/configs",
       "dependencies": {
-        "@adamhl8/oxlint-plugin-clean-modules": "^0.3.0",
-        "@adamhl8/oxlint-plugin-package-boundaries": "^0.2.0",
+        "@adamhl8/oxlint-plugin-clean-modules": "^0.3.1",
+        "@adamhl8/oxlint-plugin-package-boundaries": "^0.3.0",
         "@commitlint/config-conventional": "^21.2.4",
         "@commitlint/types": "^21.2.3",
         "@e18e/eslint-plugin": "^0.8.1",
@@ -25,7 +25,7 @@
         "verkit": "^0.5.0",
       },
       "devDependencies": {
-        "@adamhl8/bask": "^0.6.1",
+        "@adamhl8/bask": "^0.7.1",
         "@adamhl8/configs": "file:.",
         "@arethetypeswrong/core": "^0.18.5",
         "@commitlint/cli": "^21.2.4",
@@ -42,7 +42,7 @@
         "typescript": "7.1.0-beta",
       },
       "peerDependencies": {
-        "@adamhl8/bask": ">=0.6",
+        "@adamhl8/bask": ">=0.7",
         "@arethetypeswrong/core": ">=0.18",
         "@commitlint/cli": ">=21.2",
         "@commitlint/config-conventional": ">=21.2",
@@ -71,13 +71,13 @@
     },
   },
   "packages": {
-    "@adamhl8/bask": ["@adamhl8/bask@0.6.1", "", { "dependencies": { "ts-explicit-errors": "^5.0.1" }, "bin": { "bask": "dist/cli.js" } }, "sha512-1RbisayD4fdSGyS5uApdqoIvwNoueoOUkyIv6ficCscBXAu3ckwGHVv2h+YGhdX9dWftyTB7xVOSigI2GN4nqA=="],
+    "@adamhl8/bask": ["@adamhl8/bask@0.7.1", "", { "dependencies": { "@optique/core": "^1.3.7", "ts-explicit-errors": "^5.0.1" }, "bin": { "bask": "dist/cli.js" } }, "sha512-CYtitHOBB+W9aHFJ6SnYChZMXl5O8mRuMEFYBlF2i3kzqJoIow0mLOwuZ5S9+oijpCNElml30L8Tgy7x56Xqtw=="],
 
     "@adamhl8/configs": ["@adamhl8/configs@root:", { "bin": { "adamhl8-bunfig": "./dist/adamhl8-bunfig/index", "adamhl8-gitignore": "./dist/adamhl8-gitignore/index", "adamhl8-tsconfig": "./dist/adamhl8-tsconfig/index" } }],
 
-    "@adamhl8/oxlint-plugin-clean-modules": ["@adamhl8/oxlint-plugin-clean-modules@0.3.0", "", { "dependencies": { "@oxlint/plugins": "^1.94.0" }, "peerDependencies": { "oxlint": ">=1.91.0" } }, "sha512-7PulK27yCQ1tlaRMX/bMI5KYFlVIwfDtNXL0nSS71FJDFKBAUTHxtYCnj05iAkfKm2kpkvDQwjxnT0Bl1aabyQ=="],
+    "@adamhl8/oxlint-plugin-clean-modules": ["@adamhl8/oxlint-plugin-clean-modules@0.3.1", "", { "dependencies": { "@oxlint/plugins": "^1.94.0" }, "peerDependencies": { "oxlint": ">=1.91.0" } }, "sha512-7e7lLzqO/3sZUmIKzX6RLEcE5ZvJ6YXEYS6YF/+4I2LxqxIL3q5EqsDWigaAFl1oJVlkuEwFcRmaIs2Vj1s3Jg=="],
 
-    "@adamhl8/oxlint-plugin-package-boundaries": ["@adamhl8/oxlint-plugin-package-boundaries@0.2.0", "", { "dependencies": { "@oxlint/plugins": "^1.94.0", "oxc-parser": "^0.159.0" }, "peerDependencies": { "oxlint": ">=1.91.0" } }, "sha512-MmI49cFceq5BcTJ7Cc1nhq0JmCacjJp5k7BAns9100UltP4P3eK6z+k6hj7hXQlUALv9JRfXVGyd9vtepsk0Ww=="],
+    "@adamhl8/oxlint-plugin-package-boundaries": ["@adamhl8/oxlint-plugin-package-boundaries@0.3.0", "", { "dependencies": { "@oxlint/plugins": "^1.94.0", "oxc-parser": "^0.159.0" }, "peerDependencies": { "oxlint": ">=1.91.0" } }, "sha512-H6HgFWPKexfxwbVfMqpm9nRjDs1DDJ1ER9GUDrZORmWAuj1aMbHmzDYc9vbnXo4/GTSQVKa2PXkcmuchB9UGqQ=="],
 
     "@andrewbranch/untar.js": ["@andrewbranch/untar.js@1.0.4", "", {}, "sha512-pVXSwPsLuw8IGLo2Di0EaOfsk+ntVvpkk942J/sHYIkwvtKUakEcPh7HBgZ6tuimgzKSEHgCvO4XgQ05DEbwDw=="],
 
@@ -254,6 +254,8 @@
     "@octokit/rest": ["@octokit/rest@22.0.1", "", { "dependencies": { "@octokit/core": "^7.0.6", "@octokit/plugin-paginate-rest": "^14.0.0", "@octokit/plugin-request-log": "^6.0.0", "@octokit/plugin-rest-endpoint-methods": "^17.0.0" } }, "sha512-Jzbhzl3CEexhnivb1iQ0KJ7s5vvjMWcmRtq5aUsKmKDrRW6z3r84ngmiFKFvpZjpiU/9/S6ITPFRpn5s/3uQJw=="],
 
     "@octokit/types": ["@octokit/types@18.0.0", "", { "dependencies": { "@octokit/openapi-types": "^29.0.1" } }, "sha512-l6bAF43PNxkJp6g+W4PjoUSSkxHomXw2nOum5CTftJz1NlV3vu93NImgOYtLf6CbBUb5j+fiuzW0PPQ5JTSvZA=="],
+
+    "@optique/core": ["@optique/core@1.3.7", "", {}, "sha512-pD/17kPw/UQfFwNNFtyCG0S79dSutqiJSr13w6vwFcjWV6tckFwmKpJFAG2leSJHPX+hNOaI9cxF0xsCdTSoIg=="],
 
     "@oxc-parser/binding-android-arm-eabi": ["@oxc-parser/binding-android-arm-eabi@0.156.0", "", { "os": "android", "cpu": "arm" }, "sha512-RMq7DKNzEp1T51QKNLTn0NryNEt2IYfh7mZBlIdi2Ju52ltOEDMeIXv0XBpA6dL7j7ChjlcovtGcc1Jv4qMipg=="],
 

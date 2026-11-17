@@ -10,7 +10,7 @@ import type { DummyRule, OxlintConfig, OxlintOverride } from "oxlint"
 import { rules as directiveCommentsPluginRules } from "oxlint-plugin-directive-comments"
 import tailwindcssPlugin from "oxlint-tailwindcss"
 
-import { createMergeConfigFn } from "#merge-config/merge-config.ts"
+import { createMergeConfigFn } from "#merge-config.ts"
 import { readProjectPackageJson, resolvePackagePath, resolveProjectTailwind } from "#utils.ts"
 
 /** Sets every rule in a JS plugin to `severity`, because `categories` doesn't apply to JS plugins. */
@@ -92,14 +92,6 @@ const plugins: Record<string, PluginPart> = {
     },
   },
   "package-boundaries": {
-    overrides: [
-      {
-        files: ["**/__tests__/**", "**/*.test.{ts,tsx}"],
-        // Let a test import code that uses the package it's in.
-        // Nothing imports a test, so it can't start a cycle.
-        rules: setAllPluginRules("package-boundaries", packageBoundariesPlugin.rules, "off"),
-      },
-    ],
     package: "@adamhl8/oxlint-plugin-package-boundaries",
     pluginRules: packageBoundariesPlugin.rules,
   },

@@ -1,8 +1,8 @@
 import type { UserConfig } from "tsdown"
 import type { SetRequired } from "type-fest"
 
-import type { MergeConfigFn } from "#merge-config/merge-config.ts"
-import { createMergeConfigFn } from "#merge-config/merge-config.ts"
+import type { MergeConfigFn } from "#merge-config.ts"
+import { createMergeConfigFn } from "#merge-config.ts"
 
 // Force projects to specify platform
 type StrictConfig = SetRequired<UserConfig, "platform">

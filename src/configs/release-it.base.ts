@@ -1,7 +1,7 @@
 // oxlint-disable no-template-curly-in-string - These aren't real string templates, they are templates replaced by release-it
 import type { Config } from "release-it"
 
-import { createMergeConfigFn } from "#merge-config/merge-config.ts"
+import { createMergeConfigFn } from "#merge-config.ts"
 import { configFilePath } from "#utils.ts"
 
 // release-it's `Hooks` type only lists the hooks of its built-in plugins.

@@ -1,6 +1,6 @@
 import type { OxfmtConfig } from "oxfmt"
 
-import { createMergeConfigFn } from "#merge-config/merge-config.ts"
+import { createMergeConfigFn } from "#merge-config.ts"
 import { resolveProjectTailwind } from "#utils.ts"
 
 const tailwindStylesheet = resolveProjectTailwind()

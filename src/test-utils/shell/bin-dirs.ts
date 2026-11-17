@@ -1,6 +1,6 @@
 import path from "node:path"
 
-import type { ShellEnv } from "#test-utils/shell/shell.ts"
+import type { ShellEnv } from "#test-utils/shell.ts"
 
 /** Lists `node_modules/.bin` for `dir` and each of its parents, nearest first. */
 const getBinDirs = (dir: string): string[] => {

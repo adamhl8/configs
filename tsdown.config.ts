@@ -15,8 +15,8 @@ const config = tsdownConfig({
       to: "./dist/",
     },
     {
-      from: "./src/dep-report/prompt.md",
-      to: "./dist/dep-report/",
+      from: "./src/configs/bask/dep-report-prompt.md",
+      to: "./dist/configs/bask/",
     },
   ],
   deps: {
