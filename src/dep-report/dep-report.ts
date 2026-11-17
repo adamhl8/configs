@@ -45,6 +45,17 @@ const listRangeChanges = (before: ReadonlyMap<string, string>, after: ReadonlyMa
     .map((key) => `${key}: ${before.get(key) ?? "(none)"} -> ${after.get(key) ?? "(none)"}`)
 }
 
+/** Renders markdown for the terminal, with colors and clickable links when the output supports them. */
+const renderMarkdown = (markdown: string) =>
+  Bun.markdown
+    .ansi(markdown, {
+      colors: Bun.enableANSIColors,
+      hyperlinks: Bun.enableANSIColors,
+      // Leave `columns` undefined when piped so the renderer uses its default width.
+      columns: process.stdout.columns,
+    })
+    .trimEnd()
+
 interface ClaudeResult {
   is_error: boolean
   result: string
@@ -88,7 +99,9 @@ export const prepareDependencyReport = async () => {
       return
     }
 
-    console.log(`\n${parsed.result}`)
+    // Render the rules on their own so an unclosed code fence in the report can't swallow them.
+    const rule = renderMarkdown("---")
+    console.log(`\n${rule}\n\n${renderMarkdown(parsed.result)}\n\n${rule}`)
     const cost = parsed.total_cost_usd === undefined ? "" : ` (cost: $${parsed.total_cost_usd.toFixed(2)})`
     console.log(`\nFollow up with: claude --resume ${parsed.session_id}${cost}`)
   }

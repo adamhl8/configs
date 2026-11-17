@@ -17,7 +17,7 @@ Find anything in these updates that matters for this project, and report it. You
 
 ## Report
 
-Write plain text that reads well unrendered: short headings, `-` bullets, and no tables. Group findings under these headings and skip empty ones:
+Write GitHub-flavored markdown. The terminal renders it with colors, so headings, bold, inline code, links, and code blocks all work. Keep it skimmable with short headings and `-` bullets. Group findings under these headings and skip empty ones:
 
 - Needs action: failing checks, or config that a bump breaks. Name the file and line, and say what to change. Say whether the linter's `--fix` would rewrite it, and whether that rewrite is safe.
 - Worth knowing: new rules, options, or behavior that changes how the project's tools run, and new features the project might want to use.

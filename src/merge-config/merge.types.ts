@@ -87,9 +87,8 @@ type MergeObjects<BaseConfig, UserConfig, Depth extends readonly unknown[], M ex
   ? {
       -readonly [K in keyof BaseConfig]: K extends keyof UserConfig
         ? undefined extends UserConfig[K]
-          ?
-              | MergeValues<BaseConfig[K], Exclude<UserConfig[K], undefined>, RemainingDepth, M>
-              | Clean<BaseConfig[K], RemainingDepth>
+          ? | MergeValues<BaseConfig[K], Exclude<UserConfig[K], undefined>, RemainingDepth, M>
+            | Clean<BaseConfig[K], RemainingDepth>
           : MergeValues<BaseConfig[K], UserConfig[K], RemainingDepth, M>
         : Clean<BaseConfig[K], RemainingDepth>
     } & {
