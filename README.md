@@ -158,7 +158,7 @@ The base turns on every rule category as an error, with type-aware linting and t
 - When the project depends on `react`: [react-web-api](https://github.com/Rel1cx/eslint-react) and [react-you-might-not-need-an-effect](https://github.com/nickjvandyke/eslint-plugin-react-you-might-not-need-an-effect)
 - When the project has a Tailwind stylesheet: [oxlint-tailwindcss](https://github.com/sergioazoc/oxlint-tailwindcss)
 
-package-boundaries is off for tests, in `__tests__` dirs and `*.test.ts` files, because a test may import any module.
+package-boundaries is off for tests, in `__tests__` dirs and `*.test.ts` files. A test may import code that uses the package it's in, and nothing imports a test, so it can't start a cycle.
 
 The plugins are loaded from `@adamhl8/configs`'s own dependencies, so the project doesn't install them. In a project whose `package.json` has `engines.node`, the bunisms rules are off in `src/` (except in tests), because that code runs on Node.
 
@@ -180,7 +180,7 @@ The base leaves `fixtures` and `fixture` dirs out of the analysis, at any depth.
 `knipConfig` returns a function, because knip passes it the CLI arguments. The `lint` task runs knip twice:
 
 - `knip` checks everything, tests included.
-- `knip --production` leaves out tests and devDependencies. It reports an export that only tests use, so a package's main module exports only what runtime code uses. It keeps an export that its own module uses, so a test can import it from that module. It also leaves `__tests__` dirs out, and skips binaries, because dev tools come from devDependencies.
+- `knip --production` leaves out tests and devDependencies. It reports an export that only tests use, unless its own module uses it too, so a test can still import it from that module. It reports a package in `dependencies` that only tests import, because that belongs in `devDependencies`. It also leaves `__tests__` dirs out, and skips binaries, because dev tools come from devDependencies.
 
 The production run starts from the entries marked with a trailing `!`. The base tsconfig's `outDir` lets knip map the `dist/` files in `package.json`'s `main`, `bin`, and `exports` back to `src/`, so those count without any marking. knip's default entries (`index`, `cli`, and `main`, at the root or in `src/`) are marked too. A project's own top-level `entry` replaces knip's default entries. So mark each runtime entry the project lists, like `entry: ["src/server.ts!"]`. An entry without the `!`, like a script or a test that runs by path, counts only in the plain run.
 

@@ -26,7 +26,7 @@ const createBaseConfig = ({ production }: KnipArgs) => {
       entry: ["**/*.test.ts", "bask.ts"],
     },
     // Keep an export that its own module uses, so a test can import it from that module.
-    // A re-export that only tests use still shows up, so a package's main module exports only what runtime code uses.
+    // Any other export that only tests use still shows up.
     ignoreExportsUsedInFile: isProduction,
     // Skip binaries in the production run, because it ignores devDependencies and reports the dev tools that configs run.
     // Mark each branch `as const`, because the outer `as const` doesn't reach into a conditional.

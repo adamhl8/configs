@@ -95,7 +95,8 @@ const plugins: Record<string, PluginPart> = {
     overrides: [
       {
         files: ["**/__tests__/**", "**/*.test.{ts,tsx}"],
-        // Let a test import any module, because it checks a package's internals, not only its public surface.
+        // Let a test import code that uses the package it's in.
+        // Nothing imports a test, so it can't start a cycle.
         rules: setAllPluginRules("package-boundaries", packageBoundariesPlugin.rules, "off"),
       },
     ],
