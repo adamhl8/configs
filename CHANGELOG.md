@@ -1,3 +1,9 @@
+## [4.1.4](https://github.com/adamhl8/configs/compare/v4.1.3..v4.1.4) - 2026-11-18
+
+### 🐛 Bug Fixes
+
+- turn off no-barrel-file for bask.ts ([7ef18c3](https://github.com/adamhl8/configs/commit/7ef18c34e6d337f4521e03863d809a1e175e5cf8) by @adamhl8)
+
 ## [4.1.3](https://github.com/adamhl8/configs/compare/v4.1.2..v4.1.3) - 2026-11-18
 
 ### ⚙️ Miscellaneous Tasks
