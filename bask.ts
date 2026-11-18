@@ -2,7 +2,6 @@ import { task } from "@adamhl8/bask"
 
 import { bumpDeps, prepare } from "#configs/bask.base.ts"
 
-// oxlint-disable-next-line oxc/no-barrel-file - bask runs the tasks this file exports, so it has to re-export the base
 export * from "#configs/bask.base.ts"
 
 export const tsdown = task(async ({ sh }) => {

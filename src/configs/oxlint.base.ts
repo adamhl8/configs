@@ -198,6 +198,7 @@ const nativeConfig = {
       rules: {
         "clean-modules/require-direct-exports": "off",
         "import/export": "off",
+        "oxc/no-barrel-file": "off",
       },
     },
     {
