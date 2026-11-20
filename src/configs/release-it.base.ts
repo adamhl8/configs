@@ -11,6 +11,9 @@ type ReleaseItConfig = Config & { hooks?: PluginHooks }
 const baseConfig = {
   hooks: {
     "before:init": "bunx bask build",
+    // Rebuild after the version bump because tsdown inlines the `package.json` version into the bundle.
+    // Use an array so a project's own `after:bump` array is appended to it instead of replacing it.
+    "after:bump": ["bunx bask bundle"],
     "after:release-it-git-cliff:beforeRelease": "bun oxfmt CHANGELOG.md",
   },
   plugins: {

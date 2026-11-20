@@ -17,7 +17,7 @@ export interface ShellOptions {
   /**
    * The environment for commands. Replaces `process.env`.
    *
-   * @default process.env without `FORCE_COLOR`
+   * @default process.env
    */
   env?: ShellEnv
   /**
@@ -52,8 +52,7 @@ export const createShell = (options: ShellOptions = {}): Shell => {
   const bunShell = new bun.$.Shell()
   const settings: Required<ShellOptions> = {
     cwd: options.cwd ?? process.cwd(),
-    // Drop `FORCE_COLOR` because `bask` sets it when the tests run in a terminal and CI does not.
-    env: options.env ?? { ...process.env, FORCE_COLOR: undefined },
+    env: options.env ?? process.env,
     localBins: options.localBins ?? true,
     throws: options.throws ?? true,
   }

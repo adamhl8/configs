@@ -234,7 +234,7 @@ const config = releaseItConfig({ ... })
 export default config
 ```
 
-The release config registers the [`release-it-git-cliff`](https://github.com/adamhl8/release-it-git-cliff) plugin with the bundled git-cliff config (`cliff.base.toml`), so there is no per-project `cliff.toml` to write. git-cliff picks the next version from the commits, and the plugin writes `CHANGELOG.md` (formatted with `oxfmt`) and sets the release notes. A release starts by running `bunx bask build`. The release commit is `release: v${version}`, and the tag is `v${version}`. It publishes with `bun publish --ignore-scripts`.
+The release config registers the [`release-it-git-cliff`](https://github.com/adamhl8/release-it-git-cliff) plugin with the bundled git-cliff config (`cliff.base.toml`), so there is no per-project `cliff.toml` to write. git-cliff picks the next version from the commits, and the plugin writes `CHANGELOG.md` (formatted with `oxfmt`) and sets the release notes. A release starts by running `bunx bask build`, and runs `bunx bask bundle` again after the version bump, because tsdown inlines the `package.json` version into the bundle. The release commit is `release: v${version}`, and the tag is `v${version}`. It publishes with `bun publish --ignore-scripts`.
 
 git-cliff must be on `PATH`, and the project needs `release-it-git-cliff` installed directly:
 
@@ -277,19 +277,20 @@ Run `bunx bask` to list them along with the allowed commit types.
 | Task           | What it does                                                                                                                                                                                                    |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `lint`         | Updates the README's table of contents, runs oxlint (with fixes), oxfmt, tailwint, `tofu fmt`, `tsc`, knip, and actionlint, then `test`                                                                         |
-| `build`        | Runs `lint`, `tsdown`, and `tofu-check`. In CI, it fails when lint fixes or formatting changed any files                                                                                                        |
+| `build`        | Runs `lint`, `bundle`, and `tofu-check`. In CI, it fails when lint fixes or formatting changed any files                                                                                                        |
+| `bundle`       | Runs `tsdown`                                                                                                                                                                                                   |
 | `test`         | Runs `bun test`, which passes when there are no tests                                                                                                                                                           |
 | `bump-deps`    | Updates every dependency to its latest version, then reinstalls without the lockfile, `node_modules`, or bun's cache. With `-r`/`--report`, [reports](#dependency-report) what the changes mean for the project |
 | `release`      | Starts the [release workflow](#release) (`gh workflow run release.yml`)                                                                                                                                         |
 | `release-run`  | Runs `release-it --ci`. It's hidden because only the release workflow runs it                                                                                                                                   |
-| `tofu-check`   | Runs `tofu plan` to check the [GitHub repo settings](#github-repo-settings) for drift                                                                                                                           |
+| `tofu-check`   | Runs `tofu plan` to check the [GitHub repo settings](#github-repo-settings) for drift. Drift exits with code 2 without reporting a failed task                                                                  |
 | `commit-types` | Prints the allowed commit types                                                                                                                                                                                 |
 | `prepare`      | Runs `lefthook install`, the [synced files](#synced-files), and `tofu init -upgrade`                                                                                                                            |
 
 The tasks skip the steps a project doesn't need, so projects can use them as-is:
 
 - `lint` runs tailwint only when the project has a Tailwind stylesheet and `.astro` files, `tofu fmt` only when it has tofu files, and actionlint only when it has `.github/workflows`. The table of contents only changes in a README with [markdown-toc](https://github.com/jonschlinkert/markdown-toc)'s `toc` and `tocstop` comment markers.
-- `build` runs `tsdown` only when the project has a `tsdown.config.ts`.
+- `bundle` runs `tsdown` only when the project has a `tsdown.config.ts`.
 - `tofu-check` and `tofu init` run only outside CI, in a project with a root `.tofu` file, on a machine with the `adamhl8` AWS profile.
 - `prepare` skips `lefthook install` in CI, so commits made by the workflows don't run the hooks.
 - `bump-deps -r` runs the [dependency report](#dependency-report) only when a range changed by more than a patch, on a machine with `claude` installed.
@@ -420,7 +421,7 @@ const { exitCode: failedCode } = await run`my-cli --bad-flag`.nothrow()
 
 - `createShell(options)` returns a shell that runs commands quietly. Awaiting a command returns its `stdout` and `stderr` (with one trailing newline stripped) plus its `exitCode`.
   - `cwd` defaults to `process.cwd()`.
-  - `env` replaces `process.env` instead of merging into it. It defaults to `process.env` without `FORCE_COLOR`, which `bask` sets in a terminal.
+  - `env` replaces `process.env` instead of merging into it. It defaults to `process.env`.
   - `localBins` (default `true`) puts `node_modules/.bin` of the cwd and each of its parents first on `PATH`.
   - `throws` (default `true`) makes a non-zero exit code throw Bun's `ShellError`, which `bun test` prints with its `exitCode`, `stdout`, and `stderr`.
   - Each command can chain `.cwd()`, `.env()` (merged over the shell's), `.localBins()`, and `.nothrow()`.
@@ -606,7 +607,7 @@ The `prepare` task runs `tofu init -upgrade`, and the `tofu-check` task (which `
 
 ## Developing this repo
 
-bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-bunfig` instead of `src/adamhl8-bunfig/index.ts`. That's also why this repo's `bask.ts` runs `tsdown` before the `prepare` task: the bins point at `dist/`, so those builds need to be available.
+bun links a dependency's `package.json` bin executables into the local `node_modules/.bin`, but not the bins of the package being developed itself. This repo depends on itself (`"@adamhl8/configs": "file:."`) so that its own bins can be run directly, e.g. `adamhl8-bunfig` instead of `src/adamhl8-bunfig/index.ts`. That's also why this repo's `bask.ts` runs `bundle` before the `prepare` task: the bins point at `dist/`, so those builds need to be available.
 
 With bun's `isolated` linker, the self-dependency is a copy made at install time. After adding or moving an export, run `bun install --force` to refresh the copy, or type checks of code that imports the new export fail.
 

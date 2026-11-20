@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs"
 
-import { list, task } from "@adamhl8/bask"
+import { CommandError, list, task } from "@adamhl8/bask"
 import bun, { $, Glob } from "bun"
 
 import { prepareDependencyReport } from "#configs/bask/dep-report.ts"
@@ -23,8 +23,14 @@ const canRunTofu = async () => {
   return profiles.split("\n").includes("adamhl8")
 }
 
+const TOFU_PLAN_CHANGES_EXIT_CODE = 2
+
 export const tofuCheck = task(async ({ sh }) => {
-  if (await canRunTofu()) await sh`tofu plan -detailed-exitcode -concise -compact-warnings`
+  if (!(await canRunTofu())) return
+  const plan = await sh`tofu plan -detailed-exitcode -concise -compact-warnings`.nothrow()
+  // Exit with tofu's code for drift without reporting a failed task, because the plan output already shows the drift.
+  if (plan.exitCode === TOFU_PLAN_CHANGES_EXIT_CODE) process.exitCode = TOFU_PLAN_CHANGES_EXIT_CODE
+  else if (plan.exitCode !== 0) throw new CommandError("tofu plan", plan)
 })
 
 export const prepare = task(async ({ sh }) => {
@@ -87,9 +93,13 @@ export const lint = task(async ({ sh }) => {
   await test()
 })
 
+export const bundle = task(async ({ sh }) => {
+  if (await bun.file("tsdown.config.ts").exists()) await sh`tsdown`
+})
+
 export const build = task(async ({ sh }) => {
   await lint()
-  if (await bun.file("tsdown.config.ts").exists()) await sh`tsdown`
+  await bundle()
   // Fail in CI if the build changed or created any files, because lint fixes and formatting are applied in place.
   // `--intent-to-add` makes untracked files show up in the diff.
   if (inCi) {

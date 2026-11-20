@@ -6,10 +6,7 @@ import path from "node:path"
 import bun from "bun"
 
 import { createShell } from "#test-utils/shell.ts"
-import { minimalEnv } from "#test-utils/shell/env.ts"
 import { makeTempDir } from "#test-utils/temp-dir.ts"
-
-const SHELL_MODULE = path.join(import.meta.dir, "../shell.ts")
 
 // Compare real paths because macOS temp dirs sit behind the `/var` -> `/private/var` symlink.
 const realpath = (dir: string) => fs.realpathSync(dir)
@@ -139,29 +136,6 @@ describe("createShell", () => {
 
     expect((await createShell({ env: shimEnv })`echo $PATH`).stdout).not.toContain("-node-")
     expect((await createShell({ env: shimEnv, localBins: false })`echo $PATH`).stdout).not.toContain("-node-")
-  })
-
-  it("drops FORCE_COLOR from the inherited env", async () => {
-    // Run a separate process because changing this process's env would reach the concurrent tests.
-    // Print strings because the child's `console.log` colors numbers when `FORCE_COLOR` is set.
-    const script = path.join(dir, "force-color.ts")
-    await bun.write(
-      script,
-      [
-        `import { createShell } from ${JSON.stringify(SHELL_MODULE)}`,
-        "const run = createShell({ throws: false })",
-        "console.log(String((await run`printenv FORCE_COLOR`).exitCode))",
-        'console.log(String((await run`printenv FORCE_COLOR`.env({ A: "1" })).exitCode))',
-      ].join("\n"),
-    )
-
-    const { stdout } = await createShell({ env: { ...process.env, FORCE_COLOR: "1" } })`bun ${script}`
-
-    expect(stdout).toBe("1\n1")
-  })
-
-  it("keeps FORCE_COLOR from an explicit env", async () => {
-    expect((await createShell({ env: minimalEnv({ FORCE_COLOR: "1" }) })`printenv FORCE_COLOR`).stdout).toBe("1")
   })
 
   it("recomputes local bins when a command changes its cwd", async () => {
