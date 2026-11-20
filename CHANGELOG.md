@@ -1,3 +1,9 @@
+## [4.1.5](https://github.com/adamhl8/configs/compare/v4.1.4..v4.1.5) - 2026-11-20
+
+### ⚙️ Miscellaneous Tasks
+
+- _(deps)_ update dependencies ([e7f4f57](https://github.com/adamhl8/configs/commit/e7f4f57f49f25670339d8b7c892871b70afa2c1a) by @adamhl8)
+
 ## [4.1.4](https://github.com/adamhl8/configs/compare/v4.1.3..v4.1.4) - 2026-11-18
 
 ### 🐛 Bug Fixes
