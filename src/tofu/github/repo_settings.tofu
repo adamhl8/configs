@@ -36,12 +36,16 @@ resource "github_repository" "current" {
   squash_merge_commit_message = "BLANK"
   web_commit_signoff_required = false
 
-  security_and_analysis {
-    secret_scanning {
-      status = "enabled"
-    }
-    secret_scanning_push_protection {
-      status = "enabled"
+  # Includes `security_and_analysis` only for public repos because GitHub doesn't offer secret scanning on user-owned private repos.
+  dynamic "security_and_analysis" {
+    for_each = var.repo_settings.visibility == "public" ? [1] : []
+    content {
+      secret_scanning {
+        status = "enabled"
+      }
+      secret_scanning_push_protection {
+        status = "enabled"
+      }
     }
   }
 }
