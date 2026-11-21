@@ -1,3 +1,9 @@
+## [4.1.7](https://github.com/adamhl8/configs/compare/v4.1.6..v4.1.7) - 2026-11-21
+
+### 🐛 Bug Fixes
+
+- add security_and_analysis for public repos only ([070bd8b](https://github.com/adamhl8/configs/commit/070bd8bbe9d90bb7b7e6cd6cf026d7e6a2dac92a) by @adamhl8)
+
 ## [4.1.6](https://github.com/adamhl8/configs/compare/v4.1.5..v4.1.6) - 2026-11-21
 
 ### 🐛 Bug Fixes
