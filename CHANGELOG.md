@@ -1,3 +1,9 @@
+## [4.1.6](https://github.com/adamhl8/configs/compare/v4.1.5..v4.1.6) - 2026-11-21
+
+### 🐛 Bug Fixes
+
+- don't set allow_forking ([bfb8970](https://github.com/adamhl8/configs/commit/bfb897072419389907ad7ea2ac3faba92818fa52) by @adamhl8)
+
 ## [4.1.5](https://github.com/adamhl8/configs/compare/v4.1.4..v4.1.5) - 2026-11-20
 
 ### ⚙️ Miscellaneous Tasks
