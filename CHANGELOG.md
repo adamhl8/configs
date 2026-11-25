@@ -1,3 +1,9 @@
+## [4.2.0](https://github.com/adamhl8/configs/compare/v4.1.7..v4.2.0) - 2026-11-25
+
+### 🚀 Features
+
+- _(test)_ add packageRoot to copyFixture ([2c46653](https://github.com/adamhl8/configs/commit/2c466537227821962a38a41d02c22f9f2654995c) by @adamhl8)
+
 ## [4.1.7](https://github.com/adamhl8/configs/compare/v4.1.6..v4.1.7) - 2026-11-21
 
 ### 🐛 Bug Fixes
