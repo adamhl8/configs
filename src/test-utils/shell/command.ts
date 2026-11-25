@@ -1,7 +1,7 @@
 import path from "node:path"
 
-import bun from "bun"
 import type { $ as BunShell } from "bun"
+import bun from "bun"
 
 import type { ShellEnv, ShellOptions, ShellResult } from "#test-utils/shell.ts"
 import { addBinDirs } from "#test-utils/shell/bin-dirs.ts"

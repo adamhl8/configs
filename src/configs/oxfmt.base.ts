@@ -13,12 +13,12 @@ const baseConfig = {
   jsdoc: true,
   sortImports: {
     groups: [
-      "builtin",
-      "external",
-      ["subpath", "internal"],
-      ["index", "sibling", "parent"],
-      "side_effect",
-      ["style", "side_effect_style"],
+      ["side_effect", "side_effect_style"],
+      ["type-builtin", "builtin"],
+      ["type-external", "external"],
+      ["type-subpath", "subpath", "type-internal", "internal"],
+      ["type-index", "index", "type-sibling", "sibling", "type-parent", "parent"],
+      "style",
     ],
   },
   sortPackageJson: { sortScripts: true },

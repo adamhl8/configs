@@ -88,6 +88,7 @@ const plugins: Record<string, PluginPart> = {
     package: "eslint-plugin-hono",
     pluginRules: honoPlugin.rules,
     rules: {
+      "hono/hono-instance-name": "off", // reports every instance unless a naming convention is configured
       "hono/no-process-env": "off", // tools and tests legitimately read the raw environment
     },
   },

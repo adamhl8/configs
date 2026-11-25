@@ -1,0 +1,9 @@
+{
+  "name": "@tiny/package",
+  "version": "1.0.0",
+  "files": [
+    "index.js"
+  ],
+  "type": "module",
+  "exports": "./index.js"
+}

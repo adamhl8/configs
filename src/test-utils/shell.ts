@@ -1,7 +1,7 @@
 import process from "node:process"
 
-import bun from "bun"
 import type { ShellExpression } from "bun"
+import bun from "bun"
 
 import { ShellCommand } from "#test-utils/shell/command.ts"
 

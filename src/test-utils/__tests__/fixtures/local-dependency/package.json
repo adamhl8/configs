@@ -1,0 +1,9 @@
+{
+  "name": "local-dependency",
+  "version": "1.0.0",
+  "files": [
+    "index.js"
+  ],
+  "type": "module",
+  "exports": "./index.js"
+}

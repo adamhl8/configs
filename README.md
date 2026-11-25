@@ -408,11 +408,9 @@ export const env = parseEnv({
 Helpers for integration tests that run real commands in temp dirs, exported from the `/test` subpath. They're built on Bun's shell, as a replacement for `execa`:
 
 ```ts
-import { copyFixture, minimalEnv, packPackage } from "@adamhl8/configs/test"
+import { copyFixture, minimalEnv } from "@adamhl8/configs/test"
 
-const tarball = await packPackage(ROOT)
-const { dir, run } = await copyFixture(FIXTURE, { shell: { env: minimalEnv() } })
-await run`bun add -d ${tarball}`
+const { dir, run } = await copyFixture(FIXTURE, { packageRoot: ROOT, shell: { env: minimalEnv() } })
 
 const { stdout, stderr, exitCode } = await run`my-cli --version`
 // Like Bun's `$`, a command's own settings chain before it's awaited and don't change the shell.
@@ -427,12 +425,17 @@ const { exitCode: failedCode } = await run`my-cli --bad-flag`.nothrow()
   - Each command can chain `.cwd()`, `.env()` (merged over the shell's), `.localBins()`, and `.nothrow()`.
   - The `node` shims from `bask` and `bun run --bun` are taken off `PATH`, so `node` is always the real Node.
   - Commands read the test runner's stdin, so add `< /dev/null` to a command that might prompt.
-- `copyFixture(fixture, { shell })` copies a fixture dir into a temp dir and returns the `dir` plus a `run` shell bound to it. `shell` takes the `createShell` options except `cwd`.
-- `packPackage(root)` runs `bun tsdown` when `root` has a `tsdown.config.ts`, then packs it with `bun pm pack --ignore-scripts` into a temp dir, and returns the tarball path. It runs once per resolved `root` for the life of the test process, so call it wherever a test needs the tarball. Concurrent callers share one build, and a failed pack fails every caller the same way.
+- `copyFixture(fixture, { packageRoot, shell })` copies a fixture dir into a temp dir and returns the `dir` plus a `run` shell bound to it.
+  - `packageRoot` is the root of a package to add to the copy's `node_modules`, so the fixture can import it and run its bins. It's packed with `packPackage` and installed with `bun add` once per resolved root for the life of the test process. Concurrent callers share that install, and a failed one fails every caller the same way.
+    - Each copy gets its own files for the package and its bins, so a test can edit the package and add or remove bins.
+    - The package's `node_modules` links to the shared install's dependencies, so a test must not edit a dependency.
+    - The fixture's own dependencies aren't installed, and its `package.json` isn't changed.
+  - `shell` takes the `createShell` options except `cwd`. It doesn't apply to the install, which runs with `process.env`.
+- `packPackage(root)` runs `bun tsdown` when `root` has a `tsdown.config.ts`, then packs it with `bun pm pack --ignore-scripts` into a temp dir, and returns the tarball path. It runs once per resolved `root` for the life of the test process, so call it wherever a test needs the tarball itself. Concurrent callers share one build, and a failed pack fails every caller the same way.
 - `minimalEnv(extra)` returns just `PATH` and `HOME`, plus `extra`.
 - `makeTempDir()` makes a temp dir that's removed after the test run. Its name starts with the name of the current working directory, so a dir left behind by a killed run shows which project it came from. `copyFixture` and `packPackage` use it.
 
-The temp dirs are removed by a preload, which each project adds to its `bunfig.toml`:
+The temp dirs are removed by a preload, which gives the removal up to 60 seconds. Each project adds it to its `bunfig.toml`:
 
 ```toml
 [test]

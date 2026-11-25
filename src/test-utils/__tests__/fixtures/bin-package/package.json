@@ -1,0 +1,9 @@
+{
+  "name": "bin-package",
+  "version": "1.0.0",
+  "bin": "./cli.js",
+  "files": [
+    "cli.js"
+  ],
+  "type": "module"
+}
